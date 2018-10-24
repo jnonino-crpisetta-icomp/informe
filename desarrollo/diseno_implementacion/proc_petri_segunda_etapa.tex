@@ -1,42 +1,26 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Desarrollo																%
-%	Capitulo: Diseño e Implementación												%
-%	Seccion: Procesador de Petri (segunda etapa)									%	
-%	Archivo: proc_petri_segunda_etapa.tex											%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/diseno_implementacion/img
-% Nombre predeterminado imagenes: disenoxx
+% Path imágenes: ./desarrollo/diseno_implementacion/img
+% Nombre predeterminado imágenes: disenoxx
 %	xx es el numero de imagen
 
 \section{Procesador de Petri (segunda etapa)}
 	\label{sec:proc_petri_segunda_etapa}
 
-	En esta segunda etapa de implementación del procesador de Redes de Petri, se agregó 
-	la capacidad de procesamiento de Redes de Petri con Tiempo.
+	En esta segunda etapa de implementación del procesador de Redes de Petri, se agregó la capacidad de procesamiento de Redes de Petri con Tiempo.
 	
 	\subsection{Requerimientos}
 		
-		El requerimiento para esta etapa es proveer las estructuras de datos y los 
-		mecanismos necesarios para ejecutar \textbf{\emph{Redes de Petri con Tiempo}}.
+		El requerimiento para esta etapa es proveer las estructuras de datos y los mecanismos necesarios para ejecutar \textbf{\emph{Redes de Petri con Tiempo}}.
 				
 	\subsection{Arquitectura}
 		
-		La arquitectura del procesador de Redes de Petri en esta etapa es la misma que 
-		la que se planteó al comienzo para la primera etapa. Solo se agregan elementos, 
-		las estructuras de datos necesarias, el vector de \textbf{\emph{Earliest Firing Time (EFT)}}, 
-		el vector de tiempo y el vector de \textbf{\emph{Latest Firing Time (LFT)}}.
+		La arquitectura del procesador de Redes de Petri en esta etapa es la misma que la que se planteó al comienzo para la primera etapa. Solo se agregan elementos, las estructuras de datos necesarias, el vector de \textbf{\emph{Earliest Firing Time (EFT)}}, el vector de tiempo y el vector de \textbf{\emph{Latest Firing Time (LFT)}}.
 		
 		\newpage	
 			
@@ -49,50 +33,26 @@
 	
 	\subsection{Estructuras de datos para Redes de Petri con Tiempo}
 	
-		Como se muestra en la Figura \ref{fig:diseno33} las estructuras de datos necesarias 
-		para la resolución de \textbf{\emph{Redes de Petri con Tiempo}} son cuatro:
+		Como se muestra en la Figura \ref{fig:diseno33} las estructuras de datos necesarias para la resolución de \textbf{\emph{Redes de Petri con Tiempo}} son cuatro:
 		\begin{itemize}
 		  	\item Vector \textbf{\emph{Earlier Firing Time (EFT)}}.
 		  	\item Vector de \textbf{\emph{marcas temporales}}.
 		  	\item Vector \textbf{\emph{Latest Firing Time (LFT)}}.
 		  	\item Vector de \textbf{\emph{escala de incrementos de tiempo}}.
 		\end{itemize}
-		Los cuatro vectores tienen como cantidad de elementos el número de transiciones. Los 
-		tres primeros son tiene un tamaño de elementos parametrizable pero por defecto tienen 
-		48 bits. El vector de escala de incrementos de tiempo, por defecto toma el un tamaño 
-		de elementos de 5 bits.
+		Los cuatro vectores tienen como cantidad de elementos el número de transiciones. Los tres primeros son tiene un tamaño de elementos parametrizable pero por defecto tienen 48 bits. El vector de escala de incrementos de tiempo, por defecto toma el un tamaño de elementos de 5 bits.
 			
 	\subsection{Determinación de disparos posibles en Redes de Petri con Tiempo}
 	
-		Para que un disparo sea posible en una Red de Petri, debe cumplir las condiciones dadas 
-		por que todas las transiciones de las cuales toma tokens tengan la cantidad necesaria de 
-		tokens, que las plazas a las cuales esta conectada con arcos inhibidores no tengan tokens 
-		y que las plazas en las cuales depositan tokens no superen los limites impuestos por las 
-		cotas en las plazas.
-		En una \textbf{\emph{Red de Petri con Tiempo}}, además de las condiciones anteriores, se 
-		debe cumplir que la marca de tiempo asociada a la transición sea mayor o igual al límite 
-		de tiempo inferior (\emph{EFT}) y menor o igual al límite de tiempo superior \emph{LFT}.
-		Se debe recordar la semántica temporal utilizada, el vector de tiempo asociado a una 
-		transición, lleva cuenta del tiempo desde el instante en el que la transición se sensibilizó.
+		Para que un disparo sea posible en una Red de Petri, debe cumplir las condiciones dadas por que todas las transiciones de las cuales toma tokens tengan la cantidad necesaria de tokens, que las plazas a las cuales esta conectada con arcos inhibidores no tengan tokens y que las plazas en las cuales depositan tokens no superen los limites impuestos por las cotas en las plazas. En una \textbf{\emph{Red de Petri con Tiempo}}, además de las condiciones anteriores, se debe cumplir que la marca de tiempo asociada a la transición sea mayor o igual al límite de tiempo inferior (\emph{EFT}) y menor o igual al límite de tiempo superior \emph{LFT}. Se debe recordar la semántica temporal utilizada, el vector de tiempo asociado a una transición, lleva cuenta del tiempo desde el instante en el que la transición se sensibilizó.
 
-		Durante el proceso de carga y en el instante en el cual este termina, las marcas de tiempo 
-		de todas las transiciones valen cero. 
-		Luego, a cada ciclo de reloj, si la transición esta sensibilizada la marca de tiempo se 
-		incrementa la cantidad de unidades que indica el \emph{vector de incrementos de marcas de tiempo}.
-		La marca de tiempo vuelve a cero en dos situaciones, si la transición es disparada o si deja 
-		de estar sensibilizada.
+		Durante el proceso de carga y en el instante en el cual este termina, las marcas de tiempo de todas las transiciones valen cero. Luego, a cada ciclo de reloj, si la transición esta sensibilizada la marca de tiempo se incrementa la cantidad de unidades que indica el \emph{vector de incrementos de marcas de tiempo}. La marca de tiempo vuelve a cero en dos situaciones, si la transición es disparada o si deja de estar sensibilizada.
 
-		Una \textbf{\emph{transición sensibilizada}}, si no deja de estarlo, incrementará su \emph{marca de tiempo} 
-		hasta que alcance el valor indicado en el \emph{vector EFT}. A partir de dicho instante, la 
-		transición se convierte en un \textbf{\emph{disparo posible}}. El incremento en la marca de 
-		tiempo continua hasta que se solicita el disparo de la transición o deja de estar sensibilizada. 
-		Si la marca de tiempo supera el valor indicado en el \emph{vector LFT}, y no ha sido disparada, 
-		dejará de ser un disparo posible y ya no podrá dispararse.
+		Una \textbf{\emph{transición sensibilizada}}, si no deja de estarlo, incrementará su \emph{marca de tiempo} hasta que alcance el valor indicado en el \emph{vector EFT}. A partir de dicho instante, la transición se convierte en un \textbf{\emph{disparo posible}}. El incremento en la marca de tiempo continua hasta que se solicita el disparo de la transición o deja de estar sensibilizada. Si la marca de tiempo supera el valor indicado en el \emph{vector LFT}, y no ha sido disparada, dejará de ser un disparo posible y ya no podrá dispararse.
 		
 	\subsection{Verificación}
 		
-		Para la verificación del funcionamiento del procesador de Redes de Petri en esta segunda etapa, 
-		considerando Redes de Petri con Tiempo, se utilizará la siguiente Red de Petri:
+		Para la verificación del funcionamiento del procesador de Redes de Petri en esta segunda etapa, considerando Redes de Petri con Tiempo, se utilizará la siguiente Red de Petri:
 		
 			\begin{figure}[H]
 				\centering
@@ -219,8 +179,7 @@
 					\end{tabular}
 			\end{center}
 
-			En la simulación se observa como todos estos valores resultan cargados en el procesador de 
-			Redes de Petri (Figuras \ref{fig:diseno35} y \ref{fig:diseno36}).
+			En la simulación se observa como todos estos valores resultan cargados en el procesador de Redes de Petri (Figuras \ref{fig:diseno35} y \ref{fig:diseno36}).
 			\begin{figure}[H]
 				\centering
 				\includegraphics[keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno35}
@@ -244,8 +203,7 @@
 			\begin{enumerate}
 			  	\item \emph{Solicitar el disparo de T0}
 			  		
-			  		Dado que al inicio la transición \emph{T0} no esta sensibilizada, solicitar 
-			  		su disparo solo incrementará la cola correspondiente.
+			  		Dado que al inicio la transición \emph{T0} no esta sensibilizada, solicitar su disparo solo incrementará la cola correspondiente.
 			  		\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.8\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno37}
@@ -257,21 +215,10 @@
 			 		
 			  	\item \emph{Solicitar el disparo de T2}
 			  		
-			  		Como se observa en la Figura \ref{fig:diseno37} la solicitud de disparo de la transición 
-			  		\emph{T2} llega inmediatamente después de la solicitud de \emph{T0}. En ese instante, 
-			  		la transición \emph{T2} se encuentra sensibilizada, pero, dadas las restricciones temporales, 
-			  		no esta lista para dispararse. 
+			  		Como se observa en la Figura \ref{fig:diseno37} la solicitud de disparo de la transición \emph{T2} llega inmediatamente después de la solicitud de \emph{T0}. En ese instante, la transición \emph{T2} se encuentra sensibilizada, pero, dadas las restricciones temporales, no esta lista para dispararse. 
 					\\
 					
-					En la Figura \ref{fig:diseno38}, se observa que desde el momento que \emph{T2} se sensibiliza,
-					su marca de tiempo comienza a incrementarse en la cantidad de unidades indicada por el 
-					\emph{vector de incrementos}. Al alcanzar el valor mínimo indicado en el \emph{vector EFT} 
-					ya es posible que se dispare.
-					En el momento que la transición \emph{T2} es disparada, su marca de tiempo toma el valor cero.
-					El disparo de la transición \emph{T2} deja la Red de Petri en un marcado que hace que la 
-					transición \emph{T0} se sensibilice y quede sensibilizada. De esta manera, la marca de tiempo 
-					de esta última transición comienza a incrementarse. Y, como su disparo estaba en la cola de 
-					espera, al llegar al \emph{valor EFT} correspondiente, se dispara.
+					En la Figura \ref{fig:diseno38}, se observa que desde el momento que \emph{T2} se sensibiliza, su marca de tiempo comienza a incrementarse en la cantidad de unidades indicada por el \emph{vector de incrementos}. Al alcanzar el valor mínimo indicado en el \emph{vector EFT} ya es posible que se dispare. En el momento que la transición \emph{T2} es disparada, su marca de tiempo toma el valor cero. El disparo de la transición \emph{T2} deja la Red de Petri en un marcado que hace que la transición \emph{T0} se sensibilice y quede sensibilizada. De esta manera, la marca de tiempo de esta última transición comienza a incrementarse. Y, como su disparo estaba en la cola de espera, al llegar al \emph{valor EFT} correspondiente, se dispara.
 					
 			  		\begin{figure}[H]
 						\centering
@@ -291,20 +238,14 @@
 			  
 			  	\item \emph{Solicitar el disparo de T1}
 			  	
-			  		Al dispararse la transición \emph{T0} resulta sensibilizada la transición \emph{T1} 
-			  		y su marca de tiempo comienza a incrementarse. 
+			  		Al dispararse la transición \emph{T0} resulta sensibilizada la transición \emph{T1} y su marca de tiempo comienza a incrementarse. 
 			  		\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.95\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno40}
 						\caption{Habilitación y des habilitación de \emph{T1} (simulación)}
 						\label{fig:diseno40}
 					\end{figure}
-					Se debe recordar que la marca de tiempo de esta transición avanzaba de a cuatro unidades y 
-					su intervalo de disparo es $[20;30]$.
-					En la Figura \ref{fig:diseno40} se observa como, cuando la marca de tiempo de \emph{T1} se 
-					sitúa dentro del intervalo, el disparo se hace posible, pero, la marca supera el \emph{valor LFT} 
-					sin ser solicitado el disparo de la transición. De esta manera, al llegar la solicitud de 
-					disparo \emph{T1} se almacena en la cola pero no puede ser ejecutado.
+					Se debe recordar que la marca de tiempo de esta transición avanzaba de a cuatro unidades y su intervalo de disparo es $[20;30]$. En la Figura \ref{fig:diseno40} se observa como, cuando la marca de tiempo de \emph{T1} se sitúa dentro del intervalo, el disparo se hace posible, pero, la marca supera el \emph{valor LFT} sin ser solicitado el disparo de la transición. De esta manera, al llegar la solicitud de disparo \emph{T1} se almacena en la cola pero no puede ser ejecutado.
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.95\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno41}

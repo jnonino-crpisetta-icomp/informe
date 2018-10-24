@@ -1,50 +1,31 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Desarrollo																%
-%	Capitulo: Diseño e Implementación												%
-%	Seccion: Procesador de Petri (primera etapa)									%	
-%	Archivo: proc_petri_primera_etapa.tex											%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/diseno_implementacion/img
-% Nombre predeterminado imagenes: disenoxx
+% Path imágenes: ./desarrollo/diseno_implementacion/img
+% Nombre predeterminado imágenes: disenoxx
 %	xx es el numero de imagen
 
 \section{Procesador de Petri (primera etapa)}
 	\label{sec:proc_petri_primera_etapa}
 
-	Como se dijo, en esta primera etapa se realizó una refactorización de un trabajo anterior.
-	Para ello, se diseño nuevamente el sistema generando una arquitectura mas modular que permita
-	la adición de funcionalidad nueva de manera sencilla y clara. Además, se diseño pensando en 
-	nuevas características.
+	Como se dijo, en esta primera etapa se realizó una refactorización de un trabajo anterior. Para ello, se diseño nuevamente el sistema generando una arquitectura mas modular que permita la adición de funcionalidad nueva de manera sencilla y clara. Además, se diseño pensando en nuevas características.
 	
 	\subsection{Requerimientos}
 		
 		Los requerimientos para esta etapa fueron:
 		\begin{enumerate}
-			\item: Refactorizar el trabajo descripto en \cite{galliapereyra} generando una 
-				arquitectura modularizada en Verilog.
+			\item: Refactorizar el trabajo descripto en \cite{galliapereyra} generando una arquitectura modularizada en Verilog.
 			\item: Implementar el procesamiento con plazas acotadas o limitadas.
-			\item: Generar la posibilidad de que se disparen transiciones de manera automática
-				al estar sensibilizadas, sin necesidad de esperar un pedido de disparo explicito.
+			\item: Generar la posibilidad de que se disparen transiciones de manera automática al estar sensibilizadas, sin necesidad de esperar un pedido de disparo explicito.
 		\end{enumerate}
 	
 	\subsection{Arquitectura}
 		
-		A continuación presentamos la arquitectura del primer procesador de Redes de Petri, el 
-		cual está basado en el algoritmo de ejecución de Redes de Petri (descripto en la sección
-		\ref{subsec:redes_con_tiempo}) implementado. Y luego, se describe todas sus funcionalidades e 
-		interrelación.
+		A continuación presentamos la arquitectura del primer procesador de Redes de Petri, el cual está basado en el algoritmo de ejecución de Redes de Petri (descripto en la sección \ref{subsec:redes_con_tiempo}) implementado. Y luego, se describe todas sus funcionalidades e interrelación.
 		\newpage
 			\begin{figure}[ht]
 				\centering
@@ -55,9 +36,7 @@
 		
 		\subsubsection{Matriz de Incidencia}
 			
-			La matriz de incidencia, como ya se vio, es una matriz que tiene como cantidad de filas 
-			el número de plazas y como cantidad de columnas el número de transiciones. Cada elemento 
-			de esta matriz es un número entero con signo.
+			La matriz de incidencia, como ya se vio, es una matriz que tiene como cantidad de filas el número de plazas y como cantidad de columnas el número de transiciones. Cada elemento de esta matriz es un número entero con signo.
 			\begin{lstlisting}
 //Parametros
 	parameter cant_plazas			= 15;
@@ -70,9 +49,7 @@
 		
 		\subsubsection{Matriz de inhibición}
 			
-			La matriz de inhibición, se declaró de manera similar a la matriz de incidencia. La única diferencia
-			con la anterior es que ésta es una matriz binaria. Por lo tanto, cada elemento de esta matriz es de 
-			\textbf{un bit}.		
+			La matriz de inhibición, se declaró de manera similar a la matriz de incidencia. La única diferencia con la anterior es que ésta es una matriz binaria. Por lo tanto, cada elemento de esta matriz es de \textbf{un bit}.		
 			\begin{lstlisting}
 //Matriz de Arcos Inhibidores
 	reg matriz_inhibicion [cant_plazas-1:0] [cant_transiciones-1:0];
@@ -80,11 +57,7 @@
 
 		\subsubsection{Marcado inicial y marcado}
 		
-			Dado que en Verilog una variable no puede ser modificada en más de un \emph{always}, existen dos 
-			vectores para almacenar el marcado de la red. Uno llamado \textbf{\emph{marcado inicial}} que es
-			modificado durante la carga de datos. Y, otro llamado \textbf{\emph{marcado}} que es el que almacena
-			el marcado actual de la red y que al comienzo toma el valor que tiene el vector 
-			\textbf{\emph{marcado inicial}}.
+			Dado que en Verilog una variable no puede ser modificada en más de un \emph{always}, existen dos vectores para almacenar el marcado de la red. Uno llamado \textbf{\emph{marcado inicial}} que es modificado durante la carga de datos. Y, otro llamado \textbf{\emph{marcado}} que es el que almacena el marcado actual de la red y que al comienzo toma el valor que tiene el vector \textbf{\emph{marcado inicial}}.
 			\begin{lstlisting}
 //Marcado
 	reg [tamano_de_elementos-1:0] marcado [cant_plazas-1:0];
@@ -93,11 +66,7 @@
 		
 		\subsubsection{Cotas de plazas}
 		
-			Las cotas en las plazas, se implementan mediante un vector cuya cantidad de elementos es el 
-			número de plazas. En realidad, como se esta implementado hardware, todas las plazas están 
-			limitadas al tamaño de elementos del vector de marcado. Por lo tanto, el vector de cotas, 
-			tendrá como tamaño de elementos el mismo que tiene el vector de marcado pudiendo limitar la 
-			cantidad de tokens en una plaza desde cero hasta este valor.
+			Las cotas en las plazas, se implementan mediante un vector cuya cantidad de elementos es el número de plazas. En realidad, como se esta implementado hardware, todas las plazas están limitadas al tamaño de elementos del vector de marcado. Por lo tanto, el vector de cotas, tendrá como tamaño de elementos el mismo que tiene el vector de marcado pudiendo limitar la cantidad de tokens en una plaza desde cero hasta este valor.
 			\begin{lstlisting}
 //Plazas acotadas
 	reg [tamano_de_elementos-2:0] cotas_plazas [cant_plazas-1:0];
@@ -105,10 +74,7 @@
 		
 		\subsubsection{Transiciones automáticas}
 		
-			Es un vector binario cuya cantidad de elementos es el número de transiciones. Un \emph{uno}
-			en algún elemento indica que la transición representada por el mismo es automática y no debe
-			esperar hasta que se solicite su disparo para dispararse, es decir, al momento que se 
-			sensibiliza se dispara.		
+			Es un vector binario cuya cantidad de elementos es el número de transiciones. Un \emph{uno} en algún elemento indica que la transición representada por el mismo es automática y no debe esperar hasta que se solicite su disparo para dispararse, es decir, al momento que se sensibiliza se dispara.		
 			\begin{lstlisting}
 //Transiciones automaticas
 	reg [cant_transiciones-1:0] transiciones_automaticas;
@@ -116,40 +82,28 @@
 		
 		\subsubsection{Colas de disparos}
 		
-			Las colas de disparos son dos, una, para los disparos de entrada que esperan por ser ejecutados
-			en cuanto la red lo permita. Y la otra, para los disparos de salida que ya han sido ejecutados
-			y esperan a que el proceso que solicitó su ejecución los extraiga.
-			La implementación de estas colas se realiza con un contador por cada transición que indica cuantos
-			disparos pendientes o ya ejecutados existen para dicha transición. Además, existe un vector binario
-			que indica si la cola de una determina transición esta vacía o tiene algún valor.
-			Esta implementación obedece a la necesidad de insertar o extraer los disparos en un ciclo de reloj
-			y además, poder contemplar todas las solicitudes de disparos de las distintas transiciones en paralelo.
+			Las colas de disparos son dos, una, para los disparos de entrada que esperan por ser ejecutados en cuanto la red lo permita. Y la otra, para los disparos de salida que ya han sido ejecutados y esperan a que el proceso que solicitó su ejecución los extraiga. La implementación de estas colas se realiza con un contador por cada transición que indica cuantos disparos pendientes o ya ejecutados existen para dicha transición. Además, existe un vector binario que indica si la cola de una determina transición esta vacía o tiene algún valor. Esta implementación obedece a la necesidad de insertar o extraer los disparos en un ciclo de reloj y además, poder contemplar todas las solicitudes de disparos de las distintas transiciones en paralelo.
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno03}
 					\caption{Esquema de las colas de disparos}
 					\label{fig:diseno03}
 				\end{figure}
-			Cada una de las posiciones del vector de estado de la cola indican si esta vacío o no. Esto se 
-			hace de la siguiente manera:
+			Cada una de las posiciones del vector de estado de la cola indican si esta vacío o no. Esto se hace de la siguiente manera:
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno04}
 					\caption{Registro que indica si las colas de disparos están vacías o no}
 					\label{fig:diseno04}
 				\end{figure}
-			Un uno es este vector indica que la cola contiene al menos un elemento.	
-			Además, se implementa otro registro de estado que indica si la cola esta llena o no. Este registro
-			se implementó de la siguiente manera. Un uno es este vector indica que la cola esta llena y no puede
-			recibir mas elementos.		
+			Un uno es este vector indica que la cola contiene al menos un elemento. Además, se implementa otro registro de estado que indica si la cola esta llena o no. Este registro se implementó de la siguiente manera. Un uno es este vector indica que la cola esta llena y no puede recibir mas elementos.		
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno05}
 					\caption{Registro que indica si las colas de disparos están llenas o no}
 					\label{fig:diseno05}
 				\end{figure}
-			La implementación de estas colas se realizo en un modulo de Verilog que luego fue instanciado dos 
-			veces. Una vez, para la cola de disparos de entrada y otra, para la cola de salida.
+			La implementación de estas colas se realizo en un modulo de Verilog que luego fue instanciado dos veces. Una vez, para la cola de disparos de entrada y otra, para la cola de salida.
 			\begin{lstlisting}
 /****************************COLA DE ENTRADA DE DISPAROS**********************/
 		
@@ -225,61 +179,42 @@
 		
 		\subsubsection{Ejecución de la Red de Petri}
 			
-			El modulo ejecución de la Red de Petri es el encargado de resolver la ecuación de estado (\ref{eq:ecuacion_estado_uno}) 
-			de la red con los disparos que estén pendientes y realizar la actualización del marcado en caso 
-			de ser necesario. Su funcionamiento será explicado en detalle en el apartado \ref{subsec:func_proc_petri}.
+			El modulo ejecución de la Red de Petri es el encargado de resolver la ecuación de estado (\ref{eq:ecuacion_estado_uno}) de la red con los disparos que estén pendientes y realizar la actualización del marcado en caso de ser necesario. Su funcionamiento será explicado en detalle en el apartado \ref{subsec:func_proc_petri}.
 		
 		\subsubsection{Entrada de datos}
 			
-			Este modulo es el encargado de cargar todos los datos con los cuales debe operar el Procesador 
-			de Redes de Petri para ejecutar la red.
-			Su funcionamiento será explicado con detalle en el titulo \ref{subsec:func_proc_petri}.
+			Este modulo es el encargado de cargar todos los datos con los cuales debe operar el Procesador de Redes de Petri para ejecutar la red. Su funcionamiento será explicado con detalle en el titulo \ref{subsec:func_proc_petri}.
 				
 	\subsection{Funcionamiento del procesador de Redes de Petri}
 		\label{subsec:func_proc_petri}
 		
-		En esta sección, se presentarán los diagramas desarrollados con el fin de explicar el 
-		funcionamiento del procesador de Redes de Petri mostrando la implementación en Verilog 
-		de cada uno de los componentes.
+		En esta sección, se presentarán los diagramas desarrollados con el fin de explicar el funcionamiento del procesador de Redes de Petri mostrando la implementación en Verilog de cada uno de los componentes.
 		
 		\subsubsection{Carga de datos}
 			
-			El modulo de carga de datos es el primero que debe entrar en acción al utilizar el 
-			procesador de Redes de Petri, a través de él se carga la matriz de incidencia, la 
-			matriz de inhibición, el marcado inicial, el vector de cotas de plazas y el vector 
-			de transiciones automáticas.
+			El modulo de carga de datos es el primero que debe entrar en acción al utilizar el procesador de Redes de Petri, a través de él se carga la matriz de incidencia, la matriz de inhibición, el marcado inicial, el vector de cotas de plazas y el vector de transiciones automáticas.
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno06}
 					\caption{Diagrama de secuencia proceso de carga de datos}
 					\label{fig:diseno06}
 				\end{figure}
-			El software, que se ejecuta en un procesador MicroBlaze desea cargar datos en alguno
-			de los valores representativos de una Red de Petri (matriz de incidencia, marcado 
-			inicial, etc.) para programarlo o reprogramarlo. 
-			El proceso de carga de datos, se diagramó en la Figura \ref{fig:diseno06} dividido
-			en dos partes. Una secuencia inicial de reset y una secuencia de carga de los elementos
-			que se requieran para programar el funcionamiento del procesador de Petri.
+			El software, que se ejecuta en un procesador MicroBlaze desea cargar datos en alguno de los valores representativos de una Red de Petri (matriz de incidencia, marcado inicial, etc.) para programarlo o reprogramarlo. El proceso de carga de datos, se diagramó en la Figura \ref{fig:diseno06} dividido en dos partes. Una secuencia inicial de reset y una secuencia de carga de los elementos que se requieran para programar el funcionamiento del procesador de Petri.
 			\\
 
 			\textbf{Secuencia de reset de datos}
 				
 				La secuencia de reset, se compone de las siguientes etapas.
 				\begin{enumerate}
-				  	\item El software indica que el procesador MicroBlaze debe ejecutar un reset sobre 
-				  		el procesador de Petri.
-				  	\item El procesador MicroBlaze envía esta orden al procesador de Redes de Petri a 
-				  		través de BUS AXI.
-				  	\item El procesador de Redes de Petri procede a borrar todos los valores almacenados 
-				  		poniendo a cero todos los elementos de cada uno de ellos (marcado inicial, matriz 
-				  		de incidencia, etc.)
+				  	\item El software indica que el procesador MicroBlaze debe ejecutar un reset sobre el procesador de Petri.
+				  	\item El procesador MicroBlaze envía esta orden al procesador de Redes de Petri a través de BUS AXI.
+				  	\item El procesador de Redes de Petri procede a borrar todos los valores almacenados poniendo a cero todos los elementos de cada uno de ellos (marcado inicial, matriz de incidencia, etc.)
 				\end{enumerate}
 		
 		
 			\textbf{Secuencia de carga de un elemento}	
 				
-				Se debe aclarar que para la carga de un valor se utiliza una palabra especial de 32 bits, 
-				definida de la siguiente manera:
+				Se debe aclarar que para la carga de un valor se utiliza una palabra especial de 32 bits, definida de la siguiente manera:
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno07}
@@ -287,65 +222,34 @@
 						\label{fig:diseno07}
 					\end{figure}
 				
-				Esta palabra especial, reserva ocho bits para identificar las plazas y ocho bits para 
-				identificar la transición. Esto permite una Red de Petri con un máximo de 256 plazas y
-				256 transiciones que se considera tamaño suficiente para la mayoría de los problemas a
-				resolver.
-				Los restantes 16 bits, identifican el valor que debe ir en el elemento indicado por el
-				número de plaza y por el número de transición.
-				Por ejemplo, si se esta cargando la matriz de incidencia y se envía la siguiente palabra
-				00000101 00000011 1111111111111101, se cargara en el elemento de la fila 5 y columna 3 el
-				valor -3.
-				Si se carga por ejemplo el marcado inicial, para indicar que la plaza 7 tiene dos tokens 
-				al inicio se debe enviar la siguiente palabra 00000111 XXXXXXXX 0000000000000010.
-				Aclarado esto, se explicará la secuencia de carga.
+				Esta palabra especial, reserva ocho bits para identificar las plazas y ocho bits para identificar la transición. Esto permite una Red de Petri con un máximo de 256 plazas y 256 transiciones que se considera tamaño suficiente para la mayoría de los problemas a resolver. Los restantes 16 bits, identifican el valor que debe ir en el elemento indicado por el número de plaza y por el número de transición. Por ejemplo, si se esta cargando la matriz de incidencia y se envía la siguiente palabra 00000101 00000011 1111111111111101, se cargara en el elemento de la fila 5 y columna 3 el valor -3. Si se carga por ejemplo el marcado inicial, para indicar que la plaza 7 tiene dos tokens al inicio se debe enviar la siguiente palabra 00000111 XXXXXXXX 0000000000000010. Aclarado esto, se explicará la secuencia de carga.
 				
 				\begin{enumerate}
-				  	\item El software decide cargar un valor, por lo tanto, mediante una dirección y un 
-				  		elemento le indica al MicroBlaze lo que debe ejecutar.
-				  	\item El MicroBlaze, envía a través del BUS AXI la palabra de dirección y la palabra
-				  		de dato (address y data).
-				  	\item El procesador de Petri identifica que dato se desea cargar mediante la palabra
-				  		address (si es matriz de incidencia, marcado inicial, etc.). Luego, interpretando
-				  		la palabra de datos como se mencionó anteriormente, determina que valor se desea 
-				  		escribir y en que posición hacerlo.
-				  	\item En cada escritura correcta se envía un ACK para que el software sepa que la 
-				  		operación se realizo con éxito.   
+				  	\item El software decide cargar un valor, por lo tanto, mediante una dirección y un elemento le indica al MicroBlaze lo que debe ejecutar.
+				  	\item El MicroBlaze, envía a través del BUS AXI la palabra de dirección y la palabra de dato (address y data).
+				  	\item El procesador de Petri identifica que dato se desea cargar mediante la palabra address (si es matriz de incidencia, marcado inicial, etc.). Luego, interpretando la palabra de datos como se mencionó anteriormente, determina que valor se desea escribir y en que posición hacerlo.
+				  	\item En cada escritura correcta se envía un ACK para que el software sepa que la operación se realizo con éxito.   
 				\end{enumerate}		
 
 		\subsubsection{Llegada de un nuevo disparo por ejecutar}
 			
-			Cuando llega un nuevo disparo, se utiliza la misma palabra definida en la Figura
-			\ref{fig:diseno07}. Además el procedimiento es bastante similar solo que debe verificarse 
-			que la cola de entrada de disparos correspondientes no se encuentre llena.		
+			Cuando llega un nuevo disparo, se utiliza la misma palabra definida en la Figura \ref{fig:diseno07}. Además el procedimiento es bastante similar solo que debe verificarse que la cola de entrada de disparos correspondientes no se encuentre llena.		
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno08}
 					\caption{Diagrama de secuencia del ingreso de un nuevo disparo}
 					\label{fig:diseno08}
 				\end{figure}
-			En la secuencia anterior, se observa que el proceso de envío de un nuevo disparo para que sea
-			ejecutado por el procesador de Redes de Petri es similar al proceso de carga de datos. La diferencia
-			radica en la consulta a la cola acerca de si esta llena o no. Si la cola no esta llena, el disparo es
-			añadido a la cola y queda a la espera de ser ejecutado.
-			En la Figura \ref{fig:diseno08} no se muestra el caso de que la cola si este llena. 
-			Lo que sucede en este caso no se añade el disparo a la cola y no se envía el ACK. De esta manera, el 
-			software sabe que la escritura no fue correcta, es decir, el disparo no fue añadido a la cola.
+			En la secuencia anterior, se observa que el proceso de envío de un nuevo disparo para que sea ejecutado por el procesador de Redes de Petri es similar al proceso de carga de datos. La diferencia radica en la consulta a la cola acerca de si esta llena o no. Si la cola no esta llena, el disparo es añadido a la cola y queda a la espera de ser ejecutado. En la Figura \ref{fig:diseno08} no se muestra el caso de que la cola si este llena. Lo que sucede en este caso no se añade el disparo a la cola y no se envía el ACK. De esta manera, el software sabe que la escritura no fue correcta, es decir, el disparo no fue añadido a la cola.
 			
 		\subsubsection{Algoritmo de ejecución de Redes de Petri}		
 			
-			El algoritmo de ejecución de Redes de Petri consiste en detectar los disparos que sean posibles de
-			ser ejecutados y en caso de serlo, resolver la ecuación de estado de la red para lograr un nuevo 
-			marcado de la misma.
-			Recordado, la ecuación de estado de una Red de Petri con Arcos Inhibidores \ref{eq:estado_petri_arcos_inhibidores}, tiene la
-			siguiente forma:
+			El algoritmo de ejecución de Redes de Petri consiste en detectar los disparos que sean posibles de ser ejecutados y en caso de serlo, resolver la ecuación de estado de la red para lograr un nuevo marcado de la misma. Recordado, la ecuación de estado de una Red de Petri con Arcos Inhibidores \ref{eq:estado_petri_arcos_inhibidores}, tiene la siguiente forma:
 				\begin{equation}
 					m_{i+1}=m_i+I×[\delta\; and\; f_H(m_i,\;\delta)]
 				\end{equation}
 			
-			La Figura \ref{fig:diseno09} ilustra como se ha implementado la resolución de la ecuación 
-			anterior determinando que transiciones están sensibilizadas y de acuerdo con los disparos en las
-			colas o aquellas transiciones que son automáticas. 
+			La Figura \ref{fig:diseno09} ilustra como se ha implementado la resolución de la ecuación anterior determinando que transiciones están sensibilizadas y de acuerdo con los disparos en las colas o aquellas transiciones que son automáticas. 
 				\begin{figure}[ht]
 					\centering
 					\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno09}
@@ -353,36 +257,13 @@
 					\label{fig:diseno09}
 				\end{figure}
 			
-			La matriz de incidencia tiene \emph{P} filas y \emph{T} columnas (\emph{P} es el numero de plazas
-			y \emph{T} es el numero de columnas). Al disparar una transición \emph{$t_i$} lo que sucede es que 
-			la columna \emph{i} de la matriz se suma con el vector de marcado actual determinando el nuevo 
-			marcado. Esto se debe a que los disparos son simples, ejecutan una única transición. Por esta razón,
-			un vector de disparo es un vector con todos sus elementos igual a cero exceptuando que corresponde 
-			con la transición que desea dispararse. Esto hace que la multiplicación entre la matriz de incidencia
-			y el vector de disparo se transforme una simple selección de columna de la matriz. Esto reduce 
-			notablemente la complejidad del hardware.
+			La matriz de incidencia tiene \emph{P} filas y \emph{T} columnas (\emph{P} es el numero de plazas y \emph{T} es el numero de columnas). Al disparar una transición \emph{$t_i$} lo que sucede es que la columna \emph{i} de la matriz se suma con el vector de marcado actual determinando el nuevo marcado. Esto se debe a que los disparos son simples, ejecutan una única transición. Por esta razón, un vector de disparo es un vector con todos sus elementos igual a cero exceptuando que corresponde con la transición que desea dispararse. Esto hace que la multiplicación entre la matriz de incidencia y el vector de disparo se transforme una simple selección de columna de la matriz. Esto reduce notablemente la complejidad del hardware.
 				
-			Dado que existen \emph{T} transiciones, en este procesador de Redes de Petri, se arma una nueva 
-			matriz llamada \textbf{\emph{Matriz Resultado}}. Cada columna \emph{k} de esta nueva matriz resulta
-			de sumar la columna \emph{k} de la matriz de incidencia con el vector de marcado. De esta manera, cada
-			columna de la Matriz Resultado es un posible nuevo marcado. 
-			Una vez obtenida esta matriz de resultados, se deben detectar valores negativos, cada columna de la
-			matriz representa un posible nuevo marcado y como tal, no debe tener elementos negativos dado que esto
-			indicaría una cantidad negativa de tokens en una plaza.
-			Para ello, se construye una nueva matriz binaria; cada elemento de esta matriz se corresponde con el
-			bit más significativo del elemento de la matriz de resultados. Esta matriz se llama \textbf{\emph{Matriz de Signo}}.
+			Dado que existen \emph{T} transiciones, en este procesador de Redes de Petri, se arma una nueva matriz llamada \textbf{\emph{Matriz Resultado}}. Cada columna \emph{k} de esta nueva matriz resulta de sumar la columna \emph{k} de la matriz de incidencia con el vector de marcado. De esta manera, cada columna de la Matriz Resultado es un posible nuevo marcado. Una vez obtenida esta matriz de resultados, se deben detectar valores negativos, cada columna de la matriz representa un posible nuevo marcado y como tal, no debe tener elementos negativos dado que esto indicaría una cantidad negativa de tokens en una plaza. Para ello, se construye una nueva matriz binaria; cada elemento de esta matriz se corresponde con el bit más significativo del elemento de la matriz de resultados. Esta matriz se llama \textbf{\emph{Matriz de Signo}}.
 				
-			Al mismo tiempo, el vector marcado es operado con la matriz de inhibición para determinar si alguna 
-			transición deja de estar sensibilizada a causa de un arco inhibidor.
-			Como lo determina la ecuación, se realiza una operación \emph{AND} entre el vector de marcado y cada
-			columna de la matriz de inhibición. De aquí surge una nueva matriz, la \textbf{\emph{Matriz de Resultados de Inhibición}}, 
-			que almacena los resultados de la operación \emph{AND} antes descripta.
+			Al mismo tiempo, el vector marcado es operado con la matriz de inhibición para determinar si alguna transición deja de estar sensibilizada a causa de un arco inhibidor. Como lo determina la ecuación, se realiza una operación \emph{AND} entre el vector de marcado y cada columna de la matriz de inhibición. De aquí surge una nueva matriz, la \textbf{\emph{Matriz de Resultados de Inhibición}}, que almacena los resultados de la operación \emph{AND} antes descripta.
 
-			De manera similar, comparando cada elemento del marcado con cada elemento del vector de cotas de 
-			plazas, se forma una tercera matriz,  \textbf{\emph{matriz de resultados de cotas}}. Esta matriz, 
-			tendrá un \emph{1} en el elemento \emph{$a_{ij}$}, significaría que el posible nuevo marcado que 
-			generaría la transición \emph{$t_{j}$} sobre la plaza \emph{$p_{i}$} no superaría la cota impuesta
-			para esa plaza. 
+			De manera similar, comparando cada elemento del marcado con cada elemento del vector de cotas de plazas, se forma una tercera matriz, \textbf{\emph{matriz de resultados de cotas}}. Esta matriz, tendrá un \emph{1} en el elemento \emph{$a_{ij}$}, significaría que el posible nuevo marcado que generaría la transición \emph{$t_{j}$} sobre la plaza \emph{$p_{i}$} no superaría la cota impuesta para esa plaza. 
 			\clearpage
 			\begin{lstlisting}	
 /*****DETERMINACION DE LOS NUEVOS POSIBLES ESTADOS*****/
@@ -397,11 +278,11 @@
 			for (filas=0 ; filas<cant_plazas ; filas=filas+1) // Recorro filas
 			begin
 				resultado[filas][columnas] = marcado[filas] + matriz_incidencia[filas][columnas]; //Ecuacion
-				// Verificacion habilitacion por signo - Creacion de matriz
+				// Verificacion habilitacion por signo - Creación de matriz
 					sign_matrix [columnas][filas] = resultado[filas][columnas][tamano_de_elementos-1];
-				//Verificacion habilitacion por inhibicion - Creacion de matriz
+				//Verificacion habilitacion por inhibicion - Creación de matriz
 					inhibe_matrix [columnas][filas] = (|marcado[filas]) & matriz_inhibicion[filas][columnas];
-				// Verificacion de habilitacion por cotas - Creacion de matriz
+				// Verificacion de habilitacion por cotas - Creación de matriz
 					if (resultado[filas][columnas][tamano_de_elementos-1]==1'b0 && resultado[filas][columnas] > cotas_plazas[filas]) // Verifico si supero la cota
 					begin
 						limit_matrix [columnas][filas] = 1'b0; // Cota SI superada
@@ -410,16 +291,9 @@
 			end //Fin for recorre filas
 		end //Fin for recorre columnas
 	end	
-			\end{lstlisting}		
-			Con estas matrices generadas, se arman tres vectores, el vector de habilitación por signo, el vector 
-			de habilitación por inhibición y el vector de habilitación por cotas.
-			El \textbf{\emph{vector de habilitación por signo}}, se forma a partir de una \emph{NOR} entre todos 
-			los	elementos de cada columna de la \emph{Matriz de Signo}. Dado que cada elemento de la matriz de 
-			signo es el bit de signo del elemento correspondiente en la matriz de resultado, un valor \emph{1} 
-			indicaría que ese elemento es negativo. Luego, la operación \emph{NOR} detectaría si en esa columna
-			existe uno o más valores negativos. De esta manera, resulta un vector cuya cantidad de elementos es 
-			el numero de transiciones y un \emph{1} en el elemento \emph{i} indicaría que la transición \emph{$t_i$}
-			produciría un marcado sin valores negativos.
+			\end{lstlisting}
+
+			Con estas matrices generadas, se arman tres vectores, el vector de habilitación por signo, el vector de habilitación por inhibición y el vector de habilitación por cotas. El \textbf{\emph{vector de habilitación por signo}}, se forma a partir de una \emph{NOR} entre todos los elementos de cada columna de la \emph{Matriz de Signo}. Dado que cada elemento de la matriz de signo es el bit de signo del elemento correspondiente en la matriz de resultado, un valor \emph{1} indicaría que ese elemento es negativo. Luego, la operación \emph{NOR} detectaría si en esa columna existe uno o más valores negativos. De esta manera, resulta un vector cuya cantidad de elementos es el numero de transiciones y un \emph{1} en el elemento \emph{i} indicaría que la transición \emph{$t_i$} produciría un marcado sin valores negativos.
 			\begin{lstlisting}
 for (columnas_habilitaciones=0 ; columnas_habilitaciones<cant_transiciones ; columnas_habilitaciones=columnas_habilitaciones+1) //Recorro columnas
 begin
@@ -429,13 +303,7 @@ begin
 end
 			\end{lstlisting}	
 
-			De manera similar, una operación \emph{NOR} sobre cada columna de la \emph{matriz de resultados de inhibición}
-			forma el \textbf{\emph{vector de habilitación por inhibición}}. Un valor \emph{1} en el elemento 
-			\emph{$a{ij}$} de la \emph{matriz de resultados de inhibición} indicaría que la plaza \emph{$p_i$} 
-			contiene elementos y esta unida con un arco inhibidor a la transición \emph{$t_j$}. Por lo tanto, 
-			esta ultima transición no esta sensibilizada. El vector de habilitación por inhibición tendrá un 
-			\emph{1} en el elemento \emph{j} si es que la transición \emph{$t_j$} esta sensibilizada de acuerdo
-			a los arcos inhibidores.
+			De manera similar, una operación \emph{NOR} sobre cada columna de la \emph{matriz de resultados de inhibición} forma el \textbf{\emph{vector de habilitación por inhibición}}. Un valor \emph{1} en el elemento \emph{$a{ij}$} de la \emph{matriz de resultados de inhibición} indicaría que la plaza \emph{$p_i$} contiene elementos y esta unida con un arco inhibidor a la transición \emph{$t_j$}. Por lo tanto, esta ultima transición no esta sensibilizada. El vector de habilitación por inhibición tendrá un \emph{1} en el elemento \emph{j} si es que la transición \emph{$t_j$} esta sensibilizada de acuerdo a los arcos inhibidores.
 			\begin{lstlisting}
 for (columnas_habilitaciones=0 ; columnas_habilitaciones<cant_transiciones ; columnas_habilitaciones=columnas_habilitaciones+1) //Recorro columnas
 begin
@@ -445,9 +313,7 @@ begin
 end
 			\end{lstlisting}
 				
-			Aplicando una operación \emph{OR} sobre todos los elementos de cada columna de la \emph{matriz de resultados de cotas},
-			se forma el \textbf{\emph{vector de habilitación por cotas}} en el cual un \emph{1} en el elemento
-			\emph{j} indica que la transición \emph{$t_j$} esta sensibilizada según las cotas de plazas.	
+			Aplicando una operación \emph{OR} sobre todos los elementos de cada columna de la \emph{matriz de resultados de cotas}, se forma el \textbf{\emph{vector de habilitación por cotas}} en el cual un \emph{1} en el elemento \emph{j} indica que la transición \emph{$t_j$} esta sensibilizada según las cotas de plazas.	
 			\begin{lstlisting}
 for (columnas_habilitaciones=0 ; columnas_habilitaciones<cant_transiciones ; columnas_habilitaciones=columnas_habilitaciones+1) //Recorro columnas
 begin
@@ -457,32 +323,19 @@ begin
 end
 			\end{lstlisting}	
 
-			Los tres vectores de habilitación de transiciones antes mencionados generan a través de una 
-			operación \emph{AND} el \textbf{\emph{vector de transiciones sensibilizadas}}. De esta manera,
-			a cada cambio en el marcado de la Red de Petri se determinan cuales son las transiciones 
-			sensibilizadas. Esta información es comparada con la cola de disparos que esperan ser ejecutados
-			y en caso de haber coincidencia, se procede a la ejecución del disparo solicitado.	
+			Los tres vectores de habilitación de transiciones antes mencionados generan a través de una operación \emph{AND} el \textbf{\emph{vector de transiciones sensibilizadas}}. De esta manera, a cada cambio en el marcado de la Red de Petri se determinan cuales son las transiciones sensibilizadas. Esta información es comparada con la cola de disparos que esperan ser ejecutados y en caso de haber coincidencia, se procede a la ejecución del disparo solicitado.	
 			\begin{lstlisting}	
 //Determinacion de las transciones habilitadas, disparos posibles
 t_sensibilizadas=t_enable_sign & t_enable_inhibicion & t_enable_limit;
 			\end{lstlisting}
 					
-			Obtenido el vector de transiciones sensibilizadas, como lo indica la Figura \ref{fig:diseno09} 
-			de la página \pageref{fig:diseno09}, se verifica si el disparo de alguna de éstas transiciones
-			está solicitado (se encuentra en la cola de entrada de disparos) o, si la transición es automática y
-			no se necesita una solicitud para ejecutar su disparo.
+			Obtenido el vector de transiciones sensibilizadas, como lo indica la Figura \ref{fig:diseno09} de la página \pageref{fig:diseno09}, se verifica si el disparo de alguna de éstas transiciones está solicitado (se encuentra en la cola de entrada de disparos) o, si la transición es automática y no se necesita una solicitud para ejecutar su disparo.
 
-			La ejecución de un disparo consiste en actualizar el vector de marcado de la red con la columna 
-			correspondiente de la matriz de resultado. Además, el disparo que se ha ejecutado se carga en la 
-			cola de disparos de salida y espera ser retirado.
+			La ejecución de un disparo consiste en actualizar el vector de marcado de la red con la columna correspondiente de la matriz de resultado. Además, el disparo que se ha ejecutado se carga en la cola de disparos de salida y espera ser retirado.
 		
 		\subsubsection{Retiro de un disparo ejecutado}		
 			
-			El retiro de un disparo que ya ha sido ejecutado requiere de dos pasos, un proceso que solicito
-			que se dispare una transición, debe consultar si el disparo ya se ejecuto y posteriormente, en
-			caso afirmativo, debe remover este disparo de la cola.
-			Para este proceso se pensó en utilizar el mismo sistema que cuando se desea cargar un nuevo 
-			disparo en la cola de entrada.
+			El retiro de un disparo que ya ha sido ejecutado requiere de dos pasos, un proceso que solicito que se dispare una transición, debe consultar si el disparo ya se ejecuto y posteriormente, en caso afirmativo, debe remover este disparo de la cola. Para este proceso se pensó en utilizar el mismo sistema que cuando se desea cargar un nuevo disparo en la cola de entrada.
 				
 				\begin{figure}[ht]
 					\centering
@@ -491,23 +344,11 @@ t_sensibilizadas=t_enable_sign & t_enable_inhibicion & t_enable_limit;
 					\label{fig:diseno10}
 				\end{figure}
 				
-			Se utiliza la palabra definida en la Figura \ref{fig:diseno07} al igual que en el proceso 
-			de carga de datos y de llegada de nuevos disparos. En esta palabra de 32 bits, el proceso indica 
-			sobre que transición desea consultar su ejecución y el retiro de la cola de disparos de salida. 
-			Además, esta palabra se acompaña con una dirección que indica que lo que se desea realizar es el 
-			retiro de un disparo. Cuando el procesador reconoce la dirección y la palabra necesaria para esta 
-			operación, consulta la cola del disparo solicitado. 
-			Si la cola contiene disparos que esperan salir, se decrementa un unidad (retira un disparo) y se
-			envía un ACK indicando al software que el disparo había sido ejecutado y que además, fue retirado 
-			de la cola.
-			Si el software NO recibe el ACK entiende que su disparo no ha sido ejecutado aun debe consultar 
-			nuevamente mas tarde.
+			Se utiliza la palabra definida en la Figura \ref{fig:diseno07} al igual que en el proceso de carga de datos y de llegada de nuevos disparos. En esta palabra de 32 bits, el proceso indica sobre que transición desea consultar su ejecución y el retiro de la cola de disparos de salida. Además, esta palabra se acompaña con una dirección que indica que lo que se desea realizar es el retiro de un disparo. Cuando el procesador reconoce la dirección y la palabra necesaria para esta operación, consulta la cola del disparo solicitado. Si la cola contiene disparos que esperan salir, se decrementa un unidad (retira un disparo) y se envía un ACK indicando al software que el disparo había sido ejecutado y que además, fue retirado de la cola. Si el software NO recibe el ACK entiende que su disparo no ha sido ejecutado aun debe consultar nuevamente mas tarde.
 				
 	\subsection{Verificación}
 		
-		Para la verificación del funcionamiento de esta primera etapa se ha diseñado e implementado una prueba
-		en Verilog. En esta prueba se realiza la carga de una Red de Petri simple y sencilla y luego solicita 
-		una serie de disparos verificando que la red responda de manera correcta.
+		Para la verificación del funcionamiento de esta primera etapa se ha diseñado e implementado una prueba en Verilog. En esta prueba se realiza la carga de una Red de Petri simple y sencilla y luego solicita una serie de disparos verificando que la red responda de manera correcta.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=0.5\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno11}
@@ -515,9 +356,7 @@ t_sensibilizadas=t_enable_sign & t_enable_inhibicion & t_enable_limit;
 				\label{fig:diseno11}
 			\end{figure}
 		
-		La red de la \ref{fig:diseno11} ha sido diseñada solo para que cumpla con ciertas 
-		propiedades necesarias para comprobar el correcto funcionamiento del procesador de Redes de Petri. 
-		Estas propiedades son:
+		La red de la \ref{fig:diseno11} ha sido diseñada solo para que cumpla con ciertas propiedades necesarias para comprobar el correcto funcionamiento del procesador de Redes de Petri. Estas propiedades son:
 			\begin{itemize}
 			  \item Utilizar arcos inhibidores.
 			  \item Tener transiciones automáticas.
@@ -527,9 +366,7 @@ t_sensibilizadas=t_enable_sign & t_enable_inhibicion & t_enable_limit;
 				
 		\subsubsection{Carga de datos}
 		
-			Lo primero que se debe realizar es la carga de los datos necesarios en el procesador. En el test
-			de carga de datos, se utilizan una serie de parámetros para representar las direcciones de cada 
-			estructura.		
+			Lo primero que se debe realizar es la carga de los datos necesarios en el procesador. En el test de carga de datos, se utilizan una serie de parámetros para representar las direcciones de cada estructura.		
 
 			\begin{lstlisting}
 localparam m_incidencia=32'b00000000000000000000000000000001;
@@ -553,8 +390,7 @@ localparam error=32'b00000000000000000000000000000111;
 			  					0
 			  				\end{bmatrix}
 			  		\end{equation}
-			  		La carga de estos valores en el procesador de Redes de Petri se
-			  		realiza a través del test en Verilog de la siguiente manera:
+			  		La carga de estos valores en el procesador de Redes de Petri se realiza a través del test en Verilog de la siguiente manera:
 					\begin{lstlisting}			  		
 //Marcado inicial [0]
 	@(posedge clk)
@@ -582,23 +418,14 @@ localparam error=32'b00000000000000000000000000000111;
 	#20;
 					\end{lstlisting}			  		
 			  		
-					Recordando los parámetros antes mencionados, en la Figura \ref{fig:diseno12} 
-					se encuentra una imagen de la simulación en la cual se pasa el valor \emph{4H} en 
-					la entrada \emph{address} (este valor corresponde al marcado inicial). Simultáneamente, 
-					se sitúa en el bus el valor a cargar en el primer elemento de vector de marcado 
-					inicial.			  		
+					Recordando los parámetros antes mencionados, en la Figura \ref{fig:diseno12} se encuentra una imagen de la simulación en la cual se pasa el valor \emph{4H} en la entrada \emph{address} (este valor corresponde al marcado inicial). Simultáneamente, se sitúa en el bus el valor a cargar en el primer elemento de vector de marcado inicial.
 			  		\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.9\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno12}
 						\caption{Simulación de la carga del vector de marcado inicial}
 						\label{fig:diseno12}
 					\end{figure}
-			  		En la imagen anterior, es posible observar el valor final de vector marcado inicial, 
-			  		notando que coincide con el valor que se deseaba cargar\footnote{La columna \emph{value}
-			  		de la Figura representa el valor de la variable en el instante marcado por la línea amarilla.}. 
-			  		En el momento de la carga del primer elemento del vector de marcado inicial, se puede notar que 
-			  		medio ciclo después de colocar el valor en el bus, se encuentra cargado en la estructura 
-			  		correspondiente.
+			  		En la imagen anterior, es posible observar el valor final de vector marcado inicial, notando que coincide con el valor que se deseaba cargar\footnote{La columna \emph{value} de la Figura representa el valor de la variable en el instante marcado por la línea amarilla.}. En el momento de la carga del primer elemento del vector de marcado inicial, se puede notar que medio ciclo después de colocar el valor en el bus, se encuentra cargado en la estructura correspondiente.
 			  		
 			  	\item \emph{Carga de la matriz de incidencia:}
 			  		La matriz de incidencia para la Red de Petri de la Figura \ref{fig:diseno11} 
@@ -611,8 +438,7 @@ localparam error=32'b00000000000000000000000000000111;
 			  					0  & 0  & 1
 			  				\end{bmatrix}
 			  		\end{equation}
-			  		La carga de estos valores en el procesador de Redes de Petri se 
-			  		realiza a través del test en Verilog de la siguiente manera:
+			  		La carga de estos valores en el procesador de Redes de Petri se realiza a través del test en Verilog de la siguiente manera:
 			  		\begin{lstlisting}	
 //Matriz de incidencia [0][0]
 	@(posedge clk)
@@ -688,8 +514,7 @@ localparam error=32'b00000000000000000000000000000111;
 	#20;
 					\end{lstlisting}
 			  		
-					La siguiente imagen, mostrara que la matriz de incidencia a 
-					sido efectivamente cargada.	
+					La siguiente imagen, mostrara que la matriz de incidencia a sido efectivamente cargada.	
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.6\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno13}
@@ -707,8 +532,7 @@ localparam error=32'b00000000000000000000000000000111;
 			  					0 & 0 & 0
 			  				\end{bmatrix}
 			  		\end{equation}
-			  		La carga de estos valores en el procesador de Redes de Petri se realiza a través 
-			  		del test en Verilog de la siguiente manera:
+			  		La carga de estos valores en el procesador de Redes de Petri se realiza a través del test en Verilog de la siguiente manera:
 			  		\begin{lstlisting}	
 //Matriz de inhibicion [0][0]
 	@(posedge clk)
@@ -808,8 +632,7 @@ localparam error=32'b00000000000000000000000000000111;
 			  				2 	
 			  			\end{bmatrix} 
 			  		\end{equation}
-					La carga de estos valores en el procesador de Redes de Petri se realiza a través 
-					del test en Verilog de la siguiente manera:
+					La carga de estos valores en el procesador de Redes de Petri se realiza a través del test en Verilog de la siguiente manera:
 					\begin{lstlisting}
 //Vector de cotas [0]
 	@(posedge clk)
@@ -860,8 +683,7 @@ localparam error=32'b00000000000000000000000000000111;
 			  				0
 			  			\end{bmatrix} 
 			  		\end{equation}
-			  		La carga de estos valores en el procesador de Redes de Petri se realiza a través del 
-			  		test en Verilog de la siguiente manera:
+			  		La carga de estos valores en el procesador de Redes de Petri se realiza a través del test en Verilog de la siguiente manera:
 			  		\begin{lstlisting}
 //Transicion Automatica [0]
 	@(posedge clk)
@@ -893,28 +715,18 @@ localparam error=32'b00000000000000000000000000000111;
 	
 		\subsubsection{Secuencia de disparos}
 			
-			A continuación, se presentará la secuencia de disparos que se aplicará sobre la Red de Petri 
-			de la \ref{fig:diseno11}. Cada disparo que se aplique, producirá un marcado
-			que se comparara con el obtenido en un simulador de Redes de Petri (PIPE versión 4).
+			A continuación, se presentará la secuencia de disparos que se aplicará sobre la Red de Petri de la \ref{fig:diseno11}. Cada disparo que se aplique, producirá un marcado que se comparara con el obtenido en un simulador de Redes de Petri (PIPE versión 4).
 			\begin{center}
 				$S = { T2, T0, T0, T0, T2, T0 }$
 			\end{center}
-			Se debe notar que la transición \emph{T1} no se encuentra incluida en la lista debido a que fue 
-			marcada como automática, por lo tanto, no es necesario hacer un pedido para que sea disparada.
-			La secuencia de disparos ha sido elegida con el fin de que se compruebe el comportamiento del 
-			procesador de Redes de Petri en diversas circunstancias.
-			La Figura \ref{fig:diseno16} muestra la simulación del último dato cargado en el 
-			Procesador de Redes de Petri. Como se observa en dicha Figura, en el instante de los 1000 ns
-			el procesador ya esta listo para comenzar recibir solicitudes de disparos. La afirmación anterior
-			es demostrada por la siguiente Figura (\ref{fig:diseno17}).
+			Se debe notar que la transición \emph{T1} no se encuentra incluida en la lista debido a que fue marcada como automática, por lo tanto, no es necesario hacer un pedido para que sea disparada. La secuencia de disparos ha sido elegida con el fin de que se compruebe el comportamiento del procesador de Redes de Petri en diversas circunstancias. La Figura \ref{fig:diseno16} muestra la simulación del último dato cargado en el Procesador de Redes de Petri. Como se observa en dicha Figura, en el instante de los 1000 ns el procesador ya esta listo para comenzar recibir solicitudes de disparos. La afirmación anterior es demostrada por la siguiente Figura (\ref{fig:diseno17}).
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=0.75\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno17}
 					\caption{Estado del Procesador de Redes de Petri luego de la carga de todos los datos}
 					\label{fig:diseno17}
 				\end{figure}
-			Se observa que al comenzar, el procesador de Petri determina que el único disparo posible es el 
-			de la transición \emph{0}, coincidiendo con el simulador.
+			Se observa que al comenzar, el procesador de Petri determina que el único disparo posible es el de la transición \emph{0}, coincidiendo con el simulador.
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=0.3\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno18}
@@ -926,9 +738,7 @@ localparam error=32'b00000000000000000000000000000111;
 			\begin{enumerate}
 				\item \emph{Solicitar el disparo de \textbf{T2}}
 					
-					Esta solicitud se envía para comprobar que el procesador ubica correctamente en 
-					la cola de espera a las solicitudes de disparo para transiciones que no están 
-					sensibilizadas como es el caso de \emph{T2}.
+					Esta solicitud se envía para comprobar que el procesador ubica correctamente en la cola de espera a las solicitudes de disparo para transiciones que no están sensibilizadas como es el caso de \emph{T2}.
 					\begin{lstlisting}
 //Solicito disparo de T2 -> Debería ir a la cola porque T2 NO esta sensibilizada
 @(posedge clk)
@@ -945,54 +755,33 @@ address	= error;
 						\label{fig:diseno19}
 					\end{figure}
 				
-					En la Figura \ref{fig:diseno19} la simulación del procesador de Redes de Petri cuando 
-					llega la primera solicitud de disparo. Como se dijo, esta solicitud es para una transición 
-					que no esta sensibilizada por lo tanto, no se encuentra entre los disparos posibles y queda 
-					almacenado en la cola.
+					En la Figura \ref{fig:diseno19} la simulación del procesador de Redes de Petri cuando llega la primera solicitud de disparo. Como se dijo, esta solicitud es para una transición que no esta sensibilizada por lo tanto, no se encuentra entre los disparos posibles y queda almacenado en la cola.
 									
 				\item \emph{Solicitar el disparo de \textbf{T0}}
 					
-					Luego, se solicita el disparo de la transición \emph{T0} esperando que sea disparada 
-					porque es la única transición sensibilizada.
+					Luego, se solicita el disparo de la transición \emph{T0} esperando que sea disparada porque es la única transición sensibilizada.
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.4\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno20}
 						\caption{Estado esperado de la Red luego de disparar \emph{T0}}
 						\label{fig:diseno20}
 					\end{figure}
-					Al solicitar el disparo, se observa que es cargado en la cola. Luego, como el procesador 
-					reconoce que es una solicitud sobre una transición que esta sensibilizada la ejecuta.					
+					Al solicitar el disparo, se observa que es cargado en la cola. Luego, como el procesador reconoce que es una solicitud sobre una transición que esta sensibilizada la ejecuta.					
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno21}
 						\caption{Solicitud y disparo de la transición \emph{T0}}
 						\label{fig:diseno21}
 					\end{figure}
-					La línea amarilla marca el instante en el cual se pone en el bus el address correspondiente 
-					a un nuevo disparo y el valor que indica que disparo se desea solicitar. Ese nuevo dato, se 
-					coloca en el bus en un flanco positivo de reloj, el procesador de Redes de Petri recibe el 
-					dato en el flanco negativo. Luego de la recepción del disparo se demora un ciclo en colocar 
-					el disparo en la cola de entrada correspondiente y un ciclo en actualizar el marcado a partir 
-					de un disparo que se encuentre en la cola. 
+					La línea amarilla marca el instante en el cual se pone en el bus el address correspondiente a un nuevo disparo y el valor que indica que disparo se desea solicitar. Ese nuevo dato, se coloca en el bus en un flanco positivo de reloj, el procesador de Redes de Petri recibe el dato en el flanco negativo. Luego de la recepción del disparo se demora un ciclo en colocar el disparo en la cola de entrada correspondiente y un ciclo en actualizar el marcado a partir de un disparo que se encuentre en la cola. 
 					
-					\textbf{\emph{De esta manera, se observa que cuando llega un nuevo disparo, en dos ciclos el 
-					procesador de Redes de Petri genera el cambio de estado.}}
-					Se debe notar que luego de que el marcado cambió, el procesador necesita medio ciclo para 
-					calcular el nuevo vector de disparos posibles.
+					\textbf{\emph{De esta manera, se observa que cuando llega un nuevo disparo, en dos ciclos el procesador de Redes de Petri genera el cambio de estado.}} Se debe notar que luego de que el marcado cambió, el procesador necesita medio ciclo para calcular el nuevo vector de disparos posibles.
 
-					Luego de que la transición \emph{T0} se dispara, quedan sensibilizadas las transiciones 
-					\emph{T1} y \emph{T2}. Como la primera de ellas es una transición automática y la segunda fue 
-					solicitada anteriormente, ambas se ejecutan y se actualiza el marcado.
+					Luego de que la transición \emph{T0} se dispara, quedan sensibilizadas las transiciones \emph{T1} y \emph{T2}. Como la primera de ellas es una transición automática y la segunda fue solicitada anteriormente, ambas se ejecutan y se actualiza el marcado.
 
-					La Figura \ref{fig:diseno22} muestra como, luego de que el marcado 
-					fue actualizado por la transición \emph{T0}, la transición \emph{T2} que se encontraba en la cola 
-					de disparos en espera es disparada y luego la transición \emph{T1} que fue marcada como automática. 
-					Cada uno de estos disparos, como ya estaban las solicitudes dentro del procesador, toma solo un ciclo 
-					de ejecución cada uno.
+					La Figura \ref{fig:diseno22} muestra como, luego de que el marcado fue actualizado por la transición \emph{T0}, la transición \emph{T2} que se encontraba en la cola de disparos en espera es disparada y luego la transición \emph{T1} que fue marcada como automática. Cada uno de estos disparos, como ya estaban las solicitudes dentro del procesador, toma solo un ciclo de ejecución cada uno.
 
-					En la imagen, puede observarse como dejan de ser posibles los disparos \emph{T2} y \emph{T1} y comienza 
-					a estar sensibilizada la transición \emph{T0}, también se observa como se marcan estos disparos en la 
-					cola de los que ya han sido ejecutados.
+					En la imagen, puede observarse como dejan de ser posibles los disparos \emph{T2} y \emph{T1} y comienza a estar sensibilizada la transición \emph{T0}, también se observa como se marcan estos disparos en la cola de los que ya han sido ejecutados.
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.75\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno22}
@@ -1007,8 +796,7 @@ address	= error;
 						\label{fig:diseno23}
 					\end{figure}
 									
-					Comparando la Figura \ref{fig:diseno22} con la Figura \ref{fig:diseno23} se observa coinciden los sucesivos 
-					marcados y las transiciones que se encuentran sensibilizadas en cada uno de ellos.
+					Comparando la Figura \ref{fig:diseno22} con la Figura \ref{fig:diseno23} se observa coinciden los sucesivos marcados y las transiciones que se encuentran sensibilizadas en cada uno de ellos.
 				
 				\item \emph{Solicitar el disparo de \textbf{T0}}
 					
@@ -1026,8 +814,7 @@ address	= error;
 						\label{fig:diseno25}
 					\end{figure}
 					
-					Se solicita el disparo de la transición \emph{T0} dado que esta sensibilizada. Luego, la 
-					transición \emph{T1} se disparará por ser una transición automática.
+					Se solicita el disparo de la transición \emph{T0} dado que esta sensibilizada. Luego, la transición \emph{T1} se disparará por ser una transición automática.
 					
 					\begin{figure}[H]
 						\centering
@@ -1043,14 +830,11 @@ address	= error;
 						\label{fig:diseno27}
 					\end{figure}
 				
-					En las Figuras \ref{fig:diseno26} y \ref{fig:diseno27} se observa que tras el disparo 
-					automático de \emph{T1}, \emph{T0} no resulta sensibilizada por el arco inhibidor que 
-					la une a \emph{P2}.
+					En las Figuras \ref{fig:diseno26} y \ref{fig:diseno27} se observa que tras el disparo automático de \emph{T1}, \emph{T0} no resulta sensibilizada por el arco inhibidor que la une a \emph{P2}.
 					
 				\item \emph{Solicitar el disparo de \textbf{T0}}
 					
-					Dado que \emph{T0} no esta sensibilizada por al solicitar su disparo, se almacenara en 
-					la cola de espera.
+					Dado que \emph{T0} no esta sensibilizada por al solicitar su disparo, se almacenara en la cola de espera.
 					
 					\begin{figure}[H]
 						\centering
@@ -1059,13 +843,11 @@ address	= error;
 						\label{fig:diseno28}
 					\end{figure}
 					
-					En la Figura \ref{fig:diseno28} se observa como al solicitar el disparo de \emph{T0} queda 
-					en la cola de disparos en espera.
+					En la Figura \ref{fig:diseno28} se observa como al solicitar el disparo de \emph{T0} queda en la cola de disparos en espera.
 									
 				\item \emph{Solicitar el disparo de \textbf{T2}}			  
 			  
-			  		La única transición sensibilizada en este momento es la transición \emph{T2} entonces, al 
-			  		solicitar su disparo se ejecutará.
+			  		La única transición sensibilizada en este momento es la transición \emph{T2} entonces, al solicitar su disparo se ejecutará.
 			  		
 			  		\begin{figure}[H]
 						\centering
@@ -1074,9 +856,7 @@ address	= error;
 						\label{fig:diseno29}
 					\end{figure}
 			  		
-			  		Al disparar la transición \emph{T2} la plaza \emph{P3} alcanza una cantidad de dos tokens, 
-			  		dado que estaba limitada a esta cantidad, la transición \emph{T2} ya no podrá estar 
-			  		sensibilizada.
+			  		Al disparar la transición \emph{T2} la plaza \emph{P3} alcanza una cantidad de dos tokens, dado que estaba limitada a esta cantidad, la transición \emph{T2} ya no podrá estar sensibilizada.
 			  		
 			  		\begin{figure}[H]
 						\centering
@@ -1085,11 +865,9 @@ address	= error;
 						\label{fig:diseno30}
 					\end{figure}
 			  		
-			  		En la Figura \ref{fig:diseno30}, se observa que el vector \emph{t enable limit} indica que 
-			  		la transición \emph{T2} deja de estar sensibilizada por las cotas en las plazas.
+			  		En la Figura \ref{fig:diseno30}, se observa que el vector \emph{t enable limit} indica que la transición \emph{T2} deja de estar sensibilizada por las cotas en las plazas.
 
-					Como el disparo de la transición \emph{T0} estaba solicitado y dispararla implica que 
-					\emph{T1} quede sensibilizada y por ser automática también se disparará.
+					Como el disparo de la transición \emph{T0} estaba solicitado y dispararla implica que \emph{T1} quede sensibilizada y por ser automática también se disparará.
 			  		
 			  		\begin{figure}[H]
 						\centering
@@ -1098,12 +876,7 @@ address	= error;
 						\label{fig:diseno31}
 					\end{figure}
 			  		
-			  		Tras el disparo de estas transiciones, se observa que \emph{T0} no puede estar sensibilizada 
-			  		debido al arco inhibidor que la une a \emph{P2}. \emph{T1} no puede sensibilizarse porque
-			  		\emph{P1} no tiene tokens. Y, \emph{T2} no puede sensibilizarse porque \emph{P3} alcanzó su 
-			  		límite de tokens.
-
-					La Red de Petri queda bloqueada.
+			  		Tras el disparo de estas transiciones, se observa que \emph{T0} no puede estar sensibilizada debido al arco inhibidor que la une a \emph{P2}. \emph{T1} no puede sensibilizarse porque \emph{P1} no tiene tokens. Y, \emph{T2} no puede sensibilizarse porque \emph{P3} alcanzó su límite de tokens. La Red de Petri queda bloqueada.
 
 					\begin{figure}[H]
 						\centering
@@ -1112,8 +885,7 @@ address	= error;
 						\label{fig:diseno32}
 					\end{figure}
 			  		
-			 		Se observa que el bit \textbf{\emph{red activa}} indica que la Red de Petri alcanzó un 
-			 		estado a partir del cual no puede continuar.
+			 		Se observa que el bit \textbf{\emph{red activa}} indica que la Red de Petri alcanzó un estado a partir del cual no puede continuar.
 			  
 			\end{enumerate}
 			

@@ -1,57 +1,29 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Desarrollo																%
-%	Capitulo: Diseño e Implementación												%
-%	Seccion: Manejo de interrupciones												%	
-%	Archivo: manejo_interrupciones.tex												%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/diseno_implementacion/img
-% Nombre predeterminado imagenes: disenoxx
+% Path imágenes: ./desarrollo/diseno_implementacion/img
+% Nombre predeterminado imágenes: disenoxx
 %	xx es el numero de imagen
 
 \section{Manejo de interrupciones}
 	\label{sec:manejo_interrupciones}
 
-	Dado que ahora el procesador de Redes de Petri incluye el tiempo como una variable de ejecución,
-	puede ocurrir que una transición, luego de quedar sensibilizada requiera mucho tiempo antes de ser 
-	ejecutada. En este caso, el proceso que solicite su disparo, el lugar de mantenerse activo esperando
-	la ejecución, podría suspenderse y que se reactive solo cuando la transición se haya ejecutado. Para 
-	lograr esto, se implementó un sistema de interrupciones, cada vez que el procesador ejecuta un disparo
-	interrumpe al sistema informando lo ocurrido. En ésta sección se detallará como se ha desarrollado ésta
-	funcionalidad.
+	Dado que ahora el procesador de Redes de Petri incluye el tiempo como una variable de ejecución, puede ocurrir que una transición, luego de quedar sensibilizada requiera mucho tiempo antes de ser ejecutada. En este caso, el proceso que solicite su disparo, el lugar de mantenerse activo esperando la ejecución, podría suspenderse y que se reactive solo cuando la transición se haya ejecutado. Para lograr esto, se implementó un sistema de interrupciones, cada vez que el procesador ejecuta un disparo interrumpe al sistema informando lo ocurrido. En ésta sección se detallará como se ha desarrollado ésta funcionalidad.
 	
 	\subsection{Requerimientos}
 	
-		Para esta tercera etapa del trabajo, el requerimiento es agregarle al procesador de Redes de 
-		Petri las conexiones y la lógica necesaria para que genere interrupciones cada vez que un 
-		disparo ha sido ejecutado.
-		Además se especificara un vector que enmascara las interrupciones de algunos disparos entonces, 
-		el usuario puede decidir que disparos generaran interrupciones y cuales no.
-		La idea que motiva esta tercera etapa es que como el procesador de Redes de Petri ahora considera 
-		cuestiones temporales, sería deseable que los procesos/hilos tengan la posibilidad de suspenderse 
-		en lugar de hacer una consulta permanente mientras esperan que su disparo sea ejecutado. De esta 
-		manera, se liberan recursos del procesador y de la memoria.
+		Para esta tercera etapa del trabajo, el requerimiento es agregarle al procesador de Redes de Petri las conexiones y la lógica necesaria para que genere interrupciones cada vez que un disparo ha sido ejecutado. Además se especificara un vector que enmascara las interrupciones de algunos disparos entonces, el usuario puede decidir que disparos generaran interrupciones y cuales no. La idea que motiva esta tercera etapa es que como el procesador de Redes de Petri ahora considera cuestiones temporales, sería deseable que los procesos/hilos tengan la posibilidad de suspenderse en lugar de hacer una consulta permanente mientras esperan que su disparo sea ejecutado. De esta manera, se liberan recursos del procesador y de la memoria.
 		
 	\subsection{Arquitectura}
 		
-		La arquitectura del procesador de Redes de Petri al incorporar el manejo de interrupciones se ve 
-		afectada por el agregado de tres elementos.
+		La arquitectura del procesador de Redes de Petri al incorporar el manejo de interrupciones se ve afectada por el agregado de tres elementos.
 		\begin{itemize}
-		  	\item Un vector \textbf{\emph{Mascara de Interrupción}} cuyo objetivo es determinar cuales son 
-		  		las transiciones que al dispararse generaran interrupciones.
-		  	\item Un componente generador de interrupciones que contiene la lógica encargada de determinar 
-		  		en que momento generar la señal la interrupción y de especificar como será dicha señal.
+		  	\item Un vector \textbf{\emph{Mascara de Interrupción}} cuyo objetivo es determinar cuales son las transiciones que al dispararse generaran interrupciones.
+		  	\item Un componente generador de interrupciones que contiene la lógica encargada de determinar en que momento generar la señal la interrupción y de especificar como será dicha señal.
 		  	\item Un puerto físico por el cual enviar la señal de interrupción.
 		\end{itemize}
 		Este módulo se encuentra conectado a un controlador de interrupciones del sistema, el \textbf{\emph{
@@ -63,10 +35,7 @@
 			\label{fig:diseno42}
 		\end{figure}
 		
-		La Figura \ref{fig:diseno43} muestra un diagrama de componentes del módulo \emph{Generador de 
-		Interrupciones}. La siguiente sección explicará funcionamiento de este módulo y además el 
-		funcionamiento del sistema en su conjunto cuando el procesador de Redes de Petri tiene la 
-		capacidad de interrumpir. 
+		La Figura \ref{fig:diseno43} muestra un diagrama de componentes del módulo \emph{Generador de Interrupciones}. La siguiente sección explicará funcionamiento de este módulo y además el funcionamiento del sistema en su conjunto cuando el procesador de Redes de Petri tiene la capacidad de interrumpir. 
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=0.75\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno43}
@@ -76,25 +45,12 @@
 					
 	\subsection{Funcionamiento del sistema}
 	
-		Básicamente, el generador de interrupciones, cada flanco negativo del reloj verifica si 
-		alguno de las transiciones que están habilitadas para producir interrupciones se ha 
-		ejecutado. Cuando esto sucede genera una señal en \emph{1} de un ciclo de duración. Además, 
-		determina el índice de dicha transición, para este procesador un valor entre cero (\emph{0}) y 
-		doscientos cincuenta y cinco (\emph{255}).
-		Dentro del sistema hardware/software el mecanismo de interrupción funciona tal como lo 
-		muestra el diagrama de secuencia de la Figura \ref{fig:diseno44}.
+		Básicamente, el generador de interrupciones, cada flanco negativo del reloj verifica si alguno de las transiciones que están habilitadas para producir interrupciones se ha ejecutado. Cuando esto sucede genera una señal en \emph{1} de un ciclo de duración. Además, determina el índice de dicha transición, para este procesador un valor entre cero (\emph{0}) y doscientos cincuenta y cinco (\emph{255}). Dentro del sistema hardware/software el mecanismo de interrupción funciona tal como lo muestra el diagrama de secuencia de la Figura \ref{fig:diseno44}.
 		\\		
 
-		Para limitar el número de transiciones que al ser disparas generan una interrupción, se 
-		utiliza el vector de máscara de interrupciones que determina cuales transiciones interrumpen 
-		y cuales no.
-		Para que el disparo de una transición genere una interrupción el bit correspondiente en el 
-		vector de máscara de interrupciones debe estar en \emph{1} de lo contrario se dice que se 
-		encuentra enmascarada no generará interrupción alguna. Por lo tanto, para estas transiciones, 
-		es tarea del usuario preguntar si ya ha sido ejecutada periódicamente o cuando lo crea necesario.
+		Para limitar el número de transiciones que al ser disparas generan una interrupción, se utiliza el vector de máscara de interrupciones que determina cuales transiciones interrumpen y cuales no. Para que el disparo de una transición genere una interrupción el bit correspondiente en el vector de máscara de interrupciones debe estar en \emph{1} de lo contrario se dice que se encuentra enmascarada no generará interrupción alguna. Por lo tanto, para estas transiciones, es tarea del usuario preguntar si ya ha sido ejecutada periódicamente o cuando lo crea necesario.
 		
-		El siguiente código es Verilog es el encargado de generar el módulo encargado de las 
-		interrupciones.
+		El siguiente código es Verilog es el encargado de generar el módulo encargado de las interrupciones.
 		
 		\newpage
 		
@@ -135,8 +91,7 @@ end
 		
 	\subsection{Verificación}
 		
-		Para la verificación del funcionamiento de las interrupciones del procesador de Redes de Petri se 
-		utilizará la red de la Figura \ref{fig:diseno45}.	
+		Para la verificación del funcionamiento de las interrupciones del procesador de Redes de Petri se utilizará la red de la Figura \ref{fig:diseno45}.	
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.4\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno45}
@@ -282,14 +237,10 @@ end
 			\end{tabular}
 		\end{center}
 			
-		Donde se destaca el \textbf{\emph{Vector de Mascara de Interrupciones}} que indica que 
-		transiciones son las que pueden generar interrupciones. En este caso, solo las transiciones
-		\emph{T1} y \emph{T2}.
+		Donde se destaca el \textbf{\emph{Vector de Mascara de Interrupciones}} que indica que transiciones son las que pueden generar interrupciones. En este caso, solo las transiciones \emph{T1} y \emph{T2}.
 		\\
 		
-		Se escribió un test en Verilog para verificar el funcionamiento del procesador de Redes de 
-		Petri, solicitando la ejecución de las transiciones \emph{T0} y \emph{T2}.
-		Los resultados de la simulación se presentan en las imágenes a continuación.
+		Se escribió un test en Verilog para verificar el funcionamiento del procesador de Redes de Petri, solicitando la ejecución de las transiciones \emph{T0} y \emph{T2}. Los resultados de la simulación se presentan en las imágenes a continuación.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.85\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno46}
@@ -297,9 +248,7 @@ end
 			\label{fig:diseno46}
 		\end{figure}
 			
-		En la simulación de la Figura \ref{fig:diseno46} se observa que el disparo \emph{T0} está 
-		en la cola de entrada. Luego, al ejecutarse, actualiza el marcada y pasa a la cola de salida,
-		pero debido a la mascara de interrupciones (vector \emph{intr mask}) no genera interrupción.
+		En la simulación de la Figura \ref{fig:diseno46} se observa que el disparo \emph{T0} está en la cola de entrada. Luego, al ejecutarse, actualiza el marcada y pasa a la cola de salida, pero debido a la mascara de interrupciones (vector \emph{intr mask}) no genera interrupción.
 		
 		\begin{figure}[H]
 			\centering
@@ -308,8 +257,5 @@ end
 			\label{fig:diseno47}
 		\end{figure}
 		
-		En la Figura \ref{fig:diseno47} se observa a \emph{T2} en la cola de espera. Luego, en el flaco 
-		positivo del \emph{Bus2IP Clk} a los 2890 ns el disparo es ejecutado y pasa a la cola de salida. 
-		Medio ciclo mas tarde se produce un pulso de interrupción que dura un ciclo exactamente. Esto se 
-		debe a que el disparo de \emph{T2} no estaba enmascarado.
+		En la Figura \ref{fig:diseno47} se observa a \emph{T2} en la cola de espera. Luego, en el flaco positivo del \emph{Bus2IP Clk} a los 2890 ns el disparo es ejecutado y pasa a la cola de salida. Medio ciclo mas tarde se produce un pulso de interrupción que dura un ciclo exactamente. Esto se debe a que el disparo de \emph{T2} no estaba enmascarado.
 		

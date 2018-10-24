@@ -1,22 +1,12 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Desarrollo																%
-%	Capitulo: Diseño e Implementación												%	
-%	Archivo: chap_diseno_implementacion.tex											%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/diseno_implementacion/img
-% Nombre predeterminado imagenes: disenoxx
+% Path imágenes: ./desarrollo/diseno_implementacion/img
+% Nombre predeterminado imágenes: disenoxx
 %	xx es el numero de imagen
 
 \lstset
@@ -50,18 +40,7 @@
 \chapter{Diseño e Implementación}
 	\label{chap:chap_diseno_implementacion}
 
-	En esta sección se describirá la implementación de un \textbf{\emph{procesador de Petri}}, un \emph{IP-Core}
-	que resuelve \emph{Redes de Petri con Arcos Inhibidores} en los que se restringe el disparo de transiciones 
-	y \emph{Redes de Petri Temporales} donde se introduce el tiempo como condición de ejecución.
-	En la primera sección de este capitulo, se presentará la arquitectura general del sistema. 
-	En las secciones siguientes se explicará el diseño y la implementación del procesador de Redes de 
-	Petri dividido en dos partes. En la primera parte, se realizo una refactorización del trabajo descripto 
-	en el trabajo \cite{galliapereyra}. Esta refactorización se realizó para utilizar Verilog como HDL 
-	en lugar del lenguaje VHDL, esto se realizó por razones de claridad, y además, para permitir una 
-	implementación parametrizable que sea mas apta para el agregado de la funcionalidad de procesamiento de 
-	Redes de Petri Temporales. En la segunda etapa del proyecto, se diseñó e implementó un IP core para el 
-	procesamiento de \textbf{\emph{Redes de Petri con Tiempo}} y otro para la resolución de 
-	\textbf{\emph{Redes de Petri Temporizadas}}.
+	En esta sección se describirá la implementación de un \textbf{\emph{procesador de Petri}}, un \emph{IP-Core} que resuelve \emph{Redes de Petri con Arcos Inhibidores} en los que se restringe el disparo de transiciones y \emph{Redes de Petri Temporales} donde se introduce el tiempo como condición de ejecución. En la primera sección de este capitulo, se presentará la arquitectura general del sistema. En las secciones siguientes se explicará el diseño y la implementación del procesador de Redes de Petri dividido en dos partes. En la primera parte, se realizo una refactorización del trabajo descripto en el trabajo \cite{galliapereyra}. Esta refactorización se realizó para utilizar Verilog como HDL en lugar del lenguaje VHDL, esto se realizó por razones de claridad, y además, para permitir una implementación parametrizable que sea mas apta para el agregado de la funcionalidad de procesamiento de Redes de Petri Temporales. En la segunda etapa del proyecto, se diseñó e implementó un IP core para el procesamiento de \textbf{\emph{Redes de Petri con Tiempo}} y otro para la resolución de \textbf{\emph{Redes de Petri Temporizadas}}.
 	
 	% Arquitectura general del sistema
 		\input{./desarrollo/diseno_implementacion/arquitectura_general}
