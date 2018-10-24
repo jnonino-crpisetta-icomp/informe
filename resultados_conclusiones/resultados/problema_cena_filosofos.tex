@@ -1,47 +1,26 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Resultados y Conclusiones												%
-%	Capitulo: Resultados															%
-%	Seccion: Problema: Cena de los Filósofos										%	
-%	Archivo: problema_cena_filosofos.tex											%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./resultado_conclusiones/resultados/img
-% Nombre predeterminado imagenes: resultadosxx
+% Path imágenes: ./resultado_conclusiones/resultados/img
+% Nombre predeterminado imágenes: resultadosxx
 %	xx es el numero de imagen	
 		
 \section{Problema: \emph{Cena de los Filósofos}}
 	\label{sec:problema_cena_filosofos}
 		
-	El problema de los filósofos cenando es un problema clásico de las ciencias de la computación propuesto por \emph{Edsger 
-	Dijkstra} en 1965 para representar el problema de la sincronización de procesos en un sistema operativo. Cabe aclarar 
-	que la interpretación está basada en pensadores chinos, quienes comían con dos palillos, donde es más lógico que se 
-	necesite el del comensal que se siente al lado para poder comer\footnotemark[\value{footnote}].
+	El problema de los filósofos cenando es un problema clásico de las ciencias de la computación propuesto por \emph{Edsger Dijkstra} en 1965 para representar el problema de la sincronización de procesos en un sistema operativo. Cabe aclarar que la interpretación está basada en pensadores chinos, quienes comían con dos palillos, donde es más lógico que se necesite el del comensal que se siente al lado para poder comer\footnotemark[\value{footnote}].
 	
 	\subsection{Enunciado del problema}
 		
-		Cinco filósofos se sientan alrededor de una mesa y pasan su vida cenando y pensando. Cada filósofo tiene un plato de 
-		comida y un tenedor a la izquierda de su plato. Para comer son necesarios dos tenedores y cada filósofo sólo puede 
-		tomar los que están a su izquierda y derecha. Si cualquier filósofo coge un tenedor y el otro está ocupado, se quedará 
-		esperando, con el tenedor en la mano, hasta que pueda coger el otro tenedor, para luego empezar a comer.
+		Cinco filósofos se sientan alrededor de una mesa y pasan su vida cenando y pensando. Cada filósofo tiene un plato de comida y un tenedor a la izquierda de su plato. Para comer son necesarios dos tenedores y cada filósofo sólo puede tomar los que están a su izquierda y derecha. Si cualquier filósofo coge un tenedor y el otro está ocupado, se quedará esperando, con el tenedor en la mano, hasta que pueda coger el otro tenedor, para luego empezar a comer.
 		
-		Si dos filósofos adyacentes intentan tomar el mismo tenedor a una vez, se produce una condición de carrera: ambos 
-		compiten por tomar el mismo tenedor, y uno de ellos se queda sin comer.
+		Si dos filósofos adyacentes intentan tomar el mismo tenedor a una vez, se produce una condición de carrera: ambos compiten por tomar el mismo tenedor, y uno de ellos se queda sin comer.
 		
-		Si todos los filósofos toman el tenedor que está a su derecha al mismo tiempo, entonces todos se quedarán esperando 
-		eternamente, porque alguien debe liberar el tenedor que les falta. Nadie lo hará porque todos se encuentran en la 
-		misma situación (esperando que alguno deje sus tenedores). Entonces los filósofos se morirán de hambre. Este bloqueo 
-		mutuo se denomina interbloqueo o deadlock.
+		Si todos los filósofos toman el tenedor que está a su derecha al mismo tiempo, entonces todos se quedarán esperando eternamente, porque alguien debe liberar el tenedor que les falta. Nadie lo hará porque todos se encuentran en la misma situación (esperando que alguno deje sus tenedores). Entonces los filósofos se morirán de hambre. Este bloqueo mutuo se denomina interbloqueo o deadlock.
 		
 		El problema consiste en encontrar un algoritmo que permita que los filósofos nunca se mueran de hambre\footnotemark[\value{footnote}].
 		
@@ -49,8 +28,7 @@
 			
 	\subsection{Modelo del problema}
 	
-		Modelando el problema, se obtiene la Red de Petri de la Figura \ref{fig:resultados37}. Para éste caso, sólo se
-		utilizarán tres ($3$) filósofos.
+		Modelando el problema, se obtiene la Red de Petri de la Figura \ref{fig:resultados37}. Para éste caso, sólo se utilizarán tres ($3$) filósofos.
 		
 		\newpage
 		
@@ -63,11 +41,7 @@
 
 	\subsection{Mediciones realizadas y análisis de resultados}
 	
-		Como ya se ha determinado que si se utilizan interrupciones no hay comparación con la resolución que
-		utiliza semáforos, para éste problema se decidió medir la comparación entre las diferentes maneras de 
-		esperar la ejecución de los disparos. Éste es un problema que se diferencia del problema Escritor/Escritor
-		principalmente por el hecho de que los filósofos no comen en turnos, pueden comer todas las veces que lo
-		deseen mientras se les asigne tiempo de procesador. Luego, los resultados obtenidos son:
+		Como ya se ha determinado que si se utilizan interrupciones no hay comparación con la resolución que utiliza semáforos, para éste problema se decidió medir la comparación entre las diferentes maneras de esperar la ejecución de los disparos. Éste es un problema que se diferencia del problema Escritor/Escritor principalmente por el hecho de que los filósofos no comen en turnos, pueden comer todas las veces que lo deseen mientras se les asigne tiempo de procesador. Luego, los resultados obtenidos son:
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.9\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados38}
@@ -75,28 +49,10 @@
 			\label{fig:resultados38}
 		\end{figure}
 		
-		La tabla de la Figura \ref{fig:resultados38} muestra que, por la razón mencionada anteriormente, esperar activamente
-		por la ejecución de un disparo es la opción más rápida, $4,67$ veces mejor que el uso de la función \emph{yield()} para
-		$10$ cenas, $17,44$ veces mejor en $100$ cenas y, cuando se realizan $1000$ cenas es mas de $26$ veces mejor.
-		Ésto se produce porque el procesador de Redes de Petri es capaz de resolver disparos en \textbf{\emph{2 ciclos}}, por lo
-		tanto, puede tener un disparo resuelto mucho antes de que el hilo consulte si ya se ha realizado su ejecución y, dado que
-		los filósofos pueden comer todas las veces que lo deseen dentro de su franja de tiempo de procesador que el sistema
-		operativo le asigna, siempre pueden encontrar que su disparo fue ejecutado. 
+		La tabla de la Figura \ref{fig:resultados38} muestra que, por la razón mencionada anteriormente, esperar activamente por la ejecución de un disparo es la opción más rápida, $4,67$ veces mejor que el uso de la función \emph{yield()} para $10$ cenas, $17,44$ veces mejor en $100$ cenas y, cuando se realizan $1000$ cenas es mas de $26$ veces mejor. Ésto se produce porque el procesador de Redes de Petri es capaz de resolver disparos en \textbf{\emph{2 ciclos}}, por lo tanto, puede tener un disparo resuelto mucho antes de que el hilo consulte si ya se ha realizado su ejecución y, dado que los filósofos pueden comer todas las veces que lo deseen dentro de su franja de tiempo de procesador que el sistema operativo le asigna, siempre pueden encontrar que su disparo fue ejecutado. 
 		
-		Luego, descartando la espera activa que es por mucho el mejor de los escenarios para éste problema se observa que el uso
-		de interrupciones para éste problema es $1,31$ veces mejor que el uso de la función \emph{yield()} para
-		$10$ cenas, $1,44$ veces mejor en $100$ cenas y, cuando se realizan $1000$ cenas es $1,45$ veces más rápido.
+		Luego, descartando la espera activa que es por mucho el mejor de los escenarios para éste problema se observa que el uso de interrupciones para éste problema es $1,31$ veces mejor que el uso de la función \emph{yield()} para $10$ cenas, $1,44$ veces mejor en $100$ cenas y, cuando se realizan $1000$ cenas es $1,45$ veces más rápido.
 		
-		La explicación para estos resultados es que la función \emph{yield()} produce un cambio de contexto y el sistema
-		operativo asignará tiempo de procesador a el resto de los hilos antes de volver a asignarlo al hilo que espera la
-		ejecución de su disparo. En cambio, al utilizar interrupciones, el hilo se suspende en un semáforo, como la resolución
-		del disparo es muy rápida en el IP core, se genera la interrupción que reactiva al hilo y lo deja proseguir su ejecución.
-		Es necesario un cambio de contexto para atender la interrupción pero, el hilo puede proseguir después del mismo sin esperar
-		al resto.
+		La explicación para estos resultados es que la función \emph{yield()} produce un cambio de contexto y el sistema operativo asignará tiempo de procesador a el resto de los hilos antes de volver a asignarlo al hilo que espera la ejecución de su disparo. En cambio, al utilizar interrupciones, el hilo se suspende en un semáforo, como la resolución del disparo es muy rápida en el IP core, se genera la interrupción que reactiva al hilo y lo deja proseguir su ejecución. Es necesario un cambio de contexto para atender la interrupción pero, el hilo puede proseguir después del mismo sin esperar al resto.
 		
-		El código fuente que resuelve le problema de la cena de los filósofos sin interrupciones puede ser encontrado en la 
-		sección \ref{sec:programa_cena_filosofos_petri}, página \pageref{sec:programa_cena_filosofos_petri}. El código que 
-		si utiliza interrupciones, está en la sección \ref{sec:programa_cena_filosofos_petri_int}, página 
-		\pageref{sec:programa_cena_filosofos_petri_int}.
-		
-			
+		El código fuente que resuelve le problema de la cena de los filósofos sin interrupciones puede ser encontrado en la sección \ref{sec:programa_cena_filosofos_petri}, página \pageref{sec:programa_cena_filosofos_petri}. El código que si utiliza interrupciones, está en la sección \ref{sec:programa_cena_filosofos_petri_int}, página \pageref{sec:programa_cena_filosofos_petri_int}.

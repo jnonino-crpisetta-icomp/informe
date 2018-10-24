@@ -1,34 +1,20 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Resultados y Conclusiones												%
-%	Capitulo: Resultados															%
-%	Seccion: Problema: Fábrica de Mesas												%	
-%	Archivo: problema_fabrica_mesas.tex												%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./resultado_conclusiones/resultados/img
-% Nombre predeterminado imagenes: resultadosxx
+% Path imágenes: ./resultado_conclusiones/resultados/img
+% Nombre predeterminado imágenes: resultadosxx
 %	xx es el numero de imagen
 
 \section{Problema: \emph{Fábrica de Mesas}}
 	\label{sec:problema_fabrica_mesas}
 		
-	El problema de la fábrica de mesas, ha sido inventado para éste trabajo con el objetivo de verificar el funcionamiento
-	del procesador de Redes de Petri Temporizadas, como se vió en la sección \ref{sec:fabrica_mesas}, página \pageref{sec:fabrica_mesas}.
+	El problema de la fábrica de mesas, ha sido inventado para éste trabajo con el objetivo de verificar el funcionamiento del procesador de Redes de Petri Temporizadas, como se vió en la sección \ref{sec:fabrica_mesas}, página \pageref{sec:fabrica_mesas}.
 	
-	La idea fundamentalmente es crear una línea de producción donde en cada etapa existan repositorios de recursos (\emph{variables})
-	y trabajadores (\emph{hilos/procesos}) accedan a ellos, realicen un procesamiento  sobre los mismos con una determinada
-	duración.
+	La idea fundamentalmente es crear una línea de producción donde en cada etapa existan repositorios de recursos (\emph{variables}) y trabajadores (\emph{hilos/procesos}) accedan a ellos, realicen un procesamiento  sobre los mismos con una determinada duración.
 	
 	\newpage
 		
@@ -46,10 +32,7 @@
 			
 	\subsection{Mediciones realizadas}
 		
-		Utilizando los códigos fuentes incluidos en el apéndice \ref{ap:codigos_programas}, para la ejecución con
-		semáforos el mostrado en la sección \ref{sec:programa_fabrica_mesas_sem} de la página \pageref{sec:programa_fabrica_mesas_sem},
-		y, para la ejecución con Redes de Petri el código de la sección \ref{sec:programa_fabrica_mesas_petri} de la
-		página \pageref{sec:programa_fabrica_mesas_petri}.
+		Utilizando los códigos fuentes incluidos en el apéndice \ref{ap:codigos_programas}, para la ejecución con semáforos el mostrado en la sección \ref{sec:programa_fabrica_mesas_sem} de la página \pageref{sec:programa_fabrica_mesas_sem}, y, para la ejecución con Redes de Petri el código de la sección \ref{sec:programa_fabrica_mesas_petri} de la página \pageref{sec:programa_fabrica_mesas_petri}.
 		
 		\begin{figure}[H]
 			\centering
@@ -60,15 +43,7 @@
 			
 	\subsection{Análisis de los resultados obtenidos}
 	
-		La imagen anterior, muestra que el procesador de Redes de Petri tiene un peor desempeño que la resolución con
-		semáforos. Ésto, se debe a que la resolución con Redes de Petri utiliza interrupciones, lo que implica que se 
-		debe suspender al hilo mientras espera que su disparo sea realizado. El problema es que, con el sistema operativo
-		utilizado (Xilkernel), la única manera de suspender un hilo y quitarlo de la planificación de procesos es utilizar
-		semáforos. Por ésta razón, no es posible hacer una comparación adecuada entre el procesador de Redes de Petri y la 
-		resolución utilizando semáforos debido a que el programa que utiliza el procesador de Redes de Petri también debe
-		utilizar semáforos.
+		La imagen anterior, muestra que el procesador de Redes de Petri tiene un peor desempeño que la resolución con semáforos. Ésto, se debe a que la resolución con Redes de Petri utiliza interrupciones, lo que implica que se debe suspender al hilo mientras espera que su disparo sea realizado. El problema es que, con el sistema operativo utilizado (Xilkernel), la única manera de suspender un hilo y quitarlo de la planificación de procesos es utilizar semáforos. Por ésta razón, no es posible hacer una comparación adecuada entre el procesador de Redes de Petri y la resolución utilizando semáforos debido a que el programa que utiliza el procesador de Redes de Petri también debe utilizar semáforos.
 		
-		Además, cada interrupción que se produce implica que se cambie de contexto hacia el proceso encargado de atender
-		la interrupción y luego, se vuelva a darle el control a los hilos del sistema. Ésto también genera que el valor
-		de tiempo medido al resolver el problema con el procesador de Redes de Petri aumente.
+		Además, cada interrupción que se produce implica que se cambie de contexto hacia el proceso encargado de atender la interrupción y luego, se vuelva a darle el control a los hilos del sistema. Ésto también genera que el valor de tiempo medido al resolver el problema con el procesador de Redes de Petri aumente.
 		

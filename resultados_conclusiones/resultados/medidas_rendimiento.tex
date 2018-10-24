@@ -1,48 +1,24 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Resultados y Conclusiones												%
-%	Capitulo: Resultados															%
-%	Seccion: Medidas de rendimiento													%	
-%	Archivo: medidas_rendimiento.tex												%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./resultado_conclusiones/resultados/img
-% Nombre predeterminado imagenes: resultadosxx
+% Path imágenes: ./resultado_conclusiones/resultados/img
+% Nombre predeterminado imágenes: resultadosxx
 %	xx es el numero de imagen
 
 \section{Medidas de rendimiento}
 	\label{sec:medidas_rendimiento}
 	
-	En este trabajo, se ha desarrollado una nueva forma de modelar e implementar sistemas concurrentes,
-	esto quiere decir que servirá como mecanismo de sincronización entre los diferentes procesos del
-	sistema. Por esta razón, se desea determinar si el procesador de Redes de Petri presenta un mejor
-	desempeño frente a otros mecanismos de sincronización. En este caso se utilizarán semáforos para la
-	comparación debido a que es un mecanismo más liviano y sencillo que, por ejemplo, los monitores.
+	En este trabajo, se ha desarrollado una nueva forma de modelar e implementar sistemas concurrentes, esto quiere decir que servirá como mecanismo de sincronización entre los diferentes procesos del sistema. Por esta razón, se desea determinar si el procesador de Redes de Petri presenta un mejor desempeño frente a otros mecanismos de sincronización. En este caso se utilizarán semáforos para la comparación debido a que es un mecanismo más liviano y sencillo que, por ejemplo, los monitores.
 	\\
 	
-	Para calcular el rendimiento de la implementación de un sistema con un procesador de Redes de Petri, 
-	se medirá la cantidad de pulsos de reloj necesarios para procesar los disparos y obtener la respuesta 
-	que permita sincronizar diferentes programas. Estas mediciones también se harán sobre el mismo problema
-	pero resulto con semáforos. 
-	Para realizar éstas mediciones, se utilizará un IP core de Xilinx llamado AXI TIMER \cite{xilinx_axi_timer}. 
-	Es IP core, recibe una señal indicando que debe comenzar a contar y cuenta a la velocidad del reloj del 
-	sistema. En cualquier momento, este timer puede ser detenido dando así un valor que representa la cantidad 
-	de ciclos desde que se inicio hasta que se detuvo el contador. Si se desea obtener un valor en segundos, 
-	solo se debe dividir el valor entregado por el timer con la frecuencia del reloj del sistema.
+	Para calcular el rendimiento de la implementación de un sistema con un procesador de Redes de Petri, se medirá la cantidad de pulsos de reloj necesarios para procesar los disparos y obtener la respuesta que permita sincronizar diferentes programas. Estas mediciones también se harán sobre el mismo problema pero resuelto con semáforos. Para realizar éstas mediciones, se utilizará un IP core de Xilinx llamado AXI TIMER \cite{xilinx_axi_timer}. Es IP core, recibe una señal indicando que debe comenzar a contar y cuenta a la velocidad del reloj del sistema. En cualquier momento, este timer puede ser detenido dando así un valor que representa la cantidad de ciclos desde que se inicio hasta que se detuvo el contador. Si se desea obtener un valor en segundos, solo se debe dividir el valor entregado por el timer con la frecuencia del reloj del sistema.
 	\\
 	
-	Una vez obtenidos los valores de tiempo para cada aplicación, definiremos el rendimiento del uso del procesador
-	de Redes de Petri de la siguiente manera:
+	Una vez obtenidos los valores de tiempo para cada aplicación, definiremos el rendimiento del uso del procesador de Redes de Petri de la siguiente manera:
 	
 	\begin{equation}
 		\eta = \frac{S_{Sem}}{S_{Petri}}
@@ -51,19 +27,11 @@
 	
 	Donde,
 		\begin{itemize}
-		  	\item \textbf{\emph{$S_{Petri}$}} Tiempo de sincronización minimo utilizando el procesador de Redes de Petri.
-		  		Tiempo que le toma a un proceso solicitar un disparo para obtener un recurso, obtenerlo y emitir el disparo
-		  		para liberarlo.
-	  		\item \textbf{\emph{$S_{Sem}$}} Tiempo de sincronización minimo utilizando Semáforos. Tiempo que le toma a un 
-	  			proceso hacer la operación \emph{wait} sobre un semáforo para obtener un recurso, obtenerlo y hacer la 
-	  			operación \emph{signal} sobre el semáforo para liberar el recurso.
+		  	\item \textbf{\emph{$S_{Petri}$}} Tiempo de sincronización mínimo utilizando el procesador de Redes de Petri. Tiempo que le toma a un proceso solicitar un disparo para obtener un recurso, obtenerlo y emitir el disparo para liberarlo.
+	  		\item \textbf{\emph{$S_{Sem}$}} Tiempo de sincronización mínimo utilizando Semáforos. Tiempo que le toma a un proceso hacer la operación \emph{wait} sobre un semáforo para obtener un recurso, obtenerlo y hacer la operación \emph{signal} sobre el semáforo para liberar el recurso.
 		\end{itemize}
 		
-	Luego, dado que los procesos se sincronizan para realizar actividades, es posible armar una ecuación con una nueva medida 
-	de rendimiento. Ésta nueva medida, surge de comparar el tiempo consumido para sincronizar con el tiempo consumido realizando
-	trabajo. El tiempo de trabajo, incluye el tiempo de la operación que se desea realizar, por ejemplo, escribir
-	una variable, el tiempo que consume un cambio de contexto entre los procesos, etcétera. De ésta manera se obtienen dos nuevas 
-	ecuaciones.
+	Luego, dado que los procesos se sincronizan para realizar actividades, es posible armar una ecuación con una nueva medida de rendimiento. Ésta nueva medida, surge de comparar el tiempo consumido para sincronizar con el tiempo consumido realizando trabajo. El tiempo de trabajo, incluye el tiempo de la operación que se desea realizar, por ejemplo, escribir una variable, el tiempo que consume un cambio de contexto entre los procesos, etcétera. De ésta manera se obtienen dos nuevas ecuaciones.
 	
 	\begin{equation}
 		\begin{array}{l c c r}
@@ -82,11 +50,9 @@
 	
 	Dónde $T$ es el tiempo de carga de trabajo del sistema.
 	
-	En las ecuaciones \ref{eq:rendimiento_tiempo_sinc} se observa que el tiempo de carga de trabajo hace que
-	los valores de tiempo de sincronización sean más o menos importantes en el sistema.
+	En las ecuaciones \ref{eq:rendimiento_tiempo_sinc} se observa que el tiempo de carga de trabajo hace que los valores de tiempo de sincronización sean más o menos importantes en el sistema.
 	
-	Calculando los limites para $T$ que tienda a $0$ y $T$ que tienda a $\infty$ se ve el nivel de importancia
-	la sincronización en el sistema que se esta desarrollando.
+	Calculando los limites para $T$ que tienda a $0$ y $T$ que tienda a $\infty$ se ve el nivel de importancia la sincronización en el sistema que se esta desarrollando.
 	
 	\begin{equation}
 		\begin{array}{c}
@@ -102,18 +68,14 @@
 		\label{eq:limites_rendimiento}
 	\end{equation}
 	
-	Las mismas ecuaciones valen si se utiliza $S_{Sem}$ en lugar de $S_{Petri}$.
-	Luego, reescribiendo la ecuación \ref{eq:rendimiento} para tener en cuenta la carga de trabajo resulta:
+	Las mismas ecuaciones valen si se utiliza $S_{Sem}$ en lugar de $S_{Petri}$. Luego, reescribiendo la ecuación \ref{eq:rendimiento} para tener en cuenta la carga de trabajo resulta:
 	
 	\begin{equation}
 		\eta = \frac{T + S_{Sem}}{T + S_{Petri}}
 		\label{eq:rendimiento_trabajo}
 	\end{equation}
 	
-	Entonces, de acuerdo a las ecuaciones \ref{eq:rendimiento_trabajo} y \ref{eq:limites_rendimiento} es posible decir
-	que la comparación entre utilizar Redes de Petri versus Semáforos para la sincronización tenderá a lo indicado por 
-	la ecuación \ref{eq:rendimiento} para cuando las carga de trabajo se aproxime a $0$ y tenderá a $1$ cuando la carga 
-	de trabajo crezca hacia $\infty$ (infinito).
+	Entonces, de acuerdo a las ecuaciones \ref{eq:rendimiento_trabajo} y \ref{eq:limites_rendimiento} es posible decir que la comparación entre utilizar Redes de Petri versus Semáforos para la sincronización tenderá a lo indicado por la ecuación \ref{eq:rendimiento} para cuando las carga de trabajo se aproxime a $0$ y tenderá a $1$ cuando la carga de trabajo crezca hacia $\infty$ (infinito).
 	
 	\begin{equation}
 		\begin{array}{c}
@@ -129,26 +91,20 @@
 		\label{eq:limites_rendimiento_trabajo}
 	\end{equation}
 	
-	La Figura \ref{fig:resultados10} ilustra, con dos ejemplos, como para dos sistemas diferentes
-	el tiempo de sincronización puede ser más o menos significativo. 
+	La Figura \ref{fig:resultados10} ilustra, con dos ejemplos, como para dos sistemas diferentes el tiempo de sincronización puede ser más o menos significativo. 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[keepaspectratio]{./resultados_conclusiones/resultados/img/resultados10}
 		\caption[Mediciones de escritura de una variable]{Ejemplos de relaciones entre carga de trabajo y tiempo de sincronización}
 		\label{fig:resultados10}
 	\end{figure}
-	El procesador de Redes de Petri tiene como objetivo reducir el tiempo consumido por la sincronización y además,
-	facilita la programación de los mecanismos de sincronización.
+	El procesador de Redes de Petri tiene como objetivo reducir el tiempo consumido por la sincronización y además, facilita la programación de los mecanismos de sincronización.
 	
-	En las secciones siguientes se mostrarán mediciones sobre los tiempos de sincronización con la utilización de semáforos
-	y los tiempos de sincronziación utilizando el procesador de Redes de Petri. También, se han realizado mediciones de la 
-	carga de trabajo que tiene un sistema Escritor/Escritor, es decir el tiempo consumido en escribir una variable y en cambiar
-	de contexto que todos los hilos trabajen.
+	En las secciones siguientes se mostrarán mediciones sobre los tiempos de sincronización con la utilización de semáforos y los tiempos de sincronización utilizando el procesador de Redes de Petri. También, se han realizado mediciones de la carga de trabajo que tiene un sistema Escritor/Escritor, es decir el tiempo consumido en escribir una variable y en cambiar de contexto que todos los hilos trabajen.
 	
 	\subsection{Medición de los tiempos de sincronización}
 		
-		En esta sección, se muestran las mediciones realizadas sobre los tiempos de sincronización comparando lo
-		obtenido utilizando semáforos y utilizando el procesador de Redes de Petri.
+		En esta sección, se muestran las mediciones realizadas sobre los tiempos de sincronización comparando lo obtenido utilizando semáforos y utilizando el procesador de Redes de Petri.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados11}
@@ -162,9 +118,7 @@
 			\label{fig:resultados12}
 		\end{figure}
 		
-		Las tablas anteriores (Figuras \ref{fig:resultados11} y \ref{fig:resultados12}), muestran las mediciones realizadas
-		de los tiempos de sincronización. Para obtener las mediciones de las ejecuciones del procesador de Redes de Petri 
-		(Figura \ref{fig:resultados11} se utilizó el siguiente código.
+		Las tablas anteriores (Figuras \ref{fig:resultados11} y \ref{fig:resultados12}), muestran las mediciones realizadas de los tiempos de sincronización. Para obtener las mediciones de las ejecuciones del procesador de Redes de Petri (Figura \ref{fig:resultados11} se utilizó el siguiente código.
 		
 		\begin{lstlisting}
 //Iniciar cuenta de tiempo
@@ -229,8 +183,7 @@ valor_final_timer=XTmrCtr_GetTimerCounterReg(XPAR_AXI_TIMER_1_BASEADDR,0);
 xil_printf("Valor final timer: %d\r\n",valor_final_timer);	
 		\end{lstlisting}
 		
-		Graficando los datos obtenidos, se observa claramente la reducción en los tiempos de sincronización 
-		que produce la utilización del procesdor de redes de Petri
+		Graficando los datos obtenidos, se observa claramente la reducción en los tiempos de sincronización que produce la utilización del procesador de redes de Petri.
 			  	
 		\begin{figure}[H]
 			\centering
@@ -239,31 +192,19 @@ xil_printf("Valor final timer: %d\r\n",valor_final_timer);
 			\label{fig:resultados13}
 		\end{figure}
 	
-		Mas adelante, luego de haber visto las mediciones de la carga de trabajo, se volverá a apreciar la reducción
-		de los tiempos de sincrinización obtenida.
+		Mas adelante, luego de haber visto las mediciones de la carga de trabajo, se volverá a apreciar la reducción de los tiempos de sincronización obtenida.
 		
 	\subsection{Medición de la carga de trabajo y duración de cambios de contexto}
 
-		Dada la importancia de la carga de trabajo en las mediciones del rendimiento, estos valores serán los primeros 
-		que se medirán.
+		Dada la importancia de la carga de trabajo en las mediciones del rendimiento, estos valores serán los primeros que se medirán.
 
-		Para los problemas que se utilizaron en las mediciones, la carga de trabajo está determinada por el tiempo 
-		de escritura de una variable.
+		Para los problemas que se utilizaron en las mediciones, la carga de trabajo está determinada por el tiempo de escritura de una variable.
 		
-		Además, en éstas mediciones, consideramos el peor caso cuando se sincronizan procesos/hilos, éste caso es,
-		solicitar el disparo de una transición y que ésta no pueda ser ejecutada o, hacer una operación \emph{wait} 
-		sobre un semáforo y que el proceso/hilo deba suspenderse. En ambos casos, se producen \emph{cambios de contexto}
-		para que se le asigne tiempo de procesador a un proceso/hilo que sí pueda seguir ejecutándose. Ésta situación depende
-		del algoritmo del problema que se desea resolver y al sistema sobre el cuál se lo está implementando.
+		Además, en éstas mediciones, consideramos el peor caso cuando se sincronizan procesos/hilos, éste caso es, solicitar el disparo de una transición y que ésta no pueda ser ejecutada o, hacer una operación \emph{wait} sobre un semáforo y que el proceso/hilo deba suspenderse. En ambos casos, se producen \emph{cambios de contexto} para que se le asigne tiempo de procesador a un proceso/hilo que sí pueda seguir ejecutándose. Ésta situación depende del algoritmo del problema que se desea resolver y al sistema sobre el cuál se lo está implementando.
 
 		\subsubsection{Escritura de una variable}
 
-			La \textbf{\emph{escritura de la variable}} implica, para este caso, realizar una lectura de la varaible,
-			incrementarla y escribir su nuevo valor. Éste procedimiento es utilizado tanto en el problema \emph{escritor/escritor},
-			(sección \ref{sec:problema_escritor}), como en el problema de la \emph{fábrica de mesas} (sección \ref{sec:problema_fabrica_mesas}). 
-			Por esta razón, se realizaron mediciones de la duración de una escritura considerando la repetición de 1, 10, 100, 
-			1000 y 10000 escrituras consecutivas.
-			Los valores obtenidos, se muestran en la siguiente tabla.
+			La \textbf{\emph{escritura de la variable}} implica, para este caso, realizar una lectura de la variable, incrementarla y escribir su nuevo valor. Éste procedimiento es utilizado tanto en el problema \emph{escritor/escritor}, (sección \ref{sec:problema_escritor}), como en el problema de la \emph{fábrica de mesas} (sección \ref{sec:problema_fabrica_mesas}). Por esta razón, se realizaron mediciones de la duración de una escritura considerando la repetición de 1, 10, 100, 1000 y 10000 escrituras consecutivas. Los valores obtenidos, se muestran en la siguiente tabla.
 
 			\begin{figure}[H]
 				\centering
@@ -274,20 +215,15 @@ xil_printf("Valor final timer: %d\r\n",valor_final_timer);
 
 			\newpage
 
-			Como se observa en la Figura \ref{fig:resultados14}, en los casos donde se realizaban múltiples
-			escrituras consecutivas, se dividió el tiempo obtenido por la cantidad de escrituras realizadas 
-			en ese tiempo.
-			Con estos datos, se obtiene la Figura \ref{fig:resultados15}.
+			Como se observa en la Figura \ref{fig:resultados14}, en los casos donde se realizaban múltiples escrituras consecutivas, se dividió el tiempo obtenido por la cantidad de escrituras realizadas en ese tiempo. Con estos datos, se obtiene la Figura \ref{fig:resultados15}.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados15}
-				\caption[Valor promedio de duración de cada escritura]{Valor promedio de duración de cada escritura dependendiendo de la cantidad de repeticiones que se realizan en cada ejecución}
+				\caption[Valor promedio de duración de cada escritura]{Valor promedio de duración de cada escritura dependiendo de la cantidad de repeticiones que se realizan en cada ejecución}
 				\label{fig:resultados15}
 			\end{figure}
 
-			En la Figura \ref{fig:resultados15} se observa que el valor promedio por escritura, se mantiene aproximadamente
-			constante en $0,00021 ms$ a medida que se aumenta la cantidad de cantidad de escrituras consecutivas a realizar
-			por ejecución. La única excepción se da cuando se mide una única escritura.
+			En la Figura \ref{fig:resultados15} se observa que el valor promedio por escritura, se mantiene aproximadamente constante en $0,00021 ms$ a medida que se aumenta la cantidad de cantidad de escrituras consecutivas a realizar por ejecución. La única excepción se da cuando se mide una única escritura.
 			
 			Para la medición de la duración de la escritura de variable, se utilizó el siguiente código.
 			\begin{lstlisting}	
@@ -314,9 +250,7 @@ xil_printf("Valor final del timer: %d\r\n",valor_final_timer);
 		 
 		\subsubsection{Medición de la duración del cambio de contexto}
 		
-			De manera similar al caso anterior, con dos hilos, se midió la duración de los \textbf{\emph{cambios de 
-			contexto}} entre los hilos. 
-			Para ello, se utilizó la instrucción \emph{yield();} que realiza cambio de contexto \cite{xilinx_xilkernel}.
+			De manera similar al caso anterior, con dos hilos, se midió la duración de los \textbf{\emph{cambios de contexto}} entre los hilos. Para ello, se utilizó la instrucción \emph{yield();} que realiza cambio de contexto \cite{xilinx_xilkernel}.
 		
 			Para la medición, se utilizó el siguiente código.
 			\begin{lstlisting}
@@ -386,22 +320,17 @@ void* hilo_medicion_2()
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados17}
-				\caption[Valor promedio de duración de cada cambio de contexto]{Valor promedio de duración de cada cambio de contexto dependendiendo de la cantidad de repeticiones que se realizan en cada ejecución}
+				\caption[Valor promedio de duración de cada cambio de contexto]{Valor promedio de duración de cada cambio de contexto dependiendo de la cantidad de repeticiones que se realizan en cada ejecución}
 				\label{fig:resultados17}
 			\end{figure}
 			
 		\subsubsection{Análisis de los resultados obtenidos}
 		
-			En resumen, con los valores medidos de carga de trabajo y de tiempos de sincronización, es posible armar un
-			gráfico similar a los de la Figura \ref{fig:resultados10}.
+			En resumen, con los valores medidos de carga de trabajo y de tiempos de sincronización, es posible armar un gráfico similar a los de la Figura \ref{fig:resultados10}.
 		
-			De ésta manera, es posible apreciar la reducción en tiempo de sincronización que entrega el procesador de 
-			Redes de Petri con respecto a la carga de trabajo del sistema (figuras \ref{fig:resultados18} y \ref{fig:resultados19}).
+			De ésta manera, es posible apreciar la reducción en tiempo de sincronización que entrega el procesador de Redes de Petri con respecto a la carga de trabajo del sistema (figuras \ref{fig:resultados18} y \ref{fig:resultados19}).
 			
-			Como se observa en las fguras \ref{fig:resultados18} y \ref{fig:resultados19}, el uso de semáforos, hace que 
-			el tiempo de sincronización sea aproximadamente el $20\%$ de tiempo total. Por otro lado, se verifica que el 
-			uso del procesador de Redes de Petri logra reducir éste tiempo de sincronización hasta aproximadamente un $10\%'$ 
-			del tiempo total.
+			Como se observa en las figuras \ref{fig:resultados18} y \ref{fig:resultados19}, el uso de semáforos, hace que el tiempo de sincronización sea aproximadamente el $20\%$ de tiempo total. Por otro lado, se verifica que el uso del procesador de Redes de Petri logra reducir éste tiempo de sincronización hasta aproximadamente un $10\%'$ del tiempo total.
 			
 			\newpage
 			

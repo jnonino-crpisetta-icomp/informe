@@ -1,35 +1,22 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Resultados y Conclusiones												%
-%	Capitulo: Resultados															%
-%	Seccion: Problema: Escritor/Escritor											%	
-%	Archivo: problema_escritor.tex													%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./resultado_conclusiones/resultados/img
-% Nombre predeterminado imagenes: resultadosxx
+% Path imágenes: ./resultado_conclusiones/resultados/img
+% Nombre predeterminado imágenes: resultadosxx
 %	xx es el numero de imagen
 
 \section{Problema: \emph{Escritor/Escritor}}
 	\label{sec:problema_escritor}
 
-	Para realizar estas mediciones se utilizó un sistema con una variable compartida por varios hilos que
-	desean escribirla. Ésta situación se conoce como problema del Escritor/Escritor.
+	Para realizar estas mediciones se utilizó un sistema con una variable compartida por varios hilos que desean escribirla. Ésta situación se conoce como problema del Escritor/Escritor.
 
 	\subsection{Modelo del problema}
 
-		En ésta sección se presentará el modelo del problema Escritor/Escritor con una Red de Petri.
-		Como se realizarán pruebas con 2, 3, 4 y 5 hilos se realizarán cuatro Redes de Petri.
+		En ésta sección se presentará el modelo del problema Escritor/Escritor con una Red de Petri. Como se realizarán pruebas con 2, 3, 4 y 5 hilos se realizarán cuatro Redes de Petri.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.7\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados25}
@@ -64,25 +51,19 @@
 
 	\subsection{Secuencia de ejecución utilizando semáforos}
 
-		La secuencia de ejecución del programa en C diseñado para resolver este problema utilizando
-		semáforos es la siguiente:
+		La secuencia de ejecución del programa en C diseñado para resolver este problema utilizando semáforos es la siguiente:
 		\begin{enumerate}
 		  	\item Creación del semáforo.
-		  	\item Creación de los hilos. Se realizarán cuatro implementaciones con 2, 3, 4 y 5 hilos en
-		  		ejecución.
-		  	\item Cada hilo intenta solicitar el permiso por parte del semáforo. Al conseguirlo, incrementa
-		  		la variable compartida. Luego, libera el semáforo. Esta operación se repetirá 10, 100, 1000 y
-		  		10000 veces en diferentes ejecuciones.
+		  	\item Creación de los hilos. Se realizarán cuatro implementaciones con 2, 3, 4 y 5 hilos en ejecución.
+		  	\item Cada hilo intenta solicitar el permiso por parte del semáforo. Al conseguirlo, incrementa la variable compartida. Luego, libera el semáforo. Esta operación se repetirá 10, 100, 1000 y 10000 veces en diferentes ejecuciones.
 		  	\item Una vez que se ha realizado la cantidad de iteraciones especificada, se detienen los hilos.
 		  	\item Se detiene el timer.
 		\end{enumerate}
-		El código fuente del programa puede ser encontrado en el apéndice \ref{ap:codigos_programas}, en la sección
-		\ref{sec:programa_escritor_sem}, página \pageref{sec:programa_escritor_sem}.
+		El código fuente del programa puede ser encontrado en el apéndice \ref{ap:codigos_programas}, en la sección \ref{sec:programa_escritor_sem}, página \pageref{sec:programa_escritor_sem}.
 	
 	\subsection{Secuencia de ejecución utilizando el procesador de Redes de Petri}
 
-		La secuencia de ejecución del programa en \emph{C} diseñado para resolver este problema
-		utilizando el procesador de Redes de Petri como motor de sincronización es la siguiente:
+		La secuencia de ejecución del programa en \emph{C} diseñado para resolver este problema utilizando el procesador de Redes de Petri como motor de sincronización es la siguiente:
 		\begin{enumerate}
 		  	\item Carga del marcado inicial.
 		  	\item Carga de la matriz de incidencia.
@@ -92,19 +73,12 @@
 		  	\item Carga del vector EFT (Earliest Firing Time).
 		  	\item Carga del vector de incrementos de tiempo.
 		  	\item Carga del vector LFT (Latest Firing Time).
-		  	\item Creación de los hilos. Se realizarán cuatro implementaciones con 2, 3, 4 y 5 hilos en
-		  		ejecución.
-		  	\item Cada hilo intenta solicitar el permiso para escribir la variable solicitando al procesador
-		  		de Petri el disparo de la transición para pedir la exclusión mutua. Luego, el proceso espera
-		  		verificando hasta que su solicitud haya sido ejecutada. Cuando el disparo se ejecuto,
-		  		incrementa la variable compartida. Luego, solicita el disparo de una segunda transición para
-		  		devolver el token de exclusión mutua. Esta operación se repetirá 10, 100, 1000 y
-		  		10000 veces en diferentes ejecuciones.
+		  	\item Creación de los hilos. Se realizarán cuatro implementaciones con 2, 3, 4 y 5 hilos en ejecución.
+		  	\item Cada hilo intenta solicitar el permiso para escribir la variable solicitando al procesador de Petri el disparo de la transición para pedir la exclusión mutua. Luego, el proceso espera verificando hasta que su solicitud haya sido ejecutada. Cuando el disparo se ejecuto, incrementa la variable compartida. Luego, solicita el disparo de una segunda transición para devolver el token de exclusión mutua. Esta operación se repetirá 10, 100, 1000 y 10000 veces en diferentes ejecuciones.
 		  	\item Una vez que se ha realizado la cantidad de iteraciones especificada, se detienen los hilos.
 		  	\item Se detiene el timer.
 		\end{enumerate}
-		El código fuente del programa puede ser encontrado en el apéndice \ref{ap:codigos_programas}, en la sección
-		\ref{sec:programa_escritor_petri}, página \pageref{sec:programa_escritor_petri}.
+		El código fuente del programa puede ser encontrado en el apéndice \ref{ap:codigos_programas}, en la sección \ref{sec:programa_escritor_petri}, página \pageref{sec:programa_escritor_petri}.
 
 	\newpage
 			
@@ -112,8 +86,7 @@
 		
 		\subsubsection{Mediciones realizadas con dos (2) hilos escritores}
 								
-			Para un sistema con dos hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000
-			iteraciones. Los datos obtenidos son (Figura \ref{fig:resultados29}):
+			Para un sistema con dos hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000 iteraciones. Los datos obtenidos son (Figura \ref{fig:resultados29}):
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=0.8\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados29}
@@ -123,9 +96,7 @@
 
 		\subsubsection{Mediciones realizadas con tres (3) hilos escritores}
 							
-			Para un sistema con tres hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000
-			iteraciones.
-			Los datos obtenidos son (Figura \ref{fig:resultados30}):
+			Para un sistema con tres hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000 iteraciones. Los datos obtenidos son (Figura \ref{fig:resultados30}):
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=0.8\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados30}
@@ -135,9 +106,7 @@
 		
 		\subsubsection{Mediciones realizadas con cuatro (4) hilos escritores}
 							
-			Para un sistema con cuatro hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000
-			iteraciones.
-			Los datos obtenidos son (Figura \ref{fig:resultados31}):
+			Para un sistema con cuatro hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000 iteraciones. Los datos obtenidos son (Figura \ref{fig:resultados31}):
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=0.8\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados31}
@@ -147,9 +116,7 @@
 
 		\subsubsection{Mediciones realizadas con cinco (5) hilos escritores}
 			
-			Para un sistema con cinco hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000
-			iteraciones.
-			Los datos obtenidos son (Figura \ref{fig:resultados32}):
+			Para un sistema con cinco hilos corriendo, se tomaron mediciones de 10, 100, 1000 y 10000 iteraciones. Los datos obtenidos son (Figura \ref{fig:resultados32}):
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=0.8\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados32}
@@ -159,9 +126,7 @@
 		
 	\subsection{Análisis de los resultados obtenidos}
 		
-		Con los datos mostrados en la sección anterior, se armó una gráfica que muestra el incremento en velocidad
-		(\emph{speed up}) que se consigue al utilizar el procesador de Redes de Petri en lugar de semáforos para
-		sincronizar procesos.
+		Con los datos mostrados en la sección anterior, se armó una gráfica que muestra el incremento en velocidad (\emph{speed up}) que se consigue al utilizar el procesador de Redes de Petri en lugar de semáforos para sincronizar procesos.
 		
 		\begin{figure}[H]
 			\centering
@@ -170,38 +135,24 @@
 			\label{fig:resultados33}
 		\end{figure}
 		
-		Las tablas mostradas anteriormente y la Figura \ref{fig:resultados33} que resume los datos, muestran que el
-		\textbf{\emph{procesador de Redes de Petri en promedio es entre un $\boldsymbol{15\%}$ y un $\boldsymbol{30\%}$ 
-		más rápido que el uso de semáforos}} para resolver el problema de sincronizar múltiples hilos que desean escribir 
-		sobre una variable compartida. Incluso, se \textbf{\emph{alcanzan picos de hasta un $\boldsymbol{70\%}$ de mayor 
-		velocidad}}.
+		Las tablas mostradas anteriormente y la Figura \ref{fig:resultados33} que resume los datos, muestran que el \textbf{\emph{procesador de Redes de Petri en promedio es entre un $\boldsymbol{15\%}$ y un $\boldsymbol{30\%}$ más rápido que el uso de semáforos}} para resolver el problema de sincronizar múltiples hilos que desean escribir sobre una variable compartida. Incluso, se \textbf{\emph{alcanzan picos de hasta un $\boldsymbol{70\%}$ de mayor velocidad}}.
 	
 	\subsection{Comparación entre las diferentes maneras de esperar la ejecución de los disparos}
 	
-		Como se dijo en la sección \ref{sec:programacion}, existen tres formas de que un proceso/hilo espere  que el disparo
-		que solicitó sea ejecutado. Éstos son:
+		Como se dijo en la sección \ref{sec:programacion}, existen tres formas de que un proceso/hilo espere  que el disparo que solicitó sea ejecutado. Éstos son:
 		\begin{itemize}
 		  	\item Esperar activamente.
 		  	\item Ceder el procesador si el disparo aún no esta listo.
-		  	\item Suspenderse y que cuando el procesador de Redes de Petri resuelva el disparo genere una interrupción
-		  		lo reactive.
+		  	\item Suspenderse y que cuando el procesador de Redes de Petri resuelva el disparo genere una interrupción lo reactive.
 		\end{itemize}
 		
 		\newpage
 		
-		En dicha sección, también se dijo que para el problema Escritor/Escritor, no era conveniente que se realizara una
-		espera activa porque ello llevaría a un desaprovechamiento del tiempo del procesador. Ésto se debe a que como los
-		escritores escriben secuencialmente, luego de que uno de ellos lo haga, no podrá volver a hacerlo hasta que el resto
-		de los escritores escriba.
+		En dicha sección, también se dijo que para el problema Escritor/Escritor, no era conveniente que se realizara una espera activa porque ello llevaría a un desaprovechamiento del tiempo del procesador. Ésto se debe a que como los escritores escriben secuencialmente, luego de que uno de ellos lo haga, no podrá volver a hacerlo hasta que el resto de los escritores escriba.
 		
-		En la Figura \ref{fig:resultados34} se observa la situación mencionada anteriormente. Utilizar la función \emph{yield()}
-		o, un sistema de interrupciones es por lo menos $400$ veces mejor que esperar activamente consumiendo tiempo del procesador.
+		En la Figura \ref{fig:resultados34} se observa la situación mencionada anteriormente. Utilizar la función \emph{yield()} o, un sistema de interrupciones es por lo menos $400$ veces mejor que esperar activamente consumiendo tiempo del procesador.
 		
-		En cuanto a la comparación entre la utilización del \emph{yield()} y el uso de interrupciones, el primero, mantiene al
-		hilo en la planificación del sistema operativo, por lo tanto, si se le otorga tiempo del procesador nuevamente y su
-		disparo aún no ha sido ejecutado volverá a ceder el paso, provocando un nuevo cambio de contexto. Por ésta razón, en 
-		casos donde, por ejemplo las transiciones NO tienen restricciones temporales para ser ejecutados, el uso de 
-		interrupciones tiene un peor desempeño que el uso de la función \emph{yield()} como sucede en éste problema.
+		En cuanto a la comparación entre la utilización del \emph{yield()} y el uso de interrupciones, el primero, mantiene al hilo en la planificación del sistema operativo, por lo tanto, si se le otorga tiempo del procesador nuevamente y su disparo aún no ha sido ejecutado volverá a ceder el paso, provocando un nuevo cambio de contexto. Por ésta razón, en casos donde, por ejemplo las transiciones NO tienen restricciones temporales para ser ejecutados, el uso de interrupciones tiene un peor desempeño que el uso de la función \emph{yield()} como sucede en éste problema.
 		
 		\begin{figure}[H]
 			\centering
@@ -209,5 +160,3 @@
 			\caption{Tabla comparativa de los distintos métodos de espera de disparos para el problema Escritor/Escritor}
 			\label{fig:resultados34}
 		\end{figure}
-			
-		

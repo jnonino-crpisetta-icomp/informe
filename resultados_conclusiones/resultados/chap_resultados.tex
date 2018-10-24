@@ -1,22 +1,12 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Resultados y Conclusiones												%
-%	Capitulo: Resultados Obtenidos													%	
-%	Archivo: chap_resultados.tex													%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/resultados_conclusiones/resultados/img
-% Nombre predeterminado imagenes: resultadosxx
+% Path imágenes: ./desarrollo/resultados_conclusiones/resultados/img
+% Nombre predeterminado imágenes: resultadosxx
 %	xx es el numero de imagen
 
 \lstset
@@ -50,21 +40,11 @@
 \chapter{Resultados Obtenidos}
 	\label{chap:chap_resultados}
 
-	En éste capítulo se realizará una descripción de los resultados obtenidos luego del desarrollo
-	del \textbf{\emph{Procesador de Redes de Petri Temporales}}
+	En éste capítulo se realizará una descripción de los resultados obtenidos luego del desarrollo del \textbf{\emph{Procesador de Redes de Petri Temporales}}.
 	
-	Dado que los IP cores desarrollados son totalmente parametrizables, en la primera sección del capítulo
-	se realizará un análisis del crecimiento de este IP core ante la variación de los parámetros. Esto se 
-	debe a que en las FPGA, el área es un factor muy importante.
+	Dado que los IP cores desarrollados son totalmente parametrizables, en la primera sección del capítulo se realizará un análisis del crecimiento de este IP core ante la variación de los parámetros. Esto se debe a que en las FPGA, el área es un factor muy importante.
 	
-	Luego, se realizará una comparación entre la resolución de problemas con el procesador de Redes de Petri
-	y la resolución utilizando semáforos. Esto se hará con el objetivo de comparar el mecanismo de 
-	sincronización desarrollado con los existentes en la actualidad. Para esto, se realizarán dos 
-	pruebas, una con el problema \emph{Escritor/Escritor} que requiere un alto grado de sincronización, y otra
-	con el problema de la \emph{Fábrica de Mesas} y el de la \emph{Cena de los Filósofos} para probar las 
-	restricciones temporales y las interrupciones.
-	Los tres problemas serán implementados en el lenguaje \emph{C} y correrán sobre el sistema operativo
-	\emph{Xilinx Xilkernel} \cite{xilinx_xilkernel}.
+	Luego, se realizará una comparación entre la resolución de problemas con el procesador de Redes de Petri y la resolución utilizando semáforos. Esto se hará con el objetivo de comparar el mecanismo de sincronización desarrollado con los existentes en la actualidad. Para esto, se realizarán dos pruebas, una con el problema \emph{Escritor/Escritor} que requiere un alto grado de sincronización, y otra con el problema de la \emph{Fábrica de Mesas} y el de la \emph{Cena de los Filósofos} para probar las restricciones temporales y las interrupciones. Los tres problemas serán implementados en el lenguaje \emph{C} y correrán sobre el sistema operativo \emph{Xilinx Xilkernel} \cite{xilinx_xilkernel}.
 		 
 	% Crecimiento del tamaño del IP core
 		\input{./resultados_conclusiones/resultados/crecimiento_ip_core}

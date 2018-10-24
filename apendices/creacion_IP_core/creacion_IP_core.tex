@@ -1,51 +1,35 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Apendices																%
-%	Capitulo: Creacion de un nuevo IP core											%
-%	Archivo: creacion_IP_core.tex													%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./apendices/creacion_IP_core/img
-% Nombre predeterminado imagenes: ipcorexx
+% Path imágenes: ./apendices/creacion_IP_core/img
+% Nombre predeterminado imágenes: ipcorexx
 %	xx es el numero de imagen
 
 \chapter{Creación de un nuevo IP core}
 	\label{ap:creacion_IP_core}
 
-	La herramienta \emph{Xilinx Platform Studio (XPS)} \cite{xilinx_edk} provee un asistente 
-	para la creación de un nuevo IP core. A continuación, se mostrará paso a paso el uso del
-	mismo.
+	La herramienta \emph{Xilinx Platform Studio (XPS)} \cite{xilinx_edk} provee un asistente para la creación de un nuevo IP core. A continuación, se mostrará paso a paso el uso del mismo.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.5\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore01}
 		\caption{Inicio del asistente de creación de IP cores}
 		\label{fig:ipcore01}
 	\end{figure}
-	En la Figura \ref{fig:ipcore01}, se observa como se puede acceder al asistente de creación 
-	de IP cores. En la siguiente (Figura \ref{fig:ipcore02}), se muestra la ventana principal 
-	del asistente.
+	En la Figura \ref{fig:ipcore01}, se observa como se puede acceder al asistente de creación de IP cores. En la siguiente (Figura \ref{fig:ipcore02}), se muestra la ventana principal del asistente.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.4\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore02}
 		\caption{Ventana principal del asistente de creación de IP cores}
 		\label{fig:ipcore02}
 	\end{figure}
-	Haciendo click en \emph{Next} se avanzara en las etapas del asistente y se irá conFigurando distintos 
-	aspectos de nuevo IP core.
+	Haciendo click en \emph{Next} se avanzara en las etapas del asistente y se irá conFigurando distintos aspectos de nuevo IP core.
 	\newpage
 	
-	En la siguiente ventana (Figura \ref{fig:ipcore03}) se debe elegir si se creará un nuevo IP core o se 
-	importará uno ya existente.
+	En la siguiente ventana (Figura \ref{fig:ipcore03}) se debe elegir si se creará un nuevo IP core o se importará uno ya existente.
 	
 	\begin{figure}[H]
 		\centering
@@ -54,8 +38,7 @@
 		\label{fig:ipcore03}
 	\end{figure}
 	
-	Luego, se debe determinar si el nuevo IP core se guardará dentro del proyecto o en algún repositorio 
-	del usuario (Figura \ref{fig:ipcore04}).
+	Luego, se debe determinar si el nuevo IP core se guardará dentro del proyecto o en algún repositorio del usuario (Figura \ref{fig:ipcore04}).
 	
 	\begin{figure}[H]
 		\centering
@@ -64,8 +47,7 @@
 		\label{fig:ipcore04}
 	\end{figure}
 	\newpage
-	El paso siguiente es darle un nombre al nuevo IP core, determinar la versión del mismo y brindar una 
-	descripción (Figura \ref{fig:ipcore05}).
+	El paso siguiente es darle un nombre al nuevo IP core, determinar la versión del mismo y brindar una descripción (Figura \ref{fig:ipcore05}).
 	
 	\begin{figure}[H]
 		\centering
@@ -74,7 +56,7 @@
 		\label{fig:ipcore05}
 	\end{figure}
 	
-	Luego, hay elegir el bus a través del cual el nuevo IP core se conectara al sistema (figra \ref{fig:ipcore06}).
+	Luego, hay elegir el bus a través del cual el nuevo IP core se conectara al sistema (figura \ref{fig:ipcore06}).
 	
 	\begin{figure}[H]
 		\centering
@@ -83,11 +65,7 @@
 		\label{fig:ipcore06}
 	\end{figure}	
 	\newpage
-	Posteriormente, se deben conFigurar las interfaces del nevo IP core Figura \ref{fig:ipcore07}.
-	En esta etapa se eligen parámetros relacionados con la configuración de la interfaz entre el bus 
-	y el IP core. Entre estas opciones se encuentran, soporte para que el IP core se comporte como 
-	\emph{master} en el bus. Incluir registros accesibles por software, un reset accesible por software, 
-	etcétera.
+	Posteriormente, se deben conFigurar las interfaces del nuevo IP core Figura \ref{fig:ipcore07}. En esta etapa se eligen parámetros relacionados con la configuración de la interfaz entre el bus y el IP core. Entre estas opciones se encuentran, soporte para que el IP core se comporte como \emph{master} en el bus. Incluir registros accesibles por software, un reset accesible por software, etcétera.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.65\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore07}
@@ -102,16 +80,14 @@
 		\label{fig:ipcore08}
 	\end{figure}	
 	\newpage
-	El siguiente paso es elegir que puertos desde o hacia el bus se desean que sean accesibles desde el 
-	IP core (Figura \ref{fig:ipcore09}).
+	El siguiente paso es elegir que puertos desde o hacia el bus se desean que sean accesibles desde el IP core (Figura \ref{fig:ipcore09}).
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore09}
 		%\caption{}
 		\label{fig:ipcore09}
 	\end{figure}
-	Luego, se debe determinar si se desea incluir un template para simular el IP core generado 
-	(Figura \ref{fig:ipcore10}).
+	Luego, se debe determinar si se desea incluir un template para simular el IP core generado (Figura \ref{fig:ipcore10}).
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore10}
@@ -119,10 +95,7 @@
 		\label{fig:ipcore10}
 	\end{figure}
 	\newpage
-	Posteriormente, se seleccionan opciones relacionadas con la implementación de la lógica del IP core
-	(Figura \ref{fig:ipcore11}). Por ejemplo, se puede decidir si el archivo \emph{user logic} se 
-	implementará en Verilog o en VHDL, si se desea crear un proyecto ISE para poder editar el IP core 
-	desde esta herramienta y/o generar templates con los drivers para facilitar la implementación del software. 
+	Posteriormente, se seleccionan opciones relacionadas con la implementación de la lógica del IP core (Figura \ref{fig:ipcore11}). Por ejemplo, se puede decidir si el archivo \emph{user logic} se implementará en Verilog o en VHDL, si se desea crear un proyecto ISE para poder editar el IP core desde esta herramienta y/o generar templates con los drivers para facilitar la implementación del software. 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.65\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore11}
@@ -144,8 +117,7 @@
 		%\caption{}
 		\label{fig:ipcore13}
 	\end{figure}
-	Luego, haciendo click derecho en el IP core, se puede seleccionar la opción para agregarlo al sistema. 
-	Al hacer esto se muestra la siguiente ventana (Figura \ref{fig:ipcore14}).
+	Luego, haciendo click derecho en el IP core, se puede seleccionar la opción para agregarlo al sistema. Al hacer esto se muestra la siguiente ventana (Figura \ref{fig:ipcore14}).
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore14}
@@ -153,16 +125,14 @@
 		\label{fig:ipcore14}
 	\end{figure}
 	\newpage
-	Luego de seleccionar que desea agregarse el IP core al sistema, se muestra una ventana para realizar 
-	conFiguraciones en los parámetros del IP core antes de agregarlo al sistema (Figura \ref{fig:ipcore15}). 
+	Luego de seleccionar que desea agregarse el IP core al sistema, se muestra una ventana para realizar conFiguraciones en los parámetros del IP core antes de agregarlo al sistema (Figura \ref{fig:ipcore15}). 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.8\linewidth,keepaspectratio]{./apendices/creacion_IP_core/img/ipcore15}
 		%\caption{}
 		\label{fig:ipcore15}
 	\end{figure}
-	Terminado de conFigurar el IP core se muestra la siguiente ventana (Figura \ref{fig:ipcore16}) que 
-	pregunta si se desea conectar el IP core al procesador del sistema o si el usuario realizará manualmente 
+	Terminado de conFigurar el IP core se muestra la siguiente ventana (Figura \ref{fig:ipcore16}) que pregunta si se desea conectar el IP core al procesador del sistema o si el usuario realizará manualmente 
 	todas las conexiones.
 	\begin{figure}[H]
 		\centering

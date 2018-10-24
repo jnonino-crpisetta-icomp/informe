@@ -1,34 +1,20 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Resultados y Conclusiones												%
-%	Capitulo: Resultados															%
-%	Seccion: Interrupciones en el procesador de Redes de Petri						%	
-%	Archivo: resultados_interrupciones.tex											%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./resultado_conclusiones/resultados/img
-% Nombre predeterminado imagenes: resultadosxx
+% Path imágenes: ./resultado_conclusiones/resultados/img
+% Nombre predeterminado imágenes: resultadosxx
 %	xx es el numero de imagen	
 
 \section{Interrupciones en el procesador de Redes de Petri}
 	\label{sec:resultados_interrupciones}
 	
-	El procesador de Redes de Petri, es capaz de generar interrupciones notificando a los hilos/procesos que
-	un disparo ha sido ejecutado, por ésta razón, en ésta sección, presentamos mediciones sobre como afecta
-	al rendimiento del sistema el uso de interrupciones en lugar de los otros métodos de espera.
+	El procesador de Redes de Petri, es capaz de generar interrupciones notificando a los hilos/procesos que un disparo ha sido ejecutado, por ésta razón, en ésta sección, presentamos mediciones sobre como afecta al rendimiento del sistema el uso de interrupciones en lugar de los otros métodos de espera.
 			
-	Para las mediciones, se utilizó la siguiente Red de Petri (Figura \ref{fig:resultados20}). En dicha Figura, 
-	se muestra la red con las diferentes cantidades de tokens en la plaza $P0$. 
+	Para las mediciones, se utilizó la siguiente Red de Petri (Figura \ref{fig:resultados20}). En dicha Figura, se muestra la red con las diferentes cantidades de tokens en la plaza $P0$. 
 			
 	\begin{figure}[H]
 		\centering
@@ -54,8 +40,7 @@
 		\label{fig:resultados22}
 	\end{figure}			
 	
-	A continuación, se repetirán las gráficas de las Figuras \ref{fig:resultados18} y \ref{fig:resultados19} pero, comparando
-	el procesador de Redes de Petri CON y SIN interrupciones.
+	A continuación, se repetirán las gráficas de las Figuras \ref{fig:resultados18} y \ref{fig:resultados19} pero, comparando el procesador de Redes de Petri CON y SIN interrupciones.
 	
 	\begin{figure}[H]
 		\centering
@@ -70,13 +55,6 @@
 		\label{fig:resultados24}
 	\end{figure}
 	
-	Se debe notar que en la gráfica con los datos de las interrupciones (Figura \ref{fig:resultados24}) no se incluye
-	la duración de un cambio de contexto. Ésto se debe a que al utilizar interrupciones, el proceso se suspende siempre
-	y se produce un cambio de contexto al llegar la interrupción y otro al darle el control nuevamente al hilo, ya reactivado,
-	para que siga su función. Por ello, la duración del cambio de contexto está incluida dentro del tiempo de sincronización
-	consumido por el procesador de Redes de Petri.
+	Se debe notar que en la gráfica con los datos de las interrupciones (Figura \ref{fig:resultados24}) no se incluye la duración de un cambio de contexto. Ésto se debe a que al utilizar interrupciones, el proceso se suspende siempre y se produce un cambio de contexto al llegar la interrupción y otro al darle el control nuevamente al hilo, ya reactivado, para que siga su función. Por ello, la duración del cambio de contexto está incluida dentro del tiempo de sincronización consumido por el procesador de Redes de Petri.
 	
-	En las Figuras \ref{fig:resultados23} y \ref{fig:resultados24} se observa que el uso de interrupciones hace que
-	la carga de trabajo de escribir una variable más el tiempo de sincronziación sea aproximadamente $1000$ nanosegundos
-	menor que sin utilizar interrupciones.
-	
+	En las Figuras \ref{fig:resultados23} y \ref{fig:resultados24} se observa que el uso de interrupciones hace que la carga de trabajo de escribir una variable más el tiempo de sincronización sea aproximadamente $1000$ nanosegundos menor que sin utilizar interrupciones.
