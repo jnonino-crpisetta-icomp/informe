@@ -1,0 +1,103 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Marco Teorico															%
+%	Capitulo: Redes de Petri														%
+%	Seccion: Redes de Petri con Arcos Inhibidores de peso unitario					%	
+%	Archivo: arcos_inhibidores.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./marco_teorico/redes_de_petri/img
+% Nombre predeterminado imagenes: petrixx
+%	xx es el numero de imagen
+
+\section{Redes de Petri con Arcos Inhibidores de peso unitario}
+	\label{sec:arcos_inhibidores}
+
+	En las Redes de Petri vistas anteriormente las transiciones están sensibilizadas cuando en las plazas de 
+	entrada existe una cantidad igual o mayor de tokens que el peso del arco que los une. Pero, en algunas 
+	situaciones, sería necesario que una transición se encuentre sensibilizada cuando no existan tokens en 
+	alguna de sus plazas de entrada. Para este fin existen los arcos inhibidores.
+	
+	Los arcos inhibidores se representan con una línea finalizada en un círculo. 
+	
+	Se debe destacar que sólo pueden ir desde plazas hacia las transiciones, nunca al revés. 
+
+	\subsection{Definición matemática}
+
+	Una Red de Petri marcada con arcos inhibidores queda definida por una 6-tupla de la siguiente manera:
+	\begin{equation*}
+		PN={P,T,I^-,I^+,H,m_0}
+	\end{equation*}
+	
+	El elemento nuevo es la matriz \emph{H} llamada \textbf{matriz de inhibición} que es una matriz de $p$ 
+	filas y $t$ columnas. Siendo $p$ la cantidad de plazas de la red y $t$ la cantidad de transiciones.
+	
+	Es una matriz binaria, sus elementos solo pueden valer cero (0) o uno (1). Un \emph{uno} en la posición $a_{ij}$
+	indica que la plaza $i$ esta unida a la transición $j$ a través de un arco inhibidor. 
+	
+	\subsection{Transiciones sensibilizadas en Redes de Petri con Arcos Inhibidores}
+	
+		Se pondrá como ejemplo la siguiente Red de Petri.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=.6\linewidth]{./marco_teorico/redes_de_petri/img/Petri15}
+			\caption{ Ejemplo Red de Petri con Arco Inhibidor}
+			\label{fig:Petri15}
+		\end{figure}	
+		
+		En la Figura \ref{fig:Petri15}, se ve la representación de un arco inhibidor y cómo afecta 
+		a la transición. En la red de la izquierda, la transición $T0$ se encuentra sensibilizada mientras que en 
+		la red de la derecha la transición $T1$ no lo está, por lo tanto no es posible que se dispare.
+	
+		Ahora, en una \textbf{\emph{Red de Petri con Arcos Inhibidores}}, se dice que una transición esta sensibilizada 
+		cuando se cumplen las siguientes condiciones:
+		\begin{enumerate}
+  			\item $\forall p_i \in I^-(t_j) : m(p_i) \geq W_{ij}$
+  				\\
+  				Siendo $W_{ij}$ el peso del arco (no inhibidor) que une la plaza $i$ con la transición $j$.
+			\item Todas las plazas unidas a $t_j$ con arcos inhibidores no deben tener tokens.	
+		\end{enumerate}
+		
+	\subsection{Ejecución de una Red de Petri con Arcos Inhibidores}
+			
+		La ecuación de estado para una Red de Petri con aros inhibidores toma la siguiente forma:
+		\begin{equation}
+			m_{i+1} = m_i  + I× \left[ \delta\;and\;f_H (m_i,\delta) \right]
+			\label{eq:estado_petri_arcos_inhibidores}
+		\end{equation}
+
+		Como se ve, se agrega una función $f$ que depende del marcado actual, del disparo a realizar y, de 
+		una función $H$ que determina si una transición está sensibilizada o no de acuerdo a  los arcos 
+		inhibidores. Esta función toma solo valores ceros y unos, y al estar en una operación $and$ con el 
+		disparo, puede inhibirlo y hacer que no produzca efectos.
+		
+		A continuación se detalla la función $f$.
+		\begin{equation}
+			f_H(m_i,\delta) = M_{=0}(m_i)\; nand \;(H × \delta)
+			\label{eq:fun_inhibicion}
+		\end{equation}
+			
+		La función $M_{=0}()$ es una función vectorial de $p$ elementos. Donde $p$ es la cantidad de 
+		plazas. 
+		Cada componente $k$ del resultado de la función $M_{=0}()$ toma su valor de la siguiente ecuación:
+		\begin{equation}
+			M_{=0}(m)_k =
+				\begin{cases} 
+					0 & \text{si } m_{ij} \neq 0
+					\\
+					1 & \text{si } m_{ij}= 0				
+				\end{cases}		
+			\label{eq:funcion_igual_cero}
+		\end{equation}
+			
+			

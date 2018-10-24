@@ -1,0 +1,86 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Resultados y Conclusiones												%
+%	Capitulo: Resultados Obtenidos													%	
+%	Archivo: chap_resultados.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./desarrollo/resultados_conclusiones/resultados/img
+% Nombre predeterminado imagenes: resultadosxx
+%	xx es el numero de imagen
+
+\lstset
+{	language=C,               		% the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                       				% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=none,                 	% adds a frame around the code
+	rulecolor=\color{white},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	%title=\lstname,                % show the filename of files included with \lstinputlisting;
+		                            % also try caption instead of title
+	keywordstyle=\color{violeta},      % keyword style
+  	commentstyle=\color{dkgreen},   % comment style
+  	stringstyle=\color{blue},      % string literal style
+  	escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+  	morekeywords={*,...},           % if you want to add more keywords to the set
+  	deletekeywords={...}            % if you want to delete keywords from the given language
+}
+
+\chapter{Resultados Obtenidos}
+	\label{chap:chap_resultados}
+
+	En éste capítulo se realizará una descripción de los resultados obtenidos luego del desarrollo
+	del \textbf{\emph{Procesador de Redes de Petri Temporales}}
+	
+	Dado que los IP cores desarrollados son totalmente parametrizables, en la primera sección del capítulo
+	se realizará un análisis del crecimiento de este IP core ante la variación de los parámetros. Esto se 
+	debe a que en las FPGA, el área es un factor muy importante.
+	
+	Luego, se realizará una comparación entre la resolución de problemas con el procesador de Redes de Petri
+	y la resolución utilizando semáforos. Esto se hará con el objetivo de comparar el mecanismo de 
+	sincronización desarrollado con los existentes en la actualidad. Para esto, se realizarán dos 
+	pruebas, una con el problema \emph{Escritor/Escritor} que requiere un alto grado de sincronización, y otra
+	con el problema de la \emph{Fábrica de Mesas} y el de la \emph{Cena de los Filósofos} para probar las 
+	restricciones temporales y las interrupciones.
+	Los tres problemas serán implementados en el lenguaje \emph{C} y correrán sobre el sistema operativo
+	\emph{Xilinx Xilkernel} \cite{xilinx_xilkernel}.
+		 
+	% Crecimiento del tamaño del IP core
+		\input{./resultados_conclusiones/resultados/crecimiento_ip_core}
+		
+	% Medidas de rendimiento
+		\input{./resultados_conclusiones/resultados/medidas_rendimiento}
+	
+	% Interrupciones en el procesador de Redes de Petri
+		\input{./resultados_conclusiones/resultados/resultados_interrupciones}	
+		
+	% Problema escritores
+		\input{./resultados_conclusiones/resultados/problema_escritores}
+		
+	% Problema fabrica de mesas
+		\input{./resultados_conclusiones/resultados/problema_fabrica_mesas}			
+		
+	% Problema fabrica de mesas
+		\input{./resultados_conclusiones/resultados/problema_cena_filosofos}			
+	

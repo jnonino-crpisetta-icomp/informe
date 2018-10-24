@@ -1,0 +1,270 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Desarrollo																%
+%	Capitulo: Diseño e Implementación												%
+%	Seccion: IP core para Redes de Petri Temporizadas								%	
+%	Archivo: redes_temporizadas.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./desarrollo/diseno_implementacion/img
+% Nombre predeterminado imagenes: disenoxx
+%	xx es el numero de imagen
+
+\section{IP core para Redes de Petri Temporizadas}
+	\label{sec:redes_temporizadas}
+
+	Como se mencionó en los objetivos de este trabajo, se generarán IP cores para las dos semánticas
+	de tiempo existentes. En las secciones anteriores, se trabajó con la semántica de las \emph{Redes de
+	Petri con Tiempo}. En este apartado, se detallará el diseño y la implementación del Ip core que procesará
+	\textbf{\emph{Redes de Petri Temporizadas}} manteniendo la capacidad de generar interrupciones.
+	
+	\subsection{Requerimientos}
+	
+		En esta última etapa, el requerimiento es realizar las modificaciones necesarias sobre el IP core 
+		generado en las etapas anteriores para lograr un nuevo IP core que sea capaz de resolver Redes de 
+		Petri Temporizadas.
+	
+	\subsection{Arquitectura}
+	
+		La arquitectura de este IP core se mantiene en su mayor parte igual a la de las versiones anteriores. 
+		Con respecto a la versión que procesa \emph{Redes de Petri con Tiempo}, se quitaron los vectores \emph{EFT} 
+		y \emph{LFT}, en su lugar se agregó el \textbf{\emph{vector duración}}. Se mantuvo el \textbf{\emph{vector de 
+		incrementos de tiempo}} y el \textbf{\emph{vector de tiempo de sensibilización}}.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno48}
+				\caption{Arquitectura del procesador de Redes de Petri Temporizadas}
+				\label{fig:diseno48}
+			\end{figure}
+		
+	\subsection{Estructuras de datos para Redes de Petri Temporizadas}
+	
+		Como se muestra en la Figura \ref{fig:diseno48} las estructuras de datos necesarias para la resolución 
+		de Redes de Petri Temporizadas son tres:
+		\begin{itemize}
+		  	\item Vector \textbf{\emph{duración}}.
+		  	\item Vector de \textbf{\emph{marcas temporales}}.
+		  	\item Vector de \textbf{\emph{escala de incrementos de tiempo}}.
+		\end{itemize}
+		
+		Los cuatro vectores tienen como cantidad de elementos el número de transiciones. Los dos primeros son 
+		tiene un tamaño de elementos parametrizable pero por defecto tienen 32 bits. El vector de escala de 
+		incrementos de tiempo, por defecto toma el un tamaño de elementos de 5 bits.
+		
+	\subsection{Determinación de disparos posibles}
+	
+		Para que un disparo sea posible en una Red de Petri, debe cumplir las condiciones dadas por que todas 
+		las transiciones de las cuales toma tokens tengan la cantidad necesaria de tokens, que las plazas a las 
+		cuales esta conectada con arcos inhibidores no tengan tokens y que las plazas en las cuales depositan 
+		tokens no superen los limites impuestos por las cotas en las plazas.
+		En una Red de Petri Temporizada, al cumplirse las condiciones antes mencionadas, se dice que la transición 
+		esta \textbf{\emph{sensibilizada}}, entonces, se ejecuta la ecuación de estado de la Red de Petri utilizando 
+		la matriz $I^-$. De esta manera, se remueven todos los tokens de las plazas de entrada.
+			
+			\begin{equation}
+				m_{i+1} = m_i + I^+ × \delta
+			\end{equation}
+
+		Dónde $\delta$ es el vector de disparo que se desea ejecutar.
+		A partir de dicho momento, la marca de tiempo asociada a la transición comienza a incrementarse según su 
+		vector de incrementos de tiempo. Cuando esta marca de tiempo alcanza el valor indicado por el \textbf{\emph{
+		vector duración}}. Cuando esto ocurre, el disparo ya esta habilitado para ser ejecutado completamente. 
+		Esto se hace ejecutando la ecuación de estado con la matriz de incidencia positiva, esto implica poner los tokens en 
+		todas las plazas de salida.
+		
+			\begin{equation}
+				m_{i+1} = m_i + I^- × \delta
+			\end{equation}
+
+		Durante el proceso de carga y en el instante en el cual este termina, las marcas de tiempo de todas las 
+		transiciones valen cero. 
+		Luego, a cada ciclo de reloj, si la transición se sensibilizó y logo ejecutar la primera etapa del disparo, 
+		la marca de tiempo se incrementa la cantidad de unidades que indica el \textbf{\emph{vector de incrementos de marcas 
+		de tiempo}}.
+		La marca de tiempo vuelve a cero solo cuando la transición completa ambas fases de su disparo.
+			
+	\subsection{Verificación}
+		
+		Para la verificación del funcionamiento del procesador de Redes de Petri Temporizadas, se utilizará la 
+		siguiente red:
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.2\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno49}
+				\caption{Red de Petri para la verificación del procesador de Redes de Petri Temporizadas}
+				\label{fig:diseno49}
+			\end{figure}
+			
+		Los datos correspondientes a ésta Red de Petri Temporizada son:
+			
+			\begin{center}
+				\begin{tabular}{c c}
+					% Primera Fila
+						% Columna Uno
+							$m_0 = \begin{bmatrix}
+ 						  				1 \\
+ 						  				0
+   									\end{bmatrix}$ 
+   						&
+   						% Columna dos
+							$\begin{bmatrix}
+ 						  				P_0 \\
+ 						  				P_1
+   							\end{bmatrix} 
+   							= 
+   							\begin{bmatrix}
+ 						  		max \\
+ 						  		max
+   							\end{bmatrix}$  
+					\\
+					%Segunda Fila
+						\emph{Marcado Inicial} & \emph{Vector de Cotas de Plazas} 				
+					\end{tabular}
+			\end{center}
+
+			\begin{center}
+				\begin{tabular}{c c}
+					% Primera Fila
+						% Columna uno
+   							$I^+ = \begin{bmatrix}
+ 						  				0 \\
+ 						  				1
+   						  		\end{bmatrix}$  
+   						&
+   						% Columna dos
+   						$I^- = \begin{bmatrix}
+ 						  				1 \\
+ 						  				0
+   						  		\end{bmatrix}$ 
+					\\
+					%Segunda Fila
+						\emph{Matriz de Incidencia Positiva} & \emph{Matriz de Incidencia Negativa}	
+					\end{tabular}
+			\end{center}
+
+			\begin{center}
+				\begin{tabular}{c c}
+					% Primera Fila
+						%Columna uno
+   							$H = \begin{bmatrix}
+ 						  				0 \\
+ 						  				0
+   						  		\end{bmatrix}$ 
+   						& 
+   						% Columna dos
+							$\begin{bmatrix}
+ 						  				T_0
+   							\end{bmatrix} 
+   							= 
+   							\begin{bmatrix}
+ 						  		0
+   							\end{bmatrix}$
+					\\
+					%Segunda Fila
+						\emph{matriz de Inhibición} & \emph{Vector de Transiciones Automáticas}				
+					\end{tabular}
+			\end{center}
+
+			\begin{center}
+				\begin{tabular}{c c}
+					% Primera Fila
+						% Columna Uno
+							$\begin{bmatrix}
+ 						  				T_0
+   							\end{bmatrix} 
+   							= 
+   							\begin{bmatrix}
+ 						  		10
+   							\end{bmatrix}$ 
+   						& 
+   						% Columna dos
+							$\begin{bmatrix}
+ 						  				T_0
+   							\end{bmatrix} 
+   							= 
+   							\begin{bmatrix}
+ 						  		2
+   							\end{bmatrix}$ 		
+					\\
+					%Segunda Fila
+						\emph{Vector duración} & \emph{Vector de Incrementos de Tiempo} 				
+					\end{tabular}
+			\end{center}
+
+			\begin{center}
+				\begin{tabular}{c}
+		   			$\begin{bmatrix}
+ 						T_0
+   					\end{bmatrix} 
+   					= 
+   					\begin{bmatrix}
+ 						1
+   					\end{bmatrix}$  
+					\\
+					\emph{Vector de Máscara de Interrupciones}
+				\end{tabular}
+			\end{center}
+		
+		La Figura \ref{fig:diseno50}, muestra todos los datos mencionados anteriormente cargados dentro del procesador de 
+		Redes de Petri.
+		
+			\begin{figure}[H]
+				\centering
+				\includegraphics[keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno50}
+				\caption{Valores cargados dentro del procesador de Redes de Petri Temporizadas}
+				\label{fig:diseno50}
+			\end{figure}
+		
+		Luego de la carga de datos, la Figura \ref{fig:diseno51} muestra el estado del procesador.	
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.8\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno51}
+				\caption{Estado del procesador de Redes de Petri Temporizadas luego de la carga de datos}
+				\label{fig:diseno51}
+			\end{figure}
+			
+		A continuación se solicita el disparo de la transición \emph{T0} y se analizará paso a pasos desde 
+		la solicitud del disparo, las dos fases de ejecución y la aparición en el vector de disparos ya 
+		ejecutados.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.8\linewidth,keepaspectratio]{./desarrollo/diseno_implementacion/img/diseno52}
+				\caption{Llegada de la solicitud de disparo \emph{T0} y ejecución}
+				\label{fig:diseno52}
+			\end{figure}
+			
+		La Figura \ref{fig:diseno52} muestra la llegada de la solicitud del disparo de la transición \emph{T0}, 
+		como ingresa a la cola de entrada, las dos fases de ejecución y como se lo incluye en la cola de disparos 
+		ya ejecutados.
+		
+		La línea amarilla marca el instante en el cual la solicitud de disparo es introducida en la cola de 
+		entrada de disparos. Dado que esa transición estaba sensibilizada, en el flanco negativo siguiente, 
+		es realizada la primera fase de la ejecución, se extraen los tokens de la plaza de entrada (en este caso, 
+		sacar un token \emph{P0}). También, el disparo es retirado de la cola de entrada y en el vector 
+		\emph{mask semi ejecucion}, la transición es marcada como que esta ejecutándose y no podrá ser disparada 
+		nuevamente.
+
+		A partir de dicho instante, el vector de marca de tiempo (\emph{vector tiempo sensibilizacion}) comienza 
+		a incrementarse a cada ciclo de reloj según como lo indica el vector de incrementos de tiempo.
+
+		Cuando el vector de marcas de tiempo es igual o mayor al valor indicado en el vector de duración, se 
+		inicia la segunda fase ejecución. Esta fase consiste en colocar los tokens necesarios en todas las plazas 
+		de salida de la transición (en este caso, colocar un token en \emph{P1}). Luego, se pone un \emph{1}
+		otra vez en el vector \emph{mask semi ejecucion}, haciendo que la transición vuelva a estar disponible 
+		para ser disparada. 
+	 
+		Por último, el disparo es cargado en la cola de disparos ya ejecutados.
+		
+		

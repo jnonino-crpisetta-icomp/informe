@@ -1,0 +1,54 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Resultados y Conclusiones												%
+%	Capitulo: Trabajo futuro														%	
+%	Archivo: chap_trabajo_futuro.tex												%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Trabajo futuro}
+	\label{chap:chap_trabajo_futuro}
+
+	En base a los resultados obtenidos con los IP cores desarrollados, inmediatamente surgen temas 
+	en los que se debe trabajar para generar nuevas y mejores versiones de los mismos. 
+	\\
+	
+	La principal mejora en la cual se debe continuar trabajando es refinar la implementación en Verilog 
+	y generar nuevas ideas para reducir el área que ocupan los IP cores al sintetizarlos para FPGA. Con 
+	respecto a esto, se puede trabajar optimizando los datos que deben cargarse para reducir el tamaño de 
+	las estructuras necesarias para el algoritmo de ejecución de Redes de Petri. También, se pueden realizar 
+	investigaciones con respecto a la posibilidad de utilizar memorias externas para almacenar todos estos 
+	datos, dejando en la FPGA sólo la lógica de operación. Con respecto a este último punto, para optimizar 
+	el aprovechamiento de memoria, se deben realizar estudios que lleven a un mejor aprovechamiento de la 
+	localidad temporal y espacial de los datos. De esta manera, se generan estructuras de datos más pequeñas 
+	dentro del procesador de Redes de Petri para poder obtener resultados rápidamente y, se almacenan en memoria 
+	aquellos datos con menor probabilidad de utilización.
+	\\
+
+	Trabajando en las mejoras antes mencionadas, es posible construir sistemas de gran envergadura gracias a 
+	un procesador capaz de ejecutar Redes de Petri de gran tamaño, de manera tal que casi cualquier problema 
+	puede ser modelado e implementado a través de la ejecución de Redes de Petri.
+	\\
+	
+	Por otro lado, una mejora que se esta llevando a cabo en el Laboratorio de Arquitectura de Computadoras, 
+	es el desarrollo un driver que permita utilizar el procesador de Redes de Petri desde lenguajes de 
+	alto nivel y sistemas operativos como Linux, Windows, etc.
+	\\
+	
+	En este trabajo, se ha implementado un procesador capaz de resolver Redes de Petri de bajo nivel como son: 
+	Redes de Petri con Arcos Inhibidores, Redes de Petri con Tiempo y Redes de Petri Temporizadas.
+	Existen redes de alto nivel que aumentan considerablemente el poder de modelado de las Redes de Petri. 
+	Entre ellas, están las Redes de Petri Bien Formadas y las Redes de Petri Coloreadas. En estas redes los 
+	tokens ya no son todos del mismo tipo, existen diversos tipos de tokens lo que posibilita trabajar con 
+	diferentes tipos de datos. De esta manera, se agregan muchos sistemas al conjunto de aquellos que pueden 
+	ser modelados con Redes de Petri. Con respecto a este tema, en el Laboratorio de Arquitectura de Computadoras 
+	ya se están investigando posibilidades para diseñar e implementar un IP core capaz de ejecutarlas.

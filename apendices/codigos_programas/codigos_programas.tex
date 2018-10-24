@@ -1,0 +1,84 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Apendices																%
+%	Capitulo: Códigos en C de los programas ejecutados								%
+%	Archivo: codigos_ipcores.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lstset
+{	language=C,               		% the language of the code
+	basicstyle=\tiny,       		% the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                       				% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=none,                 	% adds a frame around the code
+	rulecolor=\color{white},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	%title=\lstname,                % show the filename of files included with \lstinputlisting;
+		                            % also try caption instead of title
+	keywordstyle=\color{black},      % keyword style
+  	commentstyle=\color{black},   % comment style
+  	stringstyle=\color{gray},      % string literal style
+  	escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+  	morekeywords={*,...},           % if you want to add more keywords to the set
+  	deletekeywords={...}            % if you want to delete keywords from the given language
+}
+
+\chapter{Códigos en C de los programas ejecutados}
+	\label{ap:codigos_programas}
+
+	A continuación, se muestran los códigos en C de los programas ejecutados en las pruebas realizadas.
+	
+	% Programa del productor consumidor
+		\section{Productor/Consumidor}
+			\label{sec:programa_prod_cons}
+			\lstinputlisting{./apendices/codigos_programas/prod_cons.c}		
+
+	% Programa del Escritor Escritor con cinco hilos usando Petri
+		\section{Escritor/Escritor (5 hilos) usando Redes de Petri}
+			\label{sec:programa_escritor_petri}
+			\lstinputlisting{./apendices/codigos_programas/escritores_petri.c}	
+	
+	% Programa del Escritor Escritor con cinco hilos usando Semáforos	
+		\section{Escritor/Escritor (5 hilos) usando Semáforos}
+			\label{sec:programa_escritor_sem}	
+			\lstinputlisting{./apendices/codigos_programas/escritores_sem.c}	
+
+	% Programa de la fábrica de mesas usando Redes de Petri
+		\section{Fábrica de mesas usando Redes de Petri}
+			\label{sec:programa_fabrica_mesas_petri}
+			\lstinputlisting{./apendices/codigos_programas/fabrica_mesas_petri.c}			
+
+	% Programa de la fábrica de mesas usando Semáforos
+		\section{Fábrica de mesas usando Semáforos}
+			\label{sec:programa_fabrica_mesas_sem}
+			\lstinputlisting{./apendices/codigos_programas/fabrica_mesas_sem.c}
+
+	% Programa de la cena de los filosofos usando Redes de Petri
+		\section{Cena de los filósofos usando Redes de Petri SIN interrupciones}
+			\label{sec:programa_cena_filosofos_petri}
+			\lstinputlisting{./apendices/codigos_programas/cena_filosofos_petri.c}			
+
+	% Programa de la cena de los filosofos usando Semáforos
+		\section{Cena de los filósofos usando Redes de Petri CON interrupciones}
+			\label{sec:programa_cena_filosofos_petri_int}
+			\lstinputlisting{./apendices/codigos_programas/cena_filosofos_petri_int.c}

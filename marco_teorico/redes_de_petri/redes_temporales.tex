@@ -1,0 +1,244 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Marco Teorico															%
+%	Capitulo: Redes de Petri														%
+%	Seccion: Redes de Petri Temporales												%	
+%	Archivo: redes_temporales.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./marco_teorico/redes_de_petri/img
+% Nombre predeterminado imagenes: petrixx
+%	xx es el numero de imagen
+
+\section{Redes de Petri Temporales}
+	\label{sec:redes_temporales}
+	
+	En los modelos de Redes de Petri descriptos hasta el momento, el tiempo no estaba considerado. 
+	
+	En el formalismo de Redes de Petri básico, o autónomo, la abstracción del entorno en el que la red 
+	evoluciona, incluyendo el tiempo como parte de este entorno, es total. Por lo que existe cierto 
+	indeterminismo en cuanto al tiempo: no se especifica cuándo se disparará una transición que está 
+	sensibilizada (ni si se disparará realmente), tampoco cuál de entre un grupo de transiciones en conflicto 
+	será la disparada \cite{garcia_izquierdo}.
+	
+	\newpage
+	
+	Las distintas interpretaciones con tiempo de las Redes de Petri han tratado de reducir el indeterminismo 
+	de distintas maneras. Entre estas interpretaciones están:
+	\begin{enumerate}
+	  	\renewcommand{\theenumi}{\Alph{enumi}}
+	  	\item \underline{Redes de Petri Estocásticas (Stochastic Petri Net)}
+	  		\\
+			Se introduce una estimación estocástica respecto del instante de disparo de una transición.
+		\item \underline{Redes de Petri Temporizadas (Timed Petri Net)}
+			\\
+			Introduce una condición de tiempo que establece la duración de la transición.
+		\item \underline{Redes de Petri con Tiempo (Time Petri Net)}
+			\\
+			Introducen cotas temporales entre las cuales la transición puede o debe ser disparada.
+	\end{enumerate}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{./marco_teorico/redes_de_petri/img/Petri16}
+		\caption{Interpretaciones de Redes de Petri Temporales}
+		\label{fig:Petri16}
+	\end{figure}
+	
+	Existen dos maneras de interpretar el parámetro temporal asociado a una transición:
+	\begin{itemize}
+		\item Cuando el parámetro temporal determina el tiempo que ha de transcurrir desde que una transición 
+			queda sensibilizada hasta que se dispara, procediéndose entonces a la retirada y colocación de marcas 
+			de forma atómica, se habla de \textbf{\emph{tiempo de sensibilización (enabling time)}}.
+			Está relacionada con las \textbf{\emph{Redes de Petri con Tiempo}} (Red C de la Figura \ref{fig:Petri16}).
+		
+		\item El parámetro temporal puede determinar también el tiempo que debe transcurrir entre la retirada 
+			(instantánea) de marcas de los lugares de entrada, y la colocación (instantánea) de marcas en los 
+			lugares de salida; en éste caso se habla de tiempo de \textbf{\emph{disparo (firing time)}}.
+			Esto es, el disparo de la transición tiene tres fases (retirada de marcas de entrada, disparo, 
+			colocación de marcas de salida) y no es atómico, sino que tienen una duración. Por ello esta 
+			interpretación es también conocida como semántica de duración.
+		
+		Están asociadas con las \textbf{\emph{Redes de Petri Temporizadas}} (Red B de la Figura \ref{fig:Petri16}).
+	\end{itemize}
+	
+	Este capítulo se centrará en:
+	\begin{itemize}
+		\item \textbf{\emph{Redes de Petri con Tiempo:}}
+			\\
+			En estas redes, cada transición tiene asociado un intervalo $[a , b]$ que abarca todas las posibilidades 
+			de duración de la actividad que la transición modela.
+		\item \textbf{\emph{Redes de Petri Temporizadas:}}
+			\\
+			En estas redes, cada transición tiene asociado un parámetro $[a]$ que establece la duración de la 
+			transición, es decir la duración del intervalo entre que se extraen los tokens de las plazas de 
+			entrada y se colocan los tokens en las plazas de salida.
+	\end{itemize}
+		
+	\subsection{Redes de Petri con Tiempo}
+		\label{subsec:redes_con_tiempo}
+		
+		En ésta sección se describirán las \textbf{\emph{Redes de Petri con Tiempo}} como la red \emph{C} 
+		de la Figura \ref{fig:Petri16}).
+		
+		\subsubsection{Definición matemática}
+			Una \emph{Red de Petri Marcada con Tiempo}, se define matemáticamente como una 7-tupla de la siguiente 
+			manera:
+			\begin{equation*}
+				PN = \{P, T, I^-, I^+, H, m_0, IS\}
+			\end{equation*}
+			Dónde,
+			\begin{itemize}
+				\item \textbf{P} es un conjunto finito y no vacío de plazas.
+				\item \textbf{T} es un conjunto finito y no vacío de transiciones.
+				\item \textbf{$I^+$} e \textbf{$I^-$} son las matrices de incidencia positiva y negativa respectivamente.
+					\begin{equation*}
+						P×T\rightarrow \mathbb{Z}
+					\end{equation*}
+				\item H es la matriz de arcos inhibidores.
+					\begin{equation*}
+						P×T\rightarrow\{0,1\}
+					\end{equation*}
+				\item $m_0$ es el marcado inicial de la red.
+					\begin{equation*}
+						P\rightarrow \mathbb{N}
+					\end{equation*}
+				\item IS es el conjunto de intervalos estáticos asociados a cada transición.
+					\begin{equation*}
+						T\rightarrow \mathbb{Q}^+ × (\mathbb{Q}^+ \cup \infty)
+					\end{equation*}
+			\end{itemize}
+			
+			La función \textbf{\emph{IS}} asocia a cada transición un par de valores que representan los límites 
+			temporales máximo y mínimo entre los cuales la transición podrá ser disparada. De manera tal que 
+			$IS(t) = [min,max]$. Donde $t$ es una transición perteneciente a $T$.
+			Como la función $IS$ representa un intervalo temporal se deben cumplir las siguientes condiciones:
+			\begin{itemize}
+				\item $0 	\leq 	min	\langle	\inf$
+				\item $0 	\leq 	max	\leq 	\inf$
+				\item $min	\leq 	max \text{ si } max \neq \infty$
+				\item $min	\langle max \text{ si } max   =	 \infty$
+			\end{itemize}
+			Al valor $min$ se le suele llamar \textbf{Earliest Firing Time EFT (Instante de disparo más temprano)}. 
+			Y, al valor $max$ se le llama \textbf{Latest Firing Time LFT (Instante de disparo más tardío)}.
+				
+			Existen dos tipos de intervalos destacables:
+			\begin{itemize}
+				\item \emph{Intervalo puntual}
+					\begin{equation*}
+						[\alpha,\alpha]
+					\end{equation*}
+					En este caso, el tiempo de sensibilización es fijo, luego de que transcurra el tiempo $\alpha$ la 
+					transición debe dispararse. Un disparo inmediato es representado por $\alpha=0$ y se comporta 
+					como en las Redes de Petri vistas anteriormente.
+			\item \emph{Intervalo sin restricción temporal}\\
+				\begin{equation*}
+					[0,\infty]			
+				\end{equation*}
+				La transición no tiene restricciones temporales para dispararse, se disparará en algún momento después de
+				sensibilizarse.
+			\end{itemize}
+			
+		\subsubsection{Regla de disparo de transiciones}
+			
+			El intervalo de tiempo definido $(min, max)$ indica el tiempo \emph{mínimo} que debe transcurrir luego
+			del momento en el que se sensibiliza la transición y el tiempo \emph{máximo} para que pueda ser disparada, 
+			luego de esto, la transición no podrá ser disparada.
+			
+			Suponiendo que la transición $t_i$ comienza a estar sensibilizada en el instante $w_i$, que continúa 
+			sensibilizada y que su intervalo asociado es $(min_i, max_i)$, el disparo de la transición se producirá 
+			no antes del instante $w_i + min_i$, y no mas tarde del instante $w_i + max_i$.
+			El intervalo de tiempos de disparo válidos para $ti$ será, por tanto $[w_i + min_i, w_i + max_i]$.
+		
+		\subsubsection{Estados en una Red de Petri con Tiempo}
+			
+			En estas Redes de Petri, el estado de la red queda definido por el vector de marcado $m$ de la 
+			misma y por un vector $Intervalo$ que lleva la marca de tiempo de cada transición. Por lo tanto 
+			el estado de una Red de Petri con Tiempo queda definido por:
+			\begin{equation*}
+				E = (m_0,Intervalo)
+				\label{eq:estado_con_time}
+			\end{equation*}
+			
+			Ahora, al disparar una transición $t$ en un instante $w_j$ produce un cambio desde el estado 
+			$E = (m,Intervalo)$ a un nuevo estado $E' = (m',Intervalo')$. El nuevo marcado $m'$ se determina 
+			con la ecuación de estado vista anteriormente. Por otro lado, la actualización del intervalo para 
+			cada transición $k$ sigue las siguientes reglas:
+			\begin{itemize}
+				\item $Intervalo'(k) = \infty$ si la transición $k$ no está sensibilizada.
+				\item $Intervalo'(k) = Intervalo(k) + 1$ si $k\neq t$, en el marcado $m$ esta sensibilizada 
+					y sigue estandolo en el marcado $m'$. 
+				\item $Intervalo'(k) = 0$ si $k = t$ o $k$ comienza a estar sensibilizada en el marcado $m'$.
+			\end{itemize}
+	
+	\subsection{Redes de Petri Temporizadas}
+		\label{subsec:redes_temporizadas}
+		
+		En ésta sección se describirán las \textbf{\emph{Redes de Petri Temporizadas}} como la red \emph{B} 
+		de la Figura \ref{fig:Petri16}).
+		
+		\subsubsection{Definición matemática}
+		
+			Una \emph{Red de Petri Marcada Temporizada}, se define matemáticamente como una 7-tupla de la siguiente 
+			manera:  
+			\begin{equation*}
+				PN = \{P, T, I^-, I^+, H, m_0, Timer\}
+			\end{equation*}
+			Dónde,
+			\begin{itemize}
+				\item \textbf{P} es un conjunto finito y no vacío de plazas.
+				\item \textbf{T} es un conjunto finito y no vacío de transiciones.
+				\item \textbf{$I^+$} e \textbf{$I^-$} son las matrices de incidencia positiva y negativa respectivamente.
+					\begin{equation*}
+						P×T\rightarrow \mathbb{Z}
+					\end{equation*}
+				\item H es la matriz de arcos inhibidores.
+					\begin{equation*}
+						P×T\rightarrow\{0,1\}
+					\end{equation*}
+				\item $m_0$ es el marcado inicial de la red.
+					\begin{equation*}
+						P\rightarrow \mathbb{N}
+					\end{equation*}
+				\item es el conjunto de valores de duración asociados a cada transición.
+					\begin{equation*}
+						T\rightarrow \mathbb{Q}^+
+					\end{equation*}
+			\end{itemize}
+		
+		El conjunto de valores \textbf{\emph{Timer}} asocia un valor racional \emph{duración} a cada transición. De 
+		manera tal que $Timer(t)=duracion$. Donde $t$ es una transición perteneciente a $T$.
+		
+		Dado que duración es una referencia de tiempo, se debe cumplir que $0 \leq duracion \langle \infty$.
+		
+		\subsubsection{Regla de disparos y estados en una Red de Petri Temporizada} 
+		
+			En una \emph{Red de Petri Temporizada}, el disparo de una transición implica tres etapas.
+			\begin{enumerate}
+				\item Al momento que se sensibiliza la transición, se extrae la cantidad de tokens de las plazas 
+					de entrada indicada por el arco que los une a dicha transición. Además, se marca la transición
+					como no sensibilizada.
+					\begin{equation*}
+						m_{i+1} = m_i +I^- × d
+					\end{equation*}
+					Se genera un nuevo estado provisorio formado a partir la extracción de los tokens que sensibilizaban 
+					la transición que se esta disparando. También, en ese instante se comienza la cuenta de tiempo.
+				\item Se espera el tiempo indicado por el valor de duración de la transición. Con la transición 
+					marcada como no sensibilizada, se espera hasta que la cuenta de tiempo, que comenzó al 
+					extraerse los tokens, llegue al valor indicado por $Timer(d)$.
+				\item Transcurrido el tiempo indicado por el valor de duración asociado a la transición se colocan los tokens 
+					en las plazas de salida según como indican los arcos que unen a las transiciones con dichas plazas.
+					\begin{equation*}
+						m_{i+2} = m_{i+1} +I^+ × d
+					\end{equation*}
+			\end{enumerate}			

@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Resultados y Conclusiones												%
+%	Capitulo: Resultados															%
+%	Seccion: Crecimiento del tamaño del IP core dentro de la FPGA					%	
+%	Archivo: crecimiento_ip_core.tex												%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./resultados_conclusiones/resultados/img
+% Nombre predeterminado imagenes: resultadosxx
+%	xx es el numero de imagen
+
+\section{Crecimiento del tamaño del IP core}
+	\label{sec:crecimiento_ip_core}
+	
+	El IP core del procesador de Redes de Petri, es parametrizable según la cantidad de plazas, transiciones 
+	y, del tamaño de cada elemento de datos usado.
+	Considerando como \emph{p} al número de plazas y \emph{t} al número de transiciones, cada uno de los elementos 
+	que definen a la Red de Petri tienen el siguiente tamaño.
+	
+	\newpage
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados01}
+		\caption{Parámetros para analizar el crecimiento de los datos en redes de Petri con Tiempo}
+		\label{fig:resultados01}
+	\end{figure}
+		
+	Se utilizan estos valores para mostrar porque son los correspondientes a los IP cores generados para realizar 
+	las pruebas.	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados02}
+		\caption{Crecimiento de los datos dentro del IP core para Redes de Petri con Tiempo}
+		\label{fig:resultados02}
+	\end{figure}
+	
+	Los valores de la tabla anterior, reprensentan la dependecia de cada uno de los datos internos del
+	IP core con respecto a los parámetros de mismo, como cantidad de plazas, cantidad de transiciones,
+	cantidad de bits de cada elemento, etcétera.
+	Por ejemplo, en el caso de la matriz de incidencia, se ve que varía su tamaño según la cantidad de
+	plazas, en éste caso 15, según la cantidad de transiciones, para la Figura su valor es 10 y según
+	la cantidad de bits de cada elemento, en éste caso, 6. Con estos valores, al ser una matriz, tiene
+	$p×t$ elementos ($15×10=150$). Dado que cada elemento tiene 6 bits, la cantidad total de bits de 
+	la matriz de incidencia será $p×t×bits elementos$ ($150×6=900$)
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados03}
+		\caption{Valores utilizados como parámetros para analizar el crecimiento de los datos en Redes de Petri Temporizadas}
+		\label{fig:resultados03}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados04}
+		\caption{Crecimiento de los datos dentro del IP core para Redes de Petri Temporizadas}
+		\label{fig:resultados04}
+	\end{figure}
+	En base a estos datos, se ha sintetizado el sistema que incluye un procesador \emph{MicroBlaze} 
+	\cite{xilinx_microblaze} y el IP core del procesador de Redes de Petri variando los parámetros de 
+	este último como por ejemplo, cantidad de plazas, tamaño en bits de los elementos, etcétera. Todas 
+	las mediciones que se mostrarán han sido realizadas con el IP core para procesamiento de \emph{Redes de Petri con Tiempo}. 
+	\\
+	
+	En éste momento, en el Laboratorio de Arquitecturas de Computadoras (LAC), se dispone de dos kits de 
+	desarrollo con FPGA que son útiles para este trabajo, el kit de Digilent Atlys \footnote{\url{http://www.digilentinc.com/Products/Detail.cfm?NavPath=2,400,836&Prod=ATLYS}}  
+	y, el kit llamado Zedboard \footnote{\url{http://www.digilentinc.com/Products/Detail.cfm?NavPath=2,400,1028&Prod=ZEDBOARD}}
+	distribuido para fines académicos también por \emph{Digilent}.
+	Como el kit de desarrollo \emph{Digilent Atlys} era el único disponible en el laboratorio 
+	al comenzar este trabajo, el proyecto del sistema fue generado para esta plataforma. se realizó una 
+	medición del área de la FPGA ocupada para diferentes valores de los antes mencionados parámetros del 
+	procesador de Redes de Petri. Estas mediciones, han sido realizadas debido a que el área que ocupa un hardware
+	dentro de un chip es un factor muy importante al momento de diseñar e implementar circuitos integrados, 
+	mientras mayor sea el área del chip, mayor sera el costo del mismo \cite{hennessypatterson}.
+	Los datos a medir fueron, cantidad de Flip-Flops utilizados, ya que se comprobó que cada bit necesario para 
+	la implementación requiere un Flip-Flop para ser almacenado y cantidad de celdas lógicas de la FPGA consumidas
+	por la implementación.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados05}
+		\caption{Diferentes implementaciones del procesador de Redes de Petri en el kit Digilent Atlys (Tabla)}
+		\label{fig:resultados05}
+	\end{figure}
+
+	Con los datos obtenidos (Figura \ref{fig:resultados05} y Figura \ref{fig:resultados06}), se pudo observar que 
+	una Red de Petri de gran tamaño no podría ser implementada en el kit Atlys, esto se debe a las siguientes 
+	razones.
+	La cantidad de Flip-Flops y celdas lógicas utilizadas por el procesador de Redes de Petri crece 
+	considerablemente.
+	Como el kit de desarrollo no cuenta con un procesador propio, el \emph{MicroBlaze} con todos sus 
+	períféricos debe ser implementado en la FGPA. Por esta razón, el procesador de Redes de Petri tiene
+	limitadas sus posibilidades de crecimiento debido al área ocupada por el resto de los componentes del
+	sistema.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados06}
+		\caption{Diferentes implementaciones del procesador de Redes de Petri en el kit Digilent Atlys (Gráfica)}
+		\label{fig:resultados06}
+	\end{figure}
+	Por las limitaciones enunciadas anteriormente, se han realizado mediciones similares para el kit de
+	desarrollo ZedBoard. A pesar de no haber contado con éste kit para el desarrollo del proyecto, 
+	actualmente en el Laboratorio de Arquitectura de Computadoras se cuenta con uno de ellos y uno de los
+	trabajos en desarrollo es implementar los IP cores desarrollados a éste nuevo kit. Una FPGA 
+	de mayor tampoño y un procesador dual core ARM A9 son algunas de las ventajas de este kit de desarrollo.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados07}
+		\caption{Diferentes implementaciones del procesador de Redes de Petri en el kit Zedboard (Tabla)}
+		\label{fig:resultados07}
+	\end{figure}
+	\newpage
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados08}
+		\caption{Diferentes implementaciones del procesador de Redes de Petri en el kit Zedboard (Gráfica Total)}
+		\label{fig:resultados08}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth,keepaspectratio]{./resultados_conclusiones/resultados/img/resultados09}
+		\caption{Diferentes implementaciones del procesador de Redes de Petri en el kit Zedboard (Gráfica Petri)}
+		\label{fig:resultados09}
+	\end{figure}
+	\newpage
+	El kit de desarrollo ZedBoard según sus especificaciones cuenta con una FPGA con 106400 Flip-Flops y
+	85000 celdas lógicas. En las gráficas de las Figuras \ref{fig:resultados08} y \ref{fig:resultados09} 
+	se observa como, en el caso de utilizar este kit de desarrollo podría implementarse un procesador de
+	Redes de Petri de mas de 48 plazas por 48 transiciones brindando una mayor flexibilidad para modelar
+	sistemas.
+	
+	Los datos obtenidos de la síntesis del IP core para este kit de desarrollo, son presentados en dos 
+	gráficas porque al utilizar solo una las curvas se superponían.
+		
+	Para ambos kits de desarrollo, se presentan las mediciones de Flip-Flops y LUTs del sistema total y
+	tambíén, los valores obtenidos sólo para el IP core. Esto se realizó para tener una idea del qué parte 
+	de la FPGA era utilizada por el procesador de Redes de Petri y qué parte por componentes anexos.
+	

@@ -1,0 +1,148 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	DOCUMENTO PRINCIPAL																%	
+%	Archivo: informe.tex															%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper,12pt,openright,twoside]{book}
+
+% Paquetes
+	% Idioma y codificacion de caracteres
+		\usepackage[spanish]{babel}
+		\usepackage[latin1]{inputenc}
+	% Figuras
+		\usepackage{graphicx}
+		\usepackage{subfigure}
+		\usepackage{float} % Para posicionar imagenes donde uno quiera. Solo hay que poner la opcion [H]
+	% Apendice
+		\usepackage{appendix}
+	%Tablas	
+	%\usepackage{tabular}
+	% Margenes
+		\usepackage{anysize}
+	% Tabla de conteido
+		\usepackage[tight]{shorttoc}
+	% Matematica
+		\usepackage[cmex10]{amsmath}
+		\usepackage{amssymb}
+	% Referencias
+		\usepackage[dcucite]{harvard}
+		\usepackage{hyperref}
+	% Colores
+		\usepackage{color}
+		% Definicion de colores
+			\definecolor{dkgreen}{rgb}{0,0.6,0}
+			\definecolor{gray}{rgb}{0.5,0.5,0.5}
+			\definecolor{mauve}{rgb}{0.58,0,0.82}
+			\definecolor{violeta}{RGB}{127,0,85}
+	% Insertar código
+		\usepackage{listings}
+
+% Margenes
+	% Controla los márgenes {izquierda}{derecha}{arriba}{abajo}
+		\marginsize{3cm}{3cm}{2.5cm}{2.5cm}
+
+% Encabezados
+	\pagestyle{headings}
+		
+% Documento
+\begin{document}
+ 
+	% Reeescritura de comandos
+		\renewcommand{\appendixname}{Apéndice}
+		\renewcommand{\appendixtocname}{Apéndice}
+		\renewcommand{\tablename}{\textbf{Tabla}} 	% Para poner la palabra en mayusucula
+		\renewcommand{\figurename}{\textbf{Figura}} % Para poner la palabra en mayuscula
+		\renewcommand{\contentsname}{Índice}
+		\renewcommand{\listtablename}{Índice de tablas}
+		\renewcommand{\listfigurename}{Índice de Figuras}
+
+		\setcounter{secnumdepth}{3} % Para numerar subsubsecciones
+		\setcounter{tocdepth}{3}	% Para incluir subsubsecciones en la TOC	
+	% INICIO DE LA PRIMERA PARTE. Resumen ejecutivo
+ 		\frontmatter
+ 		% Portada
+ 			\begin{titlepage}
+ 				\input{./portada/portada}
+ 				\thispagestyle{empty}
+ 			\end{titlepage}
+ 		% Resumen
+ 			% Resumen ejecutivo
+ 				\input{./resumen/resumen_ejecutivo}
+ 			% Executive Summary
+ 				\input{./resumen/executive_summary}
+ 		% Tabla de contenido inicial
+ 			\shorttableofcontents{Tabla de contenido}{0}
+ 		
+ 	%INICIO DEL TEXTO PRINCIPAL
+ 		\mainmatter
+ 		% Introducción
+ 			\part{Introducción}
+ 				% Introducción
+					\input{./introduccion/introduccion}
+ 				% Metodología de trabajo	
+ 					\input{./introduccion/intro_metodologia}
+ 		% Marco teórico
+ 			\part{Marco Teórico}
+ 				% Redes de Petri
+ 					\input{./marco_teorico/redes_de_petri/chap_redes_de_petri}
+ 				% Concurrencia y sincronizacion
+ 					\input{./marco_teorico/concurrencia/chap_concurrencia}
+ 				% FPGA - IP core - HDL
+ 					\input{./marco_teorico/FPGA_IP_HDL/chap_fpga_ip_hdl}
+ 		% Desarrollo
+ 			\part{Desarrollo}
+ 				% Desarrollo e Implementación
+ 					\input{./desarrollo/diseno_implementacion/chap_diseno_implementacion}
+ 				% Implementación en FPGA
+ 					\input{./desarrollo/implementacion_FPGA/chap_implementacion_fpga}
+ 		% Resultados y Conclusiones			
+ 			\part{Resultados y Conclusiones}
+ 				%Resultados obtenidos
+ 					\input{./resultados_conclusiones/resultados/chap_resultados}
+ 				% Conclusiones
+ 					\input{./resultados_conclusiones/chap_conclusiones}
+ 				% Trabajo futuro
+ 					\input{./resultados_conclusiones/chap_trabajo_futuro}	
+ 	
+	% APENDICES
+		\appendix
+		\part{Apéndices}
+			% Nuevo proyecto en Xilinx XPS
+				\input{./apendices/nuevos_proyectos_XPS/nuevos_proyectos_XPS}
+			% Creacion de un nuevo IP core	
+				\input{./apendices/creacion_IP_core/creacion_IP_core}
+			% Interrupciones en los IP core
+				\input{./apendices/interrupciones/interrupciones}
+			% Gestión de la metodología de desarrollo
+				\input{./apendices/metodologia/metodologia}
+			% Códigos en Verilog de los IP cores
+				\input{./apendices/codigos_ipcores/codigos_ipcores}
+			% Códigos en C de los programas ejecutados
+				\input{./apendices/codigos_programas/codigos_programas}
+	
+	%INICIO DE LA PARTE FINAL. Bibliografia e indices
+		\backmatter
+		% Referencias
+			\addcontentsline{toc}{chapter}{Bibliografía}
+			\bibliographystyle{dcu}
+			\bibliography{referencias}		
+		% Indices
+			% Indice de contenido
+				\addcontentsline{toc}{chapter}{Índice de contenido} % para que aparezca en el indice de contenidos
+				\tableofcontents
+			% Índice de Figuras
+				\cleardoublepage
+				\addcontentsline{toc}{chapter}{Índice de Figuras} % para que aparezca en el indice de contenidos
+				\listoffigures % indice de Figuras
+
+\end{document}

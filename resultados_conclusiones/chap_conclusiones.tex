@@ -1,0 +1,68 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Resultados y Conclusiones												%
+%	Capitulo: Conclusiones															%	
+%	Archivo: chap_conclusiones.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Conclusiones}
+	\label{chap:chap_conclusiones}
+
+	En este proyecto se ha realizado un  análisis detallado de las \emph{Redes de Petri Temporales}
+	con las dos semánticas de tiempo posibles, incluyendo \emph{Redes de Petri con Tiempo} y \emph{Redes
+	de Petri Temporizadas} con el objetivo de diseñar e implementar IP core que sea capaz de ejecutarlas.
+	Éste procesador, sirve para proveer sincronización entre los múltiples procesos que se ejecutan 
+	concurrentemente en los sistemas actuales.
+	\\
+	
+	Se cumplió el objetivo de que el procesador sea totalmente parametrizable y además de proveer un mecanismo
+	para interactuar el IP core desde un software.
+	
+	A lo largo de todas las pruebas realizadas, se ha verificado que el procesador de Redes de Petri reduce el tiempo
+	destinado a la sincronización de procesos. También, en el problema del Escritor/Escritor se a comprobado que el \textbf{\emph{procesador 
+	de Redes de Petri en promedio es entre un $\boldsymbol{15\%}$ y un $\boldsymbol{30\%}$ más rápido que el uso de semáforos}}. 
+	Incluso, se \textbf{\emph{alcanzan picos de hasta un $\boldsymbol{70\%}$ de mayor velocidad}}. 
+	
+	Por otro lado, se verificó que el procesador de Redes de Petri es capaz de generar interrupciones y, por ejemplo, para el
+	caso del problema de la cena de los filósofos, es mejor utilizar interrupciones que el método de ceder el procesador cuando
+	el disparo no está listo.
+	
+	No se ha podido comparar de manera adecuada al procesador de Redes de Petri con interrupción frente a los semáforos debido a que
+	la plataforma que se utilizó (Xilkernel) hace que se deban utilizar semáforos para suspender a los procesos/hilos mientras
+	se resuelve el disparo y llega la interrupción para despertarlo. 
+	
+	De ésta manera, se estableció un criterio para decidir según el problema, que método de espera por disparos ejecutados
+	utilizar. Para sistemas el los cuales el tiempo de sincronización es bajo respecto de la carga de trabajo, lo más conveniente
+	es una espera activa. En cambio, para sistemas en los que la sincronización determina un orden de ejecución secuencia entre
+	los diversos hilos del sistema, como en el caso del problema Escritor/Escritor, se recomienda utilizar el método de ceder el
+	procesador. Por último, en sistemas dónde la cantidad de hilos/procesos es muy grande y/o las transiciones tienen una larga
+	duración, el mejor método es el uso de interrupciones.
+	
+	De ésta forma, el procesador de Redes de Petri ha sido probado con problemas de diversas características y en todas se
+	ha verificado su correcto funcionamiento.
+	\\
+	
+	También, se realizó un análisis del crecimiento del IP core dentro de una FPGA obteniendo que el área ocupada por el
+	procesador no es demasiado grande pero sería posible profundizar en la teoría de Redes de Petri para reducir los datos
+	necesarios para ejecutar éstas redes y de ésta forma mejorar el diseño del IP core para reducir el área ocupada.
+	\\
+	
+	Por otro lado, a lo largo del trabajo, con los problemas resueltos, se mostró que al utilizar un procesador de Redes de Petri,
+	la implementación de un sistema concurrente es mucho más simple que al utilizar otros mecanismos de sincronización y, además
+	es mucho más simple verificar el correcto funcionamiento del sistema. Ésto se debe a que al utilizar Redes de Petri \emph{la distancia 
+	entre el modelo y la implementación no existe}. En la implementación se cumplen todas las propiedades verificadas en el modelo 
+	porque la implementación \textbf{\emph{ES}} el modelo, \textbf{\emph{ES}} la Red de Petri. Esto genera también que
+	\\
+	
+	Con esto, quedan cumplidos los objetivos planteados al comenzar este proyecto y además, se abren muchas 
+	puertas para continuar trabajando en el área.

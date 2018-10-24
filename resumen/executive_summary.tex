@@ -1,0 +1,69 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Capitulo: Executive Summary														%	
+%	Archivo: executive_summary.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Executive Summary}
+	\label{chap:executive_summary}
+	
+	Since the modern systems have multiple process and threads running at the same time, 
+	they need a mechanism to synchronize them. Today, these mechanisms are implemented in 
+	software and do not have support in the hardware. Semaphores and monitors are examples 
+	of these control structures.
+	\\
+	
+	On the oher hand, the most used method to model concurrent systems are state machines 
+	with model checking, propositional logic, etc. The problem with this is that the distance 
+	between the model and the implementation is too big so, it is difficult to verify in the 
+	implementation the properties verified in the model.
+	\\
+	
+	For these mentioned reasons, researchers in the \emph{Computer Architecture Laboratory} 
+	are working in \textbf{\emph{Petri Nets}}. This is a graphical way to model concurrent 
+	systems and has a formal mathematical background. The new discovery made in the laboratory 
+	is that the Petri Nets can be \textbf{\emph{executed}}, not only used for simulations. This 
+	way, \emph{the distance between the model and the implementation does not exist}. In the 
+	implementation are fulfilled all the properties verified in the model because the implementation 
+	\textbf{\emph{IS}} the model, \textbf{\emph{IS}} the Petri Net.
+	
+	Then, the next step is to implement in hardware a module capable of execute Petri Nets, this is 
+	the fourth project in this line of work. The first of them demonstrated that the implementation 
+	in hardware of a Petri Nets processor was possible \cite{paillertejeda}. Then, the second project 
+	was the simulation of multicore systems synchronized by Petri Nets  \cite{baldoniromano} and the third, 
+	was the implementation of the first Petri Nets processor; it can execute simple nets and nets with 
+	inhibitor arcs \cite{galliapereyra}.
+	\\	
+	
+	Finally, in this project, we translate the previous version from \emph{VHDL} to \emph{Verilog} and 
+	improve the design to allow the addition of new functionalities such as bounds in the places of the 
+	net, automated firing of transitions and, the most important feature added, \textbf{\emph{the capability 
+	to manage time}}. For this reason, we develop two \emph{IP cores}, one to execute \textbf{\emph{Time Petri 
+	Net}}, and the second to process \textbf{\emph{Timed Petri Nets}}, these are the two existing semantics to
+	manage time in Petri Nets. 
+	
+	At the testing stage, we used classic problems of concurrency like, multiple writers trying to write in the 
+	same variable, the \emph{dining philosopher's} problem and one inventing by us, the \emph{tables factory}. With 
+	these tests, we verified the functionality of the \emph{IP cores}. Besides, we implement the resolution of the 
+	same problems using semaphores as synchronization method. Then, comparing execution time measurements, we found 
+	that the use of the Petri Nets processor is from $15\$$ to $30\%$ faster than the implementations that use 
+	semaphores for synchronization, reaching more than $70\%$ of improvement according of the problem.
+	
+	Also, it has been observed that to implement a system with Petri nets is much simpler than using other synchronization 
+	mechanisms and also has greater versatility as it allows three different methods to wait for the required synchronization 
+	conditions (transitions triggered).
+
+	Note that the IP cores developed were tested with three problems with very different characteristics and all the case 
+	were successful.
+
+	

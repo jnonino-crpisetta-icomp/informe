@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Pryecto Integrador														%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Marco Teórico															%
+%	Capitulo: Concurrencia y Sincronización											%	
+%	Archivo: chap_concurrencia.tex													%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./marco_teorico/concurrencia/img
+% Nombre predeterminado imagenes: concurrenciaxx
+%	xx es el numero de imagen
+
+\chapter{Concurrencia y Sincronización}
+	\label{chap:chap_concurrencia}
+
+	En los sistemas de computación actuales conviven múltiples procesos que cooperan para lograr 
+	determinados objetivos y compiten por recursos del sistema, entre ellos el procesador, la 
+	memoria RAM, los puertos de entrada/salida, etc.
+	
+	Dado que generalmente el número de procesos en un sistema supera ampliamente el número de recursos, 
+	se deben establecer formas de comunicación y sincronización entre ellos que hagan que el sistema 
+	funcione correctamente.
+
+	En éste capitulo se definirá cuando dos programas son concurrentes y/o paralelos y las condiciones 
+	que deben cumplirse para que dos secciones de código fuente puedan ser ejecutadas de manera concurrente. 
+	Luego, se verá que la ejecución concurrente de procesos trae aparejados ciertos problemas como el interbloqueo 
+	y la inanición. Por esta razón deben utilizarse ciertos mecanismos de control para garantizar la correcta 
+	ejecución de los programas, entre ellos, los semáforos y los monitores.
+
+	El objetivo de este capítulo es que el lector adquiera una idea general sobre la programación concurrente 
+	y sobre los problemas inherentes a la misma.
+	
+	% Concurrencia
+		\input{./marco_teorico/concurrencia/concurrencia}
+		
+	% Sincronización
+		\input{./marco_teorico/concurrencia/sincronizacion}	

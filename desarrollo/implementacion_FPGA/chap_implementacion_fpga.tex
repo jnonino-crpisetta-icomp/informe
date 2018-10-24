@@ -1,0 +1,84 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Desarrollo																%
+%	Capitulo: Implementación en FPGA												%	
+%	Archivo: chap_implementacion_fpga.tex											%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./desarrollo/implementacion_FPGA/img
+% Nombre predeterminado imagenes: implexx
+%	xx es el numero de imagen
+
+\lstset
+{	language=C,               		% the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                       				% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=none,                 	% adds a frame around the code
+	rulecolor=\color{white},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	%title=\lstname,                % show the filename of files included with \lstinputlisting;
+		                            % also try caption instead of title
+	keywordstyle=\color{violeta},      % keyword style
+  	commentstyle=\color{dkgreen},   % comment style
+  	stringstyle=\color{blue},      % string literal style
+  	escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+  	morekeywords={*,...},           % if you want to add more keywords to the set
+  	deletekeywords={...}            % if you want to delete keywords from the given language
+}
+
+\chapter{Implementación en FPGA}
+	\label{chap:chap_implementacion_FPGA}
+
+	Para la implementación en una FPGA, se utilizó el kit de desarrollo de \emph{Digilent Atlys}\footnote{\url{http://www.digilentinc.com/Products/Detail.cfm?NavPath=2,400,836&Prod=ATLYS}} 
+	y los programas de la suite \emph{Xilinx ISE Desing Suite}\footnote{\url{http://www.xilinx.com/products/design-tools/ise-design-suite/system-edition.htm}}, 
+	\emph{Xilinx Platform Studio} para realizar el diseño y la implementación del hardware del sistema y 
+	\emph{Software Development Kit} para la creación del software que utilizará el hardware antes mencionado.
+	
+	En el Apéndice \ref{ap:nuevos_proyectos_XPS} se muestra como generar nuevo proyectos en esta herramienta.
+
+	El Apéndice \ref{ap:creacion_IP_core} muestra el procedimiento para generar nuevos IP cores. 
+	
+	Y el Apéndice \ref{ap:interrupciones} muestra como agregarles la capacidad de interrumpir.
+
+	En la Figura \ref{fig:diseno01}, donde fue diagramada la arquitectura del sistema, se muestra que el 
+	Procesador de Redes de Petri, del cual se ha presentado su diseño, implementación y prueba en capítulos 
+	anteriores. 
+	Para generar un sistema como el detallado en la Figura \ref{fig:diseno01} se creo un nuevo proyecto en 
+	la herramienta \emph{Xilinx Platform Studio}. Luego, se creo un IP core que contenga la lógica del procesador 
+	de Redes de Petri desarrollado y se lo conectó al sistema a través del bus \emph{AXI} \cite{xilinx_axi}.
+	
+	Luego, se crearon los test necesarios para probar el IP core desarrollado.
+	
+	En éste capítulo, se mostrarán los conceptos básicos para desarrolar un programa que corra sobre los IP cores
+	que ejecutan Redes de Petri y luego, en secciones siguientes, las ejecuciones de dos programas creados para 
+	probar el procesador.
+
+	% Programación del sistema
+		\input{./desarrollo/implementacion_FPGA/programacion}
+
+	% Productor/Consumidor con buffer limitado
+		\input{./desarrollo/implementacion_FPGA/prod_cons}
+	
+	% Fábrica de mesas
+		\input{./desarrollo/implementacion_FPGA/fabrica_mesas}

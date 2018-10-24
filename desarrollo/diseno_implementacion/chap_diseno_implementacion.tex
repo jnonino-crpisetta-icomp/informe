@@ -1,0 +1,79 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																					%
+%	TRABAJO: Proyecto Integrador													%
+%																					%
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
+%					Temporales para sistemas multicore en FPGA						%
+%																					%
+%		Autores:	Julián Nonino													%
+%					Carlos Renzo Pisetta											%
+%		Director:	Orlando Micolini												%
+%																					%
+%	Parte: Desarrollo																%
+%	Capitulo: Diseño e Implementación												%	
+%	Archivo: chap_diseno_implementacion.tex											%
+%																					%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Path Imagenes: ./desarrollo/diseno_implementacion/img
+% Nombre predeterminado imagenes: disenoxx
+%	xx es el numero de imagen
+
+\lstset
+{	language=Verilog,               % the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                       				% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=none,                 	% adds a frame around the code
+	rulecolor=\color{white},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	%title=\lstname,                % show the filename of files included with \lstinputlisting;
+		                            % also try caption instead of title
+	keywordstyle=\color{blue},      % keyword style
+  	commentstyle=\color{dkgreen},   % comment style
+  	stringstyle=\color{mauve},      % string literal style
+  	escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+  	morekeywords={*,...},           % if you want to add more keywords to the set
+  	deletekeywords={...}            % if you want to delete keywords from the given language
+}
+
+\chapter{Diseño e Implementación}
+	\label{chap:chap_diseno_implementacion}
+
+	En esta sección se describirá la implementación de un \textbf{\emph{procesador de Petri}}, un \emph{IP-Core}
+	que resuelve \emph{Redes de Petri con Arcos Inhibidores} en los que se restringe el disparo de transiciones 
+	y \emph{Redes de Petri Temporales} donde se introduce el tiempo como condición de ejecución.
+	En la primera sección de este capitulo, se presentará la arquitectura general del sistema. 
+	En las secciones siguientes se explicará el diseño y la implementación del procesador de Redes de 
+	Petri dividido en dos partes. En la primera parte, se realizo una refactorización del trabajo descripto 
+	en el trabajo \cite{galliapereyra}. Esta refactorización se realizó para utilizar Verilog como HDL 
+	en lugar del lenguaje VHDL, esto se realizó por razones de claridad, y además, para permitir una 
+	implementación parametrizable que sea mas apta para el agregado de la funcionalidad de procesamiento de 
+	Redes de Petri Temporales. En la segunda etapa del proyecto, se diseñó e implementó un IP core para el 
+	procesamiento de \textbf{\emph{Redes de Petri con Tiempo}} y otro para la resolución de 
+	\textbf{\emph{Redes de Petri Temporizadas}}.
+	
+	% Arquitectura general del sistema
+		\input{./desarrollo/diseno_implementacion/arquitectura_general}
+	
+	% Procesador de Petri (primera etapa)
+		\input{./desarrollo/diseno_implementacion/proc_petri_primera_etapa}
+		
+	% Procesador de Petri (segunda etapa)
+		\input{./desarrollo/diseno_implementacion/proc_petri_segunda_etapa}
+		
+	% Manejo de interrupciones
+		\input{./desarrollo/diseno_implementacion/manejo_interrupciones}
+	
+	% IP core para Redes de Petri Temporizadas
+		\input{./desarrollo/diseno_implementacion/redes_temporizadas}					
