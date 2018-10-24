@@ -1,61 +1,35 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Marco Teorico															%
-%	Capitulo: Concurrencia y Sincronización											%
-%	Seccion: Sincronización															%	
-%	Archivo: sincronizacion.tex														%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./marco_teorico/concurrencia/img
-% Nombre predeterminado imagenes: concurrenciaxx
+% Path imágenes: ./marco_teorico/concurrencia/img
+% Nombre predeterminado imágenes: concurrenciaxx
 %	xx es el numero de imagen
 
 \section{Sincronización}
 	\label{sec:sincronizacion}
 
-	Para solucionar los problemas inherentes a la programación concurrente, se utiliza lo que se llama
-	\emph{sincronización entre los procesos}.
+	Para solucionar los problemas inherentes a la programación concurrente, se utiliza lo que se llama \emph{sincronización entre los procesos}.
 
-	En general, se habla de sincronización cuando determinados fenómenos ocurren o deben ocurrir en un 
-	determinado orden o a la vez.
+	En general, se habla de sincronización cuando determinados fenómenos ocurren o deben ocurrir en un determinado orden o a la vez.
 
-	Para la Ingeniería en Computación, la sincronización es representada por las señales que se envían 
-	los procesos para colaborar entre ellos o para indicar el estado de recursos compartidos, para indicar 
-	que un evento o acción ocurrió o no y determinar si un proceso puede continuar o no, etcétera.
+	Para la Ingeniería en Computación, la sincronización es representada por las señales que se envían los procesos para colaborar entre ellos o para indicar el estado de recursos compartidos, para indicar que un evento o acción ocurrió o no y determinar si un proceso puede continuar o no, etcétera.
 
-	Se dice que un recurso esta sincronizado cuando debe encontrarse en un estado determinado para que un 
-	proceso pueda utilizarlo.
-	En otras palabras, se puede definir a la condición de sincronización como a la propiedad requerida de que 
-	un proceso no realice ninguna acción o evento hasta que otro proceso realice una determinada acción o evento.
+	Se dice que un recurso esta sincronizado cuando debe encontrarse en un estado determinado para que un proceso pueda utilizarlo. En otras palabras, se puede definir a la condición de sincronización como a la propiedad requerida de que un proceso no realice ninguna acción o evento hasta que otro proceso realice una determinada acción o evento.
 	
-	Existen diversos mecanismos que se utilizan para sincronizar procesos, entre ellos, los más comunes son 
-	los \textbf{\emph{semáforos}} y los \textbf{\emph{monitores}}.
+	Existen diversos mecanismos que se utilizan para sincronizar procesos, entre ellos, los más comunes son los \textbf{\emph{semáforos}} y los \textbf{\emph{monitores}}.
 
 	\subsection{Semáforos}
 	
-		Los semáforos son un sistema de señales simples utilizadas por los procesos para comunicarse entre ellos 
-		y lograr la sincronización requerida.
+		Los semáforos son un sistema de señales simples utilizadas por los procesos para comunicarse entre ellos y lograr la sincronización requerida.
 
-		En este método se tiene una variable de sincronización, del tipo entero no negativo, que indica la cantidad 
-		de recursos disponibles. Sobre esta variable se realizan dos tipos de operaciones:
+		En este método se tiene una variable de sincronización, del tipo entero no negativo, que indica la cantidad de recursos disponibles. Sobre esta variable se realizan dos tipos de operaciones:
 		\begin{itemize}
-		  	\item \emph{wait}: decrementa el valor del semáforo solo si este es mayor que cero. Este proceso indica 
-		  		que se utiliza uno de los recursos que controla el semáforo. Si el valor del semáforo al momento de 
-		  		ejecutar la operación \emph{wait} es cero, indica que no hay recursos disponibles y el proceso debe 
-		  		bloquearse hasta que se libere alguno.  
-		  	\item \emph{signal}: es la acción de liberar un recurso que estaba siendo usado por otro proceso en el 
-		  		semáforo. En caso de haber algún proceso bloqueado en el semáforo se lo despierta para que utilice 
-		  		el recurso. De no existir ningún proceso, se incrementa el valor del semáforo. 	
+		  	\item \emph{wait}: decrementa el valor del semáforo solo si este es mayor que cero. Este proceso indica que se utiliza uno de los recursos que controla el semáforo. Si el valor del semáforo al momento de ejecutar la operación \emph{wait} es cero, indica que no hay recursos disponibles y el proceso debe bloquearse hasta que se libere alguno.  
+		  	\item \emph{signal}: es la acción de liberar un recurso que estaba siendo usado por otro proceso en el semáforo. En caso de haber algún proceso bloqueado en el semáforo se lo despierta para que utilice el recurso. De no existir ningún proceso, se incrementa el valor del semáforo. 	
 		\end{itemize}
 		\begin{figure}[H]
 			\centering
@@ -64,135 +38,67 @@
 			\label{fig:concurrencia03}
 		\end{figure}
 		
-		Aunque los semáforos son un mecanismo de gran potencia, se pueden enunciar los siguientes inconvenientes 
-		al usarlos.
+		Aunque los semáforos son un mecanismo de gran potencia, se pueden enunciar los siguientes inconvenientes al usarlos.
 		\begin{enumerate}
-		  	\item Es un mecanismo de bajo nivel, no estructurado, que fácilmente puede llevar a errores transitorios. 
-		  		La ejecución de cada sección crítica debe comenzar con un \emph{wait} y terminar con un \emph{signal} 
-		  		sobre el mismo semáforo. Si se omite una de estas operaciones o se realizan sobre semáforos diferentes 
-		  		puede derivar en un mal funcionamiento del sistema, como por ejemplo, no garantizar exclusión mutua en 
-		  		las secciones críticas.
+		  	\item Es un mecanismo de bajo nivel, no estructurado, que fácilmente puede llevar a errores transitorios. La ejecución de cada sección crítica debe comenzar con un \emph{wait} y terminar con un \emph{signal} sobre el mismo semáforo. Si se omite una de estas operaciones o se realizan sobre semáforos diferentes puede derivar en un mal funcionamiento del sistema, como por ejemplo, no garantizar exclusión mutua en las secciones críticas.
 		  	\item No se puede restringir el tipo de operaciones realizadas sobre los recursos.
-		  	\item Cuando se usan semáforos, el programador puede olvidar incluir en alguna sección crítica todas las 
-		  		sentencias necesarias para el control de los objetos compartidos.
-		  	\item Tanto la exclusión mutua como la condición de sincronización se implementan de la misma manera. Esto 
-		  		hace difícil, al ver un \emph{wait} o un \emph{signal}, discernir acerca del propósito con el que fueron 
-		  		incluidas. Como la exclusión mutua y la condición de sincronización son conceptos distintos se desearía 
-		  		que tengan notaciones diferentes.
-		  	\item Los programas que utilizan semáforos son muy difíciles de mantener dado que el código de sincronización 
-		  		está repartido entre los distintos procesos. Por lo tanto cada vez que se realiza una modificación hay que 
-		  		revisar cada proceso.
+		  	\item Cuando se usan semáforos, el programador puede olvidar incluir en alguna sección crítica todas las sentencias necesarias para el control de los objetos compartidos.
+		  	\item Tanto la exclusión mutua como la condición de sincronización se implementan de la misma manera. Esto hace difícil, al ver un \emph{wait} o un \emph{signal}, discernir acerca del propósito con el que fueron incluidas. Como la exclusión mutua y la condición de sincronización son conceptos distintos se desearía que tengan notaciones diferentes.
+		  	\item Los programas que utilizan semáforos son muy difíciles de mantener dado que el código de sincronización está repartido entre los distintos procesos. Por lo tanto cada vez que se realiza una modificación hay que revisar cada proceso.
 		\end{enumerate}
 
 	\subsection{Monitores}
 		
-		Como se dijo, los semáforos, generalmente se encuentran dispersos en el código, lo que lo hace más confuso y muchas 
-		veces es difícil notar cual es el recurso compartido y determinar si está correctamente sincronizado.
-		Por ello, se necesita un sistema que sea igual de versátil que los semáforos pero que permita efectuar un control 
-		más estructurado de la exclusión mutua. Una herramienta con estas características fue propuesta por \emph{C. A. R. Hoare}
-		en 1975 y es llamada \textbf{\emph{monitor}}.
+		Como se dijo, los semáforos, generalmente se encuentran dispersos en el código, lo que lo hace más confuso y muchas veces es difícil notar cual es el recurso compartido y determinar si está correctamente sincronizado. Por ello, se necesita un sistema que sea igual de versátil que los semáforos pero que permita efectuar un control más estructurado de la exclusión mutua. Una herramienta con estas características fue propuesta por \emph{C. A. R. Hoare} en 1975 y es llamada \textbf{\emph{monitor}}.
 
-		Un \emph{monitor} es un mecanismo de abstracción de datos, lo que permite representar de forma abstracta un recurso compartido 
-		mediante variables que indican su estado. El acceso a esas variables solo es posible a través de un conjunto de 
-		funciones/métodos que el monitor exporta al exterior.
+		Un \emph{monitor} es un mecanismo de abstracción de datos, lo que permite representar de forma abstracta un recurso compartido mediante variables que indican su estado. El acceso a esas variables solo es posible a través de un conjunto de funciones/métodos que el monitor exporta al exterior.
 		
 		Al usar monitores en la sincronización y en la exclusión mutua, existen dos clases de procesos:
 		\begin{itemize}
-		  	\item \emph{Procesos Pasivos}: son los que implementan los monitores y quedan a la espera que un proceso activo ejecute 
-		  		los métodos exportados por el monitor.
-		  	\item \emph{Procesos Activos}: son aquellos procesos que en un momento determinado pueden requerir utilizar el recurso 
-		  		controlado por el monitor para lo cual llaman a los métodos que éste exporta. 
+		  	\item \emph{Procesos Pasivos}: son los que implementan los monitores y quedan a la espera que un proceso activo ejecute los métodos exportados por el monitor.
+		  	\item \emph{Procesos Activos}: son aquellos procesos que en un momento determinado pueden requerir utilizar el recurso controlado por el monitor para lo cual llaman a los métodos que éste exporta. 
 		\end{itemize}
 
-		Dado que las variables compartidas se encuentran dentro del monitor, los procesos activos solo pueden utilizarlas 
-		mediante los métodos que el monitor exporta. Las ventajas de esto son dos:
+		Dado que las variables compartidas se encuentran dentro del monitor, los procesos activos solo pueden utilizarlas mediante los métodos que el monitor exporta. Las ventajas de esto son dos:
 		\begin{enumerate}
-		  	\item Los programadores de los procesos activos no deben preocuparse de cómo esta implementado el recurso compartido, 
-		  		es más, si se mantienen los nombres de los procedimientos exportados, esta implementación puede cambiar sin 
-		  		necesidad de modificar a los procesos activos.
-		  	\item El programador del monitor no se debe preocupar en cómo y donde será utilizado el monitor, ya que una vez que 
-		  		se comprobó que el monitor funciona correctamente, seguirá funcionando de forma correcta en diferentes contextos.
+		  	\item Los programadores de los procesos activos no deben preocuparse de cómo esta implementado el recurso compartido, es más, si se mantienen los nombres de los procedimientos exportados, esta implementación puede cambiar sin necesidad de modificar a los procesos activos.
+		  	\item El programador del monitor no se debe preocupar en cómo y donde será utilizado el monitor, ya que una vez que se comprobó que el monitor funciona correctamente, seguirá funcionando de forma correcta en diferentes contextos.
 		\end{enumerate}
 
 
 		Un monitor se compone de los siguientes elementos:
 		\begin{itemize}
-		  	\item Un \emph{conjunto de variables} locales que pueden denominarse permanentes. Se utilizan para almacenar 
-		  		el estado interno del recurso que representa el monitor. Se denominan permanentes ya que permaneces sin 
-		  		modificarse entre dos llamadas consecutivas al monitor y solo pueden ser accedidas dentro del mismo.
-		  	\item Un \emph{código de inicialización} que se ejecuta antes que la primera instrucción ejecutable del 
-		  		programa y su fin es inicializar las variables permanentes.
+		  	\item Un \emph{conjunto de variables} locales que pueden denominarse permanentes. Se utilizan para almacenar el estado interno del recurso que representa el monitor. Se denominan permanentes ya que permaneces sin modificarse entre dos llamadas consecutivas al monitor y solo pueden ser accedidas dentro del mismo.
+		  	\item Un \emph{código de inicialización} que se ejecuta antes que la primera instrucción ejecutable del programa y su fin es inicializar las variables permanentes.
 		  	\item Un \emph{conjunto de procedimientos internos} que manipulan las variables permanentes.
-		  	\item Una \emph{declaración de los procedimientos que son exportados} y pueden ser accedidos por los procesos 
-		  		activos externos.
+		  	\item Una \emph{declaración de los procedimientos que son exportados} y pueden ser accedidos por los procesos activos externos.
 		\end{itemize}
 				
 		\subsubsection{Exclusión mutua en monitores}
 			
-			El control de la exclusión mutua en un monitor se basa en la existencia de una cola asociada al mismo que se 
-			denominara \emph{cola del monitor}.
-			La gestión de esta cola se realiza de la siguiente manera:
+			El control de la exclusión mutua en un monitor se basa en la existencia de una cola asociada al mismo que se denominara \emph{cola del monitor}. La gestión de esta cola se realiza de la siguiente manera:
 			\begin{enumerate}
-			  	\item Cuando un proceso activo está dentro del monitor (ejecutando alguno de los procedimientos del mismo) 
-			  		y aparece otro proceso activo que intenta ejecutar otro (o el mismo) procedimiento, el código de acceso 
-			  		al monitor bloquea el proceso que realiza la llamada y lo inserta en la cola del monitor (con política 
-			  		FIFO). Así, se impide que dos procesos estén al mismo tiempo dentro del monitor.
-			  	\item Cuando un proceso activo abandona el monitor, este último selecciona el proceso que está al frente de 
-			  		la cola del monitor y lo desbloquea para que comience a ejecutar las operaciones que le solicitó al 
-			  		monitor. Si la cola estaba vacía, el monitor queda libre y cualquier proceso activo que llame alguno de 
-			  		sus procedimientos entrará al monitor. 
+			  	\item Cuando un proceso activo está dentro del monitor (ejecutando alguno de los procedimientos del mismo) y aparece otro proceso activo que intenta ejecutar otro (o el mismo) procedimiento, el código de acceso al monitor bloquea el proceso que realiza la llamada y lo inserta en la cola del monitor (con política FIFO). Así, se impide que dos procesos estén al mismo tiempo dentro del monitor.
+			  	\item Cuando un proceso activo abandona el monitor, este último selecciona el proceso que está al frente de la cola del monitor y lo desbloquea para que comience a ejecutar las operaciones que le solicitó al monitor. Si la cola estaba vacía, el monitor queda libre y cualquier proceso activo que llame alguno de sus procedimientos entrará al monitor. 
 			\end{enumerate}
 
-			Esto asegura que las variables compartidas nunca son accedidas concurrentemente. Una cuestión importante es que 
-			la responsabilidad de bloquear un proceso es del monitor y no del proceso. 
+			Esto asegura que las variables compartidas nunca son accedidas concurrentemente. Una cuestión importante es que la responsabilidad de bloquear un proceso es del monitor y no del proceso. 
 			
-			Al comparar este sistema con un semáforo se ve que en el caso de los semáforos son los propios procesos activos 
-			los que manejan las políticas de acceso a variables compartidas.
+			Al comparar este sistema con un semáforo se ve que en el caso de los semáforos son los propios procesos activos los que manejan las políticas de acceso a variables compartidas.
 			
 		\subsubsection{Condición de sincronización en monitores}
 		
-			Para que un monitor pueda controlar condiciones de sincronización, se utilizan las llamadas variables de 
-			condición que se declaran dentro del monitor.
-			Los valores de estas variables no son accesibles por el programador y representan colas FIFO. Estas variables 
-			permiten bloquear un proceso que no puede seguir su ejecución dentro de monitor y desbloquearlos cuando la 
-			situación que provoco el bloqueo ya no se esté presente.
-			Para conseguir esto se necesitan dos operaciones sobre las variables de condición. Las operaciones \textbf{\emph{delay}}
-			y \textbf{\emph{resume}}. La operación \emph{delay(C)}, siendo \emph{C} una variable de condición, hace que 
-			el proceso se bloquee en la cola asociada a dicha variable.
-			Hay que remarcar que el proceso no puede bloquearse directamente, antes de bloquearse al final de la cola de la 
-			condición debe liberar la exclusión mutua que retiene sobre el monitor. Si un proceso ha sido bloqueado con la 
-			operación \emph{delay(C)} solo puede ser desbloqueado con la operación \emph{resume(C)}. Esta última operación 
-			despierta al proceso que esté al frente de la cola de la condición y lo prepara para su ejecución. Si la cola 
-			estaba vacía se transforma en una operación nula.
+			Para que un monitor pueda controlar condiciones de sincronización, se utilizan las llamadas variables de condición que se declaran dentro del monitor. Los valores de estas variables no son accesibles por el programador y representan colas FIFO. Estas variables permiten bloquear un proceso que no puede seguir su ejecución dentro de monitor y desbloquearlos cuando la situación que provoco el bloqueo ya no se esté presente. Para conseguir esto se necesitan dos operaciones sobre las variables de condición. Las operaciones \textbf{\emph{delay}} y \textbf{\emph{resume}}. La operación \emph{delay(C)}, siendo \emph{C} una variable de condición, hace que el proceso se bloquee en la cola asociada a dicha variable. Hay que remarcar que el proceso no puede bloquearse directamente, antes de bloquearse al final de la cola de la condición debe liberar la exclusión mutua que retiene sobre el monitor. Si un proceso ha sido bloqueado con la operación \emph{delay(C)} solo puede ser desbloqueado con la operación \emph{resume(C)}. Esta última operación despierta al proceso que esté al frente de la cola de la condición y lo prepara para su ejecución. Si la cola estaba vacía se transforma en una operación nula.
 
-			Con lo dicho hasta este punto, se podría decir que si un proceso que se está ejecutando dentro del monitor ejecuta 
-			una operación \emph{resume(C)}, se desbloqueará un proceso de esa cola que continuará con su ejecución dentro del 
-			monitor también. Esto lleva a una situación con dos procesos dentro del monitor, lo que violaría la exclusión mutua.
-			Para evitar esto, el proceso que ejecuta el \emph{resume} cederá cortésmente la exclusión mutua al recién 
-			desbloqueado. Y espera en una cola diferente llamada \textbf{\emph{cola de cortesía}} hasta que el proceso recién 
-			desbloqueado por el \emph{resume(C)} termine su ejecución teniendo preferencia por sobre los procesos esperando 
-			en otras colas.
+			Con lo dicho hasta este punto, se podría decir que si un proceso que se está ejecutando dentro del monitor ejecuta una operación \emph{resume(C)}, se desbloqueará un proceso de esa cola que continuará con su ejecución dentro del monitor también. Esto lleva a una situación con dos procesos dentro del monitor, lo que violaría la exclusión mutua. Para evitar esto, el proceso que ejecuta el \emph{resume} cederá cortésmente la exclusión mutua al recién desbloqueado. Y espera en una cola diferente llamada \textbf{\emph{cola de cortesía}} hasta que el proceso recién desbloqueado por el \emph{resume(C)} termine su ejecución teniendo preferencia por sobre los procesos esperando en otras colas.
 		
 	\subsection{Implementación de monitores con Redes de Petri}
 	
-		Es posible ver a un monitor formado por dos secciones: primero, la referida a la política de colas que se 
-		debe ejecutar para lograr que sólo un proceso esté en el monitor, que se bloqueen los procesos que no tienen 
-		los recursos y que se desbloqueen los que obtuvieron los recursos, y segundo, la lógica con que se administran 
-		los recursos.
+		Es posible ver a un monitor formado por dos secciones: primero, la referida a la política de colas que se debe ejecutar para lograr que sólo un proceso esté en el monitor, que se bloqueen los procesos que no tienen los recursos y que se desbloqueen los que obtuvieron los recursos, y segundo, la lógica con que se administran los recursos.
 
-		En la Figura \ref{fig:concurrencia04} se puede observar que existe una cola de entrada, para los procesos que 
-		aún no ingresaron al monitor y desean hacerlo, una serie de colas, una por cada recurso (cada condición de 
-		sincronización) y una cola de cortesía para que el proceso dentro del monitor pueda, de manera segura, ceder 
-		la exclusión mutua al cambiar el estado de un recurso.
+		En la Figura \ref{fig:concurrencia04} se puede observar que existe una cola de entrada, para los procesos que aún no ingresaron al monitor y desean hacerlo, una serie de colas, una por cada recurso (cada condición de sincronización) y una cola de cortesía para que el proceso dentro del monitor pueda, de manera segura, ceder la exclusión mutua al cambiar el estado de un recurso.
 
-		\textbf{\emph{Una Red de Petri puede realizar el trabajo de la lógica del monitor}}, es decir, controlar la 
-		exclusión mutua y/o la administración de recursos disponibles; esto es cuando el vector de estado que 
-		resultó del disparo no tiene componentes negativas es porque los recursos están disponibles, el disparo de 
-		la transición solicitada conduce a un nuevo estado valido. De no ser así, en caso de existir algún valor 
-		negativo en el nuevo vector de estado, se llegó a un estado no válido que indica que el recurso no está 
-		disponible.
-		Además el vector de estado indica si el disparo ha devuelto o tomado recursos. Si la cantidad de tokens para 
-		un recurso dado disminuye, significa que se han tomado recursos, en caso contrario, que se han devuelto recursos.
+		\textbf{\emph{Una Red de Petri puede realizar el trabajo de la lógica del monitor}}, es decir, controlar la exclusión mutua y/o la administración de recursos disponibles; esto es cuando el vector de estado que resultó del disparo no tiene componentes negativas es porque los recursos están disponibles, el disparo de la transición solicitada conduce a un nuevo estado valido. De no ser así, en caso de existir algún valor negativo en el nuevo vector de estado, se llegó a un estado no válido que indica que el recurso no está disponible. Además el vector de estado indica si el disparo ha devuelto o tomado recursos. Si la cantidad de tokens para un recurso dado disminuye, significa que se han tomado recursos, en caso contrario, que se han devuelto recursos.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=1\linewidth,keepaspectratio]{./marco_teorico/concurrencia/img/concurrencia04}

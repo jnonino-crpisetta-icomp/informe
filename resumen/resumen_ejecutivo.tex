@@ -1,68 +1,28 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Capitulo: Resumen Ejecutivo														%	
-%	Archivo: resumen_ejecutivo.tex													%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter*{Resumen Ejecutivo}
 	\label{chap:resumen_ejecutivo}
 	
-	Como los sistemas actuales tienen múltiples procesos e hilos corriendo simultáneamente,
-	necesitan un mecanismo para sincronizarlos y garantizar la integridad de los datos.
-	Hoy en día, éstos mecanismos son implementados en software y no tienen soporte en el 
-	hardware, ejemplos de éstas estructuras de control son los semáforos y los monitores.
+	Como los sistemas actuales tienen múltiples procesos e hilos corriendo simultáneamente, necesitan un mecanismo para sincronizarlos y garantizar la integridad de los datos. Hoy en día, éstos mecanismos son implementados en software y no tienen soporte en el hardware, ejemplos de éstas estructuras de control son los semáforos y los monitores.
 	\\
 	
-	Por otro lado, los métodos más utilizados para modelar sistemas concurrentes son las máquinas 
-	de estado con la herramienta \emph{model checking}, lógica proposicional, etcétera. El problema
-	de estos métodos es la gran distancia que existe entre el modelo y la implementación haciendo 
-	muy dificultoso verificar que la implementación cumple con las propiedades verificadas en el 
-	modelo.
+	Por otro lado, los métodos más utilizados para modelar sistemas concurrentes son las máquinas de estado con la herramienta \emph{model checking}, lógica proposicional, etcétera. El problema de estos métodos es la gran distancia que existe entre el modelo y la implementación haciendo muy dificultoso verificar que la implementación cumple con las propiedades verificadas en el modelo.
 	\\
 	
-	Por las razones mencionadas anteriormente, en el \emph{Laboratorio de Arquitectura de Computadoras}
-	se trabaja con \textbf{\emph{Redes de Petri}}. Ésta última, es una herramienta gráfica con una sólida
-	base matemática formal. El nuevo descubrimiento realizado en el laboratorio es que las Redes de Petri
-	pueden ser \textbf{\emph{ejecutadas}} y no sólo usadas en simulaciones. De ésta forma, \emph{la distancia 
-	entre el modelo y la implementación no existe}. En la implementación se cumplen todas las propiedades
-	verificadas en el modelo porque la implementación \textbf{\emph{ES}} el modelo, \textbf{\emph{ES}} la
-	Red de Petri. 
+	Por las razones mencionadas anteriormente, en el \emph{Laboratorio de Arquitectura de Computadoras} se trabaja con \textbf{\emph{Redes de Petri}}. Ésta última, es una herramienta gráfica con una sólida base matemática formal. El nuevo descubrimiento realizado en el laboratorio es que las Redes de Petri pueden ser \textbf{\emph{ejecutadas}} y no sólo usadas en simulaciones. De ésta forma, \emph{la distancia entre el modelo y la implementación no existe}. En la implementación se cumplen todas las propiedades verificadas en el modelo porque la implementación \textbf{\emph{ES}} el modelo, \textbf{\emph{ES}} la Red de Petri. 
 	
-	Luego, la siguiente etapa, es implementar en hardware un  módulo capaz de ejecutar Redes de Petri, éste es
-	el cuarto proyecto en ésta línea de trabajo. El primero de ellos, demostró que la ejecución en hardware es
-	posible \cite{paillertejeda}. Posteriormente, el segundo proyecto fue una simulación de sistemas multicores
-	sincronizandolos con Redes de Petri \cite{baldoniromano} y, el tercero consistió en la implementación del primer
-	procesador de Redes de Petri; éste, podía ejecutar redes simples y redes con arcos inhibidores \cite{galliapereyra}.
+	Luego, la siguiente etapa, es implementar en hardware un  módulo capaz de ejecutar Redes de Petri, éste es el cuarto proyecto en ésta línea de trabajo. El primero de ellos, demostró que la ejecución en hardware es posible \cite{paillertejeda}. Posteriormente, el segundo proyecto fue una simulación de sistemas multicores sincronizándolos con Redes de Petri \cite{baldoniromano} y, el tercero consistió en la implementación del primer procesador de Redes de Petri; éste, podía ejecutar redes simples y redes con arcos inhibidores \cite{galliapereyra}.
 	\\	
 	
-	Por último, en éste proyecto se realizó una traducción de la versión anterior del procesador desde \emph{VHDL} 
-	a \emph{Verilog} mejorando el diseño para permitir la adición de nuevas funcionalidades como cotas en las plazas 
-	de la red, disparo automático de transiciones, generación de interrupciones y la característica más importante que 
-	se añadió en éste trabajo, la capacidad de trabajar con el \emph{tiempo}. Por ésta razón, hemos desarrollado dos 
-	\emph{IP cores}, uno para ejecutar \textbf{\emph{Redes de Petri con Tiempo}}, y el segundo para procesar \textbf{\emph{Redes 
-	de Petri Temporizadas}}, cubriendo de ésta manera las dos semánticas de manejo del tiempo en Redes de Petri existentes. 
+	Por último, en éste proyecto se realizó una traducción de la versión anterior del procesador desde \emph{VHDL} a \emph{Verilog} mejorando el diseño para permitir la adición de nuevas funcionalidades como cotas en las plazas de la red, disparo automático de transiciones, generación de interrupciones y la característica más importante que se añadió en éste trabajo, la capacidad de trabajar con el \emph{tiempo}. Por ésta razón, hemos desarrollado dos \emph{IP cores}, uno para ejecutar \textbf{\emph{Redes de Petri con Tiempo}}, y el segundo para procesar \textbf{\emph{Redes de Petri Temporizadas}}, cubriendo de ésta manera las dos semánticas de manejo del tiempo en Redes de Petri existentes. 
 	
-	En la etapa de pruebas, se utilizaron problemas clásicos de concurrencia; como por ejemplo, múltiples escritores que
-	intentan escribir la misma variable, el problema de la \emph{cena de los filósofos} y uno inventado por nosotros, la
-	\emph{fábrica de mesas}. Con éstas pruebas, verificamos la funcionalidad de los \emph{IP cores}. Además, implementamos
-	la resolución de estos mismos problemas utilizando semáforos como método de sincronización. Luego, comparando las medidas
-	del tiempo de ejecución en ambos casos, encontramos que el uso del procesador de Redes de Petri es desde un $15\%$ a un 
-	$30\%$ más rápido que la implemetación que utiliza semáforos para sincronizar, alcanzando más del $70\%$ de mejora en el
-	rendimiento según el problema analizado.
+	En la etapa de pruebas, se utilizaron problemas clásicos de concurrencia; como por ejemplo, múltiples escritores que intentan escribir la misma variable, el problema de la \emph{cena de los filósofos} y uno inventado por nosotros, la \emph{fábrica de mesas}. Con éstas pruebas, verificamos la funcionalidad de los \emph{IP cores}. Además, implementamos la resolución de estos mismos problemas utilizando semáforos como método de sincronización. Luego, comparando las medidas del tiempo de ejecución en ambos casos, encontramos que el uso del procesador de Redes de Petri es desde un $15\%$ a un $30\%$ más rápido que la implementación que utiliza semáforos para sincronizar, alcanzando más del $70\%$ de mejora en el rendimiento según el problema analizado.
 	
-	También, se ha observado que implementar un sistema con Redes de Petri es mucho más simple que utilizando otros mecanismos
-	de sincronización y además, tiene mayor versatilidad porque permite tres métodos diferentes para esperar las condiciones
-	de sincronización necesarias (ejecución de disparos solicitados). 
+	También, se ha observado que implementar un sistema con Redes de Petri es mucho más simple que utilizando otros mecanismos de sincronización y además, tiene mayor versatilidad porque permite tres métodos diferentes para esperar las condiciones de sincronización necesarias (ejecución de disparos solicitados). 
 	
-	Cabe destacar que los IP cores desarrollados se han probado con tres problemas con características muy diferentes y en todos
-	los caso se obtuvieron resultados satisfactorios. 
+	Cabe destacar que los IP cores desarrollados se han probado con tres problemas con características muy diferentes y en todos los caso se obtuvieron resultados satisfactorios. 

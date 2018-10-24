@@ -1,89 +1,61 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%					Orlando Micolini												%
-%																					%
-%	Parte: Introduccion																%
-%	Capitulo: Metodología de trabajo												%	
-%	Archivo: metodologia.tex													%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Metodología de trabajo}
 	\label{chap:intro_metodologia}
 
-	Para el desarrollo de este trabajo se seguirá un proceso iterativo con algunas características de \emph{scrum}
-	incrementando las funcionalidades del sistema al final de cada iteración.
-	Para este desarrollo, se plantean siete iteraciones de quince días cada una.
+	Para el desarrollo de este trabajo se seguirá un proceso iterativo con algunas características de \emph{scrum} incrementando las funcionalidades del sistema al final de cada iteración. Para este desarrollo, se plantean siete iteraciones de quince días cada una.
 	\begin{itemize}
 		\renewcommand{\labelitemi}{$\bullet$}
 		\item \textbf{\underline{Iteración 1}:} Pruebas previas\\[1mm]
 			Desde el 09/05/2012 al 23/05/2012\\[1.5mm]
-			El objetivo de esta iteración es conocer las herramientas con las que se va a trabajar y realizar 
-			estudios de los IP cores que se necesitarán para este trabajo como el procesador MicroBlaze y el 
-			bus AXI.
+			El objetivo de esta iteración es conocer las herramientas con las que se va a trabajar y realizar estudios de los IP cores que se necesitarán para este trabajo como el procesador MicroBlaze y el bus AXI.
 		\item \textbf{\underline{Iteración 2}:} Refactorización de trabajos previos\\[1mm]
 			Desde el 28/05/2012 al 11/06/2012\\[1.5mm]
-			En esta iteración, se realizará un rediseño de los trabajos presentados hasta el momento en esta 
-			área \cite{paillertejeda}\cite{galliapereyra} pensando en un nuevo IP core modular y parametrizable 
-			que permita la implementación con mayor facilidad del tratamiento de Redes de Petri Temporales.
+			En esta iteración, se realizará un rediseño de los trabajos presentados hasta el momento en esta área \cite{paillertejeda}\cite{galliapereyra} pensando en un nuevo IP core modular y parametrizable que permita la implementación con mayor facilidad del tratamiento de Redes de Petri Temporales.
 		\item \textbf{\underline{Iteración 3}:} Procesador de Redes de Petri (1ra parte)\\[1mm]
 			Desde el 18/06/2012 al 02/07/2012\\[1.5mm]
-			Implementar el diseño de la iteración anterior y agregar el tratamiento de cotas en las plazas y 
-			transiciones que se disparen automáticamente.
+			Implementar el diseño de la iteración anterior y agregar el tratamiento de cotas en las plazas y transiciones que se disparen automáticamente.
 		\item \textbf{\underline{Iteración 4}:} Iteración 4: Informe de lo realizado\\[1mm]
 			Desde el 06/08/2012 al 20/08/2012\\[1.5mm]
 			En esta iteración, se escribirá un informe detallando lo realizado en las iteraciones anteriores.
 		\newpage
 		\item \textbf{\underline{Iteración 5}:} Procesador de Redes de Petri (2da parte)\\[1mm]
 			Desde el 21/08/2012 al 04/09/2012\\[1.5mm]
-			El objetivo de esta iteración es concluir la implementación del procesador de Petri con Redes 
-			Temporales.
+			El objetivo de esta iteración es concluir la implementación del procesador de Petri con Redes Temporales.
 		\item \textbf{\underline{Iteración 6}:}Testing\\[1mm]
 			Desde el 05/09/2012 al 19/09/2012\\[1.5mm]
-			En esta iteración, se realizarán pruebas sobre todas las funcionalidades implementadas en el 
-			procesador de Redes de Petri.
+			En esta iteración, se realizarán pruebas sobre todas las funcionalidades implementadas en el procesador de Redes de Petri.
 		\item \textbf{\underline{Iteración 7}:}Pruebas finales e implementación de interrupciones\\[1mm]
 			Desde el 20/09/2012 al 04/10/2012\\[1.5mm]
-			En esta iteración final, se concluirá el proceso de pruebas, se terminará la escritura del informe
-			y se investigará sobre la inclusión del manejo de interrupciones en el sistema y el procesamiento de 
-			Redes de Petri Temporizadas.
+			En esta iteración final, se concluirá el proceso de pruebas, se terminará la escritura del informe y se investigará sobre la inclusión del manejo de interrupciones en el sistema y el procesamiento de Redes de Petri Temporizadas.
 	\end{itemize}	
 
-	Para la gestión de este modelo de desarrollo se utilizó una herramienta llamada \textbf{\emph{tinyPM}} \footnote{\url{http://www.tinypm.com/}}. 
-	En el apéndice \ref{ap:metodologia} se detallará el proceso de trabajo elegido mostrando cómo se fueron produciendo 
-	los avances.
+	Para la gestión de este modelo de desarrollo se utilizó una herramienta llamada \textbf{\emph{tinyPM}} \footnote{\url{http://www.tinypm.com/}}. En el apéndice \ref{ap:metodologia} se detallará el proceso de trabajo elegido mostrando cómo se fueron produciendo los avances.
 	
 	\section{Control de versiones}
 		
-		Para el control de las sucesivas versiones de cada archivo del proyecto, se utilizó un sistema de 
-		control de versiones \textbf{\emph{Subversion (SVN)}}\footnote{\url{http://subversion.apache.org/}}.
+		Para el control de las sucesivas versiones de cada archivo del proyecto, se utilizó un sistema de control de versiones \textbf{\emph{Subversion (SVN)}}\footnote{\url{http://subversion.apache.org/}}.
 		
-		Para la creación del repositorio se montó un servidor SVN con el programa \textbf{\emph{VisualSVN}}\footnote{\url{http://www.visualsvn.com/server/}}.
-		Luego, cada miembro del equipo utilizó como cliente SVN el programa \textbf{\emph{TortoiseSVN}}\footnote{\url{http://tortoisesvn.net/}}.
+		Para la creación del repositorio se montó un servidor SVN con el programa \textbf{\emph{VisualSVN}}\footnote{\url{http://www.visualsvn.com/server/}}. Luego, cada miembro del equipo utilizó como cliente SVN el programa \textbf{\emph{TortoiseSVN}}\footnote{\url{http://tortoisesvn.net/}}.
 
 		\subsection{Esquema de \emph{branching}}
 		
-			Dado que este proyecto no se considera demasiado grande y, además, el equipo de trabajo es pequeño (sólo 
-			dos personas), no fué necesario implementar una política de ramas o branching. 
+			Dado que este proyecto no se considera demasiado grande y, además, el equipo de trabajo es pequeño (sólo dos personas), no fué necesario implementar una política de ramas o branching.
 		
 		\subsection{Esquema de etiquetado}
 			
-			A diferencia de lo utilizado como esquema de branching, al comienzo del proyecto se decidió utilizar un 
-			sistema de etiquetado (\emph{tags}) de versiones.
+			A diferencia de lo utilizado como esquema de branching, al comienzo del proyecto se decidió utilizar un sistema de etiquetado (\emph{tags}) de versiones.
 			
 			Se planificó la generación de dos etiquetas:
 			\begin{itemize}
 			  	\item \emph{Primer Release}
 			  		\\
-			  		Versión del proyecto que incluye toda la funcionalidad del procesador de Redes de Petri pero sin 
-			  		manejo de interrupciones.
+			  		Versión del proyecto que incluye toda la funcionalidad del procesador de Redes de Petri pero sin manejo de interrupciones.
 			  	\item \emph{Segundo Release}
 			  		\\
 			  		Esta etiqueta se generará luego de incluir el manejo de interrupciones en el sistema.
@@ -91,16 +63,11 @@
 		
 		\subsection{Políticas de actualización y fusión de archivos}
 		
-			Como el equipo esta formado solo por dos personas, la política de actualización de archivos es simple. 
-			Cuando uno de los desarrolladores actualiza el repositorio con su copia de trabajo, en caso de aparecer 
-			conflictos con las versiones, debe encargarse de resolverlos conservando los cambios realizados por la 
-			otra persona y agregando los cambios generados.
+			Como el equipo esta formado solo por dos personas, la política de actualización de archivos es simple. Cuando uno de los desarrolladores actualiza el repositorio con su copia de trabajo, en caso de aparecer conflictos con las versiones, debe encargarse de resolverlos conservando los cambios realizados por la otra persona y agregando los cambios generados.
 		
 		\subsection{Esquema de directorios del repositorio}
 			
-			La siguiente Figura (\ref{fig:intro01}) muestra el esquema de directorios del repositorio que,
-			como se mencionó anteriormente, fue creado sobre una máquina virtual con \emph{Microsoft 
-			Windows XP} utilizando la herramienta \emph{VisualSVN Server}.
+			La siguiente Figura (\ref{fig:intro01}) muestra el esquema de directorios del repositorio que, como se mencionó anteriormente, fue creado sobre una máquina virtual con \emph{Microsoft Windows XP} utilizando la herramienta \emph{VisualSVN Server}.
 			
 			\begin{figure}[H]
 				\centering
@@ -112,9 +79,7 @@
 			Como se observa, los tres directorios principales del repositorio son:
 			\begin{itemize}
 			  	\item \emph{branches}: Donde se guardarán todas las ramas del repositorio.
-			  	\item \emph{tags}: En éste directorio se almacenan las etiquetas que se le han asignado a 
-			  		algunas versiones del proyecto. En éste caso, se utilizan dos etiquetas \emph{Primer Release}
-			  		y \emph{Segundo Release}.
+			  	\item \emph{tags}: En éste directorio se almacenan las etiquetas que se le han asignado a algunas versiones del proyecto. En éste caso, se utilizan dos etiquetas \emph{Primer Release} y \emph{Segundo Release}.
 			  	\item \emph{trunk}: Aquí se almacena la copia de trabajo con la que está trabajando el desarrollador.
 			\end{itemize}
 			

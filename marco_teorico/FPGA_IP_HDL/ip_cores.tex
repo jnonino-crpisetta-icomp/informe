@@ -1,50 +1,25 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Marco Teorico															%
-%	Capitulo: FPGA - IP cores - HDL													%
-%	Seccion: Intellectual Property (IP) Core										%	
-%	Archivo: ip_cores.tex															%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./marco_teorico/FPGA_IP_HDL/img
-% Nombre predeterminado imagenes: fpgaxx
+% Path imágenes: ./marco_teorico/FPGA_IP_HDL/img
+% Nombre predeterminado imágenes: fpgaxx
 %	xx es el numero de imagen
 
 
 \section{Intellectual Property (IP) Core}
 	\label{sec:ip_cores}
 
-	Un \textbf{\emph{IP Core (Intellectual Property Core)}} es un bloque o módulo idealmente parametrizable 
-	y reutilizable para usar en diseños de FPGA o en ASIC. Posee una funcionalidad predefinida y es creado 
-	con el uso de estándares, independizandolo de la herramienta de desarrollo.
-	Los IP cores  se pueden licenciar en base a su funcionalidad. Existen diseños de microprocesadores (soft-CPU) 
-	o controladores de periféricos como USB, PCI, SDRAM, etc.
+	Un \textbf{\emph{IP Core (Intellectual Property Core)}} es un bloque o módulo idealmente parametrizable y reutilizable para usar en diseños de FPGA o en ASIC. Posee una funcionalidad predefinida y es creado con el uso de estándares, independizándolo de la herramienta de desarrollo. Los IP cores  se pueden licenciar en base a su funcionalidad. Existen diseños de microprocesadores (soft-CPU) o controladores de periféricos como USB, PCI, SDRAM, etc.
 	
 	Se puede clasificar un IP Core principalmente en tres categorías:
 	\begin{itemize}
-	  \item \textbf{Hard Core:} Están diseñados para una tecnología específica, tienen mejor 
-	  		desempeño y no pueden ser modificados por el diseñador que los utiliza. Son poco 
-	  		flexibles, portables y conFigurables pero son muy predecibles y fiables una vez 
-	  		implementados. Tienen un layout predefinido incluido en la arquitectura.
-	  \item \textbf{Firm Core:} Al igual que los \emph{hard}, incluyen información del mapeo a nivel 
-	  		de compuertas y el código fuente es visible para el diseñador, haciéndolos parcialmente 
-	  		conFigurables. Suelen ser diseñados y probados en diferentes tecnologías especificas, 
-	  		ofreciendo una buena predictibilidad en cuanto a performance de tiempos de funcionamiento 
-	  		y área utilizada, pero el usuario se verá obligado a utilizar estos sobre las placas del 
-	  		mismo fabricante.
-	  \item \textbf{Soft Core:} Son los más flexibles y se distribuyen en código de alto nivel HDL 
-	  		permitiendo a los diseñadores modificarlo. Otro formato es mediante las netlist o lista 
-	  		de compuertas e interconexiones. Ambos formatos los hace independientes de la tecnología.
+	  \item \textbf{Hard Core:} Están diseñados para una tecnología específica, tienen mejor desempeño y no pueden ser modificados por el diseñador que los utiliza. Son poco flexibles, portables y conFigurables pero son muy predecibles y fiables una vez implementados. Tienen un layout predefinido incluido en la arquitectura.
+	  \item \textbf{Firm Core:} Al igual que los \emph{hard}, incluyen información del mapeo a nivel de compuertas y el código fuente es visible para el diseñador, haciéndolos parcialmente configurables. Suelen ser diseñados y probados en diferentes tecnologías especificas, ofreciendo una buena predictibilidad en cuanto a performance de tiempos de funcionamiento y área utilizada, pero el usuario se verá obligado a utilizar estos sobre las placas del mismo fabricante.
+	  \item \textbf{Soft Core:} Son los más flexibles y se distribuyen en código de alto nivel HDL permitiendo a los diseñadores modificarlo. Otro formato es mediante las netlist o lista de compuertas e interconexiones. Ambos formatos los hace independientes de la tecnología.
 	\end{itemize}
 	
 	\begin{raggedright}
@@ -55,7 +30,7 @@
 			\hline
 				Adaptabilidad & 
 				Layout predefinido & 
-				Mezcla de código fuente y tecnología dependiente de la netlist &	
+				Mezcla de código fuente y tecnología dependiente de la netlist &
 				Dependiente del comportamiento del código\\
 			\hline
 				Modelado & 
@@ -64,8 +39,7 @@
 				Sintetizable con otra lógica.\\
 			\hline
 				Flexibilidad & 
-				No puede ser modificado por el diseñador. Utilizar varios de éstos cores en un chip puede 
-				resultar ineficiente. &
+				No puede ser modificado por el diseñador. Utilizar varios de éstos cores en un chip puede resultar ineficiente. &
 				Tecnología dependiente.&
 				El diseño puede variarse.\\
 			\hline
@@ -84,13 +58,11 @@
 		\end{tabular}
 	\end{raggedright}
 	\newpage
-	Basados en estas características, se planteo desarrollar un \emph{Soft Core} debido a su gran 
-	flexibilidad que permite futuras modificaciones.
+	Basados en estas características, se planteo desarrollar un \emph{Soft Core} debido a su gran flexibilidad que permite futuras modificaciones.
 		
 	\subsection{MicroBlaze}
 		
-		El MicroBlaze \cite{xilinx_microblaze} es un procesador \emph{soft core} creado por Xilinx. Tiene 
-		un set de instrucciones reducido (RISC) y esta optimizado para ser instanciado en una FPGA.
+		El MicroBlaze \cite{xilinx_microblaze} es un procesador \emph{soft core} creado por Xilinx. Tiene un set de instrucciones reducido (RISC) y esta optimizado para ser instanciado en una FPGA.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.9\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga02}
@@ -111,8 +83,7 @@
 		
 		\subsubsection{Endianismo}
 			
-			El MicroBlaze puede usar el formato Big-Endian o Little-Endian para representan los datos.
-			La elección depende del valor de un parámetro llamado: \emph{C\_ENDIANNESS}. 
+			El MicroBlaze puede usar el formato Big-Endian o Little-Endian para representan los datos. La elección depende del valor de un parámetro llamado: \emph{C\_ENDIANNESS}. 
 			\\
 			
 			Los tipos de datos soportados por el procesador son:
@@ -127,21 +98,15 @@
 			Las instrucciones del MicroBlaze se clasifican en dos tipos.
 			\begin{itemize}
 			  	\item \emph{Tipo A}: Toma dos operandos como fuente y uno como destino.
-			  	\item \emph{Tipo B}: Toma un único operando como fuente, un operador inmediato de 16 
-			  		bits y uno como registro destino. El operador de 16 bits puede ser convertido a 32 
-			  		bits precediendo la instrucción tipo B con una instrucción ``Imm".
+			  	\item \emph{Tipo B}: Toma un único operando como fuente, un operador inmediato de 16 bits y uno como registro destino. El operador de 16 bits puede ser convertido a 32 bits precediendo la instrucción tipo B con una instrucción ``Imm".
 			\end{itemize}
 		
 		\subsubsection{Pipeline}
 		
-			El MicroBlaze ejecuta sus instrucciones de forma segmentada. Para la mayoría de las instrucciones 
-			cada etapa del pipeline toma un ciclo. Algunas pocas necesitan más de un ciclo en la etapa de 
-			ejecución, para	ello, se detiene el pipeline los ciclos necesarios.En general, se completa una 
-			instrucción por ciclo.
+			El MicroBlaze ejecuta sus instrucciones de forma segmentada. Para la mayoría de las instrucciones cada etapa del pipeline toma un ciclo. Algunas pocas necesitan más de un ciclo en la etapa de ejecución, para	ello, se detiene el pipeline los ciclos necesarios.En general, se completa una instrucción por ciclo.
 			\\
 			
-			El pipeline del MicroBlaze puede ser de tres o cinco etapas dependiendo de la disponibilidad de 
-			hardware que se tenga.
+			El pipeline del MicroBlaze puede ser de tres o cinco etapas dependiendo de la disponibilidad de hardware que se tenga.
 			\\
 			
 			Con el parámetro \emph{C\_AREA\_OPTIMIZED} en \emph{1} (uno), el pipeline se divide en tres etapas:
@@ -165,33 +130,23 @@
 		
 		\subsubsection{Interfaces de conexión}
 			
-			El MicroBlaze soporta cuatro interfaces de conexión con periféricos: \emph{Local Memory Bus (LMB)},
-			\emph{AMBA® AXI4 interface (AXI4)}, \emph{IMB Processor Local Bus (PLB)} y \emph{Xilinx CacheLink (XCL)}.
+			El MicroBlaze soporta cuatro interfaces de conexión con periféricos: \emph{Local Memory Bus (LMB)}, \emph{AMBA® AXI4 interface (AXI4)}, \emph{IMB Processor Local Bus (PLB)} y \emph{Xilinx CacheLink (XCL)}.
 			
-			El Local Memory Bus (LMB). Sirve para proveer acceso de un solo ciclo a una memoria block RAM 
-			de dos puertos ubicada on-chip.
+			El Local Memory Bus (LMB). Sirve para proveer acceso de un solo ciclo a una memoria block RAM de dos puertos ubicada on-chip.
 			
 			Los buses AXI4 y PLB proveen conexiones a periféricos on-chip y off-chip además de con la memoria.
 			
 			La interface CacheLink fue creada para usar con controladores de memoria externos.
 			
-			El MicroBlaze también soporta 16 puertos para interfaces Fast Simplex Link (FLS) o 4 AXI4-Stream. 
-			Cada una con una interface master y una slave.
+			El MicroBlaze también soporta 16 puertos para interfaces Fast Simplex Link (FLS) o 4 AXI4-Stream. Cada una con una interface master y una slave.
 		
 	\subsection{AXI}
 	
-		El \textbf{Advanced eXtensible Interface} (AXI) \cite{xilinx_axi} es un IP core que permite la 
-		conexión entre IP cores. Puede tener hasta 16 IP cores de cada tipo conectados simultáneamente. Cada 
-		uno puede usar anchos de datos de 32, 64, 128, 256, 512, 1024 independientemente del resto. El bus de 
-		direcciones puede variar entre 12 y 64 bits.
+		El \textbf{Advanced eXtensible Interface} (AXI) \cite{xilinx_axi} es un IP core que permite la conexión entre IP cores. Puede tener hasta 16 IP cores de cada tipo conectados simultáneamente. Cada uno puede usar anchos de datos de 32, 64, 128, 256, 512, 1024 independientemente del resto. El bus de direcciones puede variar entre 12 y 64 bits.
 	
 		\subsubsection{Diagrama funcional}
 		
-			El \textbf{AXI Interconnect core} \ref{fig:fpga03} esta compuesto por dos interfaces, la interface 
-			esclavo (slave), donde seconectan los dispositivos master y una interface maestro (master) donde se 
-			conectan los dispositivos slave. Entre estas interfaces existen varias unidades funcionales divididas 
-			en dos grupos, uno por cada Interface. En el medio se encuentra la crossbar encargada del ruteo de 
-			peticiones entre los distintos dispositivos.
+			El \textbf{AXI Interconnect core} \ref{fig:fpga03} esta compuesto por dos interfaces, la interface esclavo (slave), donde se conectan los dispositivos master y una interface maestro (master) donde se conectan los dispositivos slave. Entre estas interfaces existen varias unidades funcionales divididas en dos grupos, uno por cada Interface. En el medio se encuentra la crossbar encargada del ruteo de peticiones entre los distintos dispositivos.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=0.95\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga03}
@@ -203,8 +158,7 @@
 			El bus AXI permite la conexión entre IP cores master con los slave de las siguientes maneras:
 			\begin{itemize}
 			  	\item \textbf{Pass through}
-			  		Este modo se utiliza cuando solo un master y un esclavo se conectan y no se utiliza ninguna 
-					de las unidades funcionales de las que dispone el AXI.
+			  		Este modo se utiliza cuando solo un master y un esclavo se conectan y no se utiliza ninguna de las unidades funcionales de las que dispone el AXI.
 			  		\begin{figure}[H]
 						\centering
 						\includegraphics[width=.6\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga04}
@@ -214,8 +168,7 @@
 			  		
 			  	\item \textbf{Conversion only}
 			  		
-			  		Este modo es conecta un master con un esclavo pero habilitando una o mas unidades funcionales 
-					permitiendo conversión o funciones de pipeline. Las posibles unidades son:
+			  		Este modo es conecta un master con un esclavo pero habilitando una o mas unidades funcionales permitiendo conversión o funciones de pipeline. Las posibles unidades son:
 					\begin{itemize}
 						\item Conversión de tamaño de dato.
 						\item Conversión de clock rate.
@@ -232,9 +185,7 @@
 			  	
 			  	\item \textbf{N to 1 interconnect}
 			  		
-			  		Otro modo de usarlo es conectar múltiples masters a un único dispositivo esclavo. En este caso
-					la decodificación de direcciones es omitida salvo que la validación de rango sea necesaria. En
-					cualquier caso las conversiones de tamaño de dato o clock rate  pueden ser utilizadas.	
+			  		Otro modo de usarlo es conectar múltiples masters a un único dispositivo esclavo. En este caso la decodificación de direcciones es omitida salvo que la validación de rango sea necesaria. En cualquier caso las conversiones de tamaño de dato o clock rate  pueden ser utilizadas.	
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=.7\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga06}
@@ -244,8 +195,7 @@
 				
 			  	\item \textbf{1 to N interconnect}
 			
-					Otro modo de uso valido es la conexión de un Master controlando varios esclavos. En este caso 
-					el arbitraje de direcciones y escritura de datos no se realiza.
+					Otro modo de uso valido es la conexión de un Master controlando varios esclavos. En este caso el arbitraje de direcciones y escritura de datos no se realiza.
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=.7\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga07}
@@ -255,11 +205,8 @@
 			  	
 			  	\item \textbf{N to M interconnect (Crossbar)}
 			
-					En este modo se usa una topología de dirección compartida y múltiples datos (SAMD). Consiste 
-					en una crossbar para la escritura/lectura de datos y árbitros para las direcciones.
-					Existen caminos paralelos para escribir y leer por los cuales cualquier master puede acceder 
-					a cualquier esclavo. Cuando más de una fuente accede a diferentes destinos se pueden realizar 
-					estas operaciones de forma simultánea.
+					En este modo se usa una topología de dirección compartida y múltiples datos (SAMD). Consiste en una crossbar para la escritura/lectura de datos y árbitros para las direcciones.
+					Existen caminos paralelos para escribir y leer por los cuales cualquier master puede acceder a cualquier esclavo. Cuando más de una fuente accede a diferentes destinos se pueden realizar estas operaciones de forma simultánea.
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.8\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga08}
@@ -269,10 +216,7 @@
 			  	
 			  	\item \textbf{N to M interconnect (Shared Access)}
 			
-					En el modo compartido solo se puede realizar una transacción a la vez. Para cada master 
-					conectado un pedido de lectura tiene prioridad sobre uno de escritura. El Árbitro selecciona 
-					la solicitud a realizar entre las existentes. Este modo minimiza los recursos usados para 
-					implementar el modulo de crossbar.
+					En el modo compartido solo se puede realizar una transacción a la vez. Para cada master conectado un pedido de lectura tiene prioridad sobre uno de escritura. El Árbitro selecciona la solicitud a realizar entre las existentes. Este modo minimiza los recursos usados para implementar el modulo de crossbar.
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=.8\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga09}

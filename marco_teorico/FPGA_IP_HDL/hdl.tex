@@ -1,23 +1,12 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%					Orlando Micolini												%
-%																					%
-%	Parte: Marco Teorico															%
-%	Capitulo: FPGA - IP cores - HDL													%
-%	Seccion: Hardware Description Language (HDL)									%	
-%	Archivo: hdl.tex																%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./marco_teorico/FPGA_IP_HDL/img
-% Nombre predeterminado imagenes: fpgaxx
+% Path imágenes: ./marco_teorico/FPGA_IP_HDL/img
+% Nombre predeterminado imágenes: fpgaxx
 %	xx es el numero de imagen
 
 \lstset
@@ -51,20 +40,15 @@
 \section{Hardware Description Language (HDL)}
 	\label{sec:hdl}
 
-		Un lenguaje de descripción de hardware (HDL) permite definir las interconexiones y el comportamiento 
-		de un circuito electrónico y verificar el funcionamiento mediante simulaciones.
+		Un lenguaje de descripción de hardware (HDL) permite definir las interconexiones y el comportamiento de un circuito electrónico y verificar el funcionamiento mediante simulaciones.
 		 	
 		\subsection{Verilog}
 			
-			Verilog \cite{ashenden}, es un HDL definido en un estándar de IEEE que soporta el diseño, prueba e 
-			implementación de circuitos a diferentes niveles de abstracción. Su sintaxis es similar al del 
-			lenguaje de programación \emph{C}.
+			Verilog \cite{ashenden}, es un HDL definido en un estándar de IEEE que soporta el diseño, prueba e implementación de circuitos a diferentes niveles de abstracción. Su sintaxis es similar al del lenguaje de programación \emph{C}.
 
 			\subsubsection{Verilog como lenguaje}
 			
-				El diseño se describe como un conjunto de módulos. Utilizando la palabra clave \textbf{module}
-				se define un módulo y se pueden especificar sus entradas y salidas y finalizan con una 
-				sentencia endmodule como se muestra a continuación:
+				El diseño se describe como un conjunto de módulos. Utilizando la palabra clave \textbf{module} se define un módulo y se pueden especificar sus entradas y salidas y finalizan con una sentencia endmodule como se muestra a continuación:
 				\begin{lstlisting}
 module AOI (input A, B, C, D, output F)
 	... descripción de funcionamiento ...
@@ -79,29 +63,20 @@ endmodule
 			  	\item Una descripción de su contenido mediante la especificación de su comportamiento
 			\end{itemize}
 						
-			El sentido de las conexiones con otros módulos puede ser de tres tipos, entradas (\emph{input}), 
-			salidas (\emph{output}) o entrada-salida (\emph{inout}). Una vez que se ha definido el módulo se 
-			puede instanciar cuantas veces sea necesario en el diseño.
+			El sentido de las conexiones con otros módulos puede ser de tres tipos, entradas (\emph{input}), salidas (\emph{output}) o entrada-salida (\emph{inout}). Una vez que se ha definido el módulo se puede instanciar cuantas veces sea necesario en el diseño.
 			
-			Cada ejemplar del módulo que se utilice son elementos distintos por lo que se deben definir sus 
-			conexiones con otros módulos.
+			Cada ejemplar del módulo que se utilice son elementos distintos por lo que se deben definir sus conexiones con otros módulos.
 			\\
 			
-			Verilog tiene básicamente dos tipos de datos. Por un lado, los \emph{parámetros}, estos, son constantes 
-			definidas por el programador que no son implementadas en hardware pero ayudan a la descripción del
-			comportamiento. 
+			Verilog tiene básicamente dos tipos de datos. Por un lado, los \emph{parámetros}, estos, son constantes definidas por el programador que no son implementadas en hardware pero ayudan a la descripción del comportamiento. 
 			
-			Por otro lado, las \emph{variables} y los \emph{registros}. Las variables se utilizan para 
-			almacenar valores, pero esto no implica que se vean explícitamente en la implementación de hardware.
+			Por otro lado, las \emph{variables} y los \emph{registros}. Las variables se utilizan para almacenar valores, pero esto no implica que se vean explícitamente en la implementación de hardware.
 			
-			Existen además, los denominados \emph{wire} los cuales no retienen información, su función es comunicar dos 
-			o mas puntos de los cuales uno solo es el driver, es decir, el que puede modificar el estado 
-			lógico del cable.
+			Existen además, los denominados \emph{wire} los cuales no retienen información, su función es comunicar dos o mas puntos de los cuales uno solo es el driver, es decir, el que puede modificar el estado lógico del cable.
 			
 			\subsubsection{Lógica de estados}
 			
-				Una variable en Verilog no solamente se representa con un $0$ y $1$, maneja una lógica de cuatro 
-				estados, los registros como wires pueden estar en uno de los siguientes:
+				Una variable en Verilog no solamente se representa con un $0$ y $1$, maneja una lógica de cuatro estados, los registros como wires pueden estar en uno de los siguientes:
 				\begin{itemize}
 					\item \textbf{X}: desconocido.
 					\item \textbf{0}: false o nivel cero.
@@ -111,10 +86,7 @@ endmodule
 			
 			\subsubsection{Buses}
 
-				Los \emph{buses} o \emph{arrays} son elementos de varios bits que pueden ser del tipo \emph{wire} 
-				o \emph{reg}. Los buses pueden ser usados como interfaz con otros módulos. A la hora de declararlos 
-				se puede elegir la orientación de los bits, es decir, \emph{MSB} el \emph{n} bit o \emph{MSB} el bit 
-				\emph{0}, como se muestra en la Figura \ref{fig:fpga10}.
+				Los \emph{buses} o \emph{arrays} son elementos de varios bits que pueden ser del tipo \emph{wire} o \emph{reg}. Los buses pueden ser usados como interfaz con otros módulos. A la hora de declararlos se puede elegir la orientación de los bits, es decir, \emph{MSB} el \emph{n} bit o \emph{MSB} el bit \emph{0}, como se muestra en la Figura \ref{fig:fpga10}.
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=.8\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga10}
@@ -122,14 +94,12 @@ endmodule
 					\label{fig:fpga10}
 				\end{figure}
 				
-				Las \emph{matrices} son un tipo de \emph{array de array} los cuales tienen la siguiente sintaxis de 
-				definición.
+				Las \emph{matrices} son un tipo de \emph{array de array} los cuales tienen la siguiente sintaxis de definición.
 				\begin{lstlisting}
 reg [7:0] mem [0:3];
 				\end{lstlisting}
 				
-				En ellas, se aplican las mismas definiciones de orden que para los array pero no pueden ser 
-				usadas como interfaces con otros módulos.
+				En ellas, se aplican las mismas definiciones de orden que para los array pero no pueden ser usadas como interfaces con otros módulos.
 			
 			\subsubsection{Operadores}
 				
@@ -137,8 +107,7 @@ reg [7:0] mem [0:3];
 					\textbf{\emph{Operadores Binarios Aritméticos}}
 				\end{raggedright}
 				
-				Existen cinco operadores aritméticos. Un detalle de su operación es que si algún bit esta en 
-				un estado desconocido el resultado también lo estará.
+				Existen cinco operadores aritméticos. Un detalle de su operación es que si algún bit esta en un estado desconocido el resultado también lo estará.
 				\begin{itemize}
 				  	\item \textbf{\emph{+}} (\emph{suma o signo positivo}):
 				  		Sirve para indicar una suma entre dos números.
@@ -184,17 +153,14 @@ reg [7:0] mem [0:3];
 				Permiten comparar dos operandos, retornando $1$ ó $0$, verdadero o falso respectivamente.
 				\begin{itemize}
 				  	\item \textbf{\emph{==, !=}} (\emph{igualdad}):
-				  		El primero devuelve verdadero si los operando son iguales y falso en caso contrario. 
-				  		El segundo indica desigualdad, funcionando al revés que el anterior. Si algún bit está 
-				  		en estado desconocido el resultado también lo estará.
+				  		El primero devuelve verdadero si los operando son iguales y falso en caso contrario. El segundo indica desigualdad, funcionando al revés que el anterior. Si algún bit está en estado desconocido el resultado también lo estará.
 						\begin{lstlisting}
 // A: 4'b1110   B: 4'b1101
 	if (B != A)
 //Resultado = true
 						\end{lstlisting}
 				  	\item \textbf{\emph{===, !==}} (\emph{igualdad}):
-				  		Su funcionalidad es idéntica a la anterior, pero difiere en también se comparan los valores 
-				  		indefinidos ($X$) o de alta impedancia ($Z$).
+				  		Su funcionalidad es idéntica a la anterior, pero difiere en también se comparan los valores indefinidos ($X$) o de alta impedancia ($Z$).
 				  		\begin{lstlisting}
 // A: 4'b11X0   B: 4'b11X0
 	if (B === A)
@@ -206,13 +172,11 @@ reg [7:0] mem [0:3];
 					\textbf{\emph{Operadores Relacionales}}
 				\end{raggedright}
 							
-				Permiten comparar dos operandos, retornando $1$ ó $0$, verdadero o falso respectivamente. Si 
-				algún bit es $X$ el resultado también será $X$.
+				Permiten comparar dos operandos, retornando $1$ ó $0$, verdadero o falso respectivamente. Si algún bit es $X$ el resultado también será $X$.
 				
 				\begin{itemize}
 				  	\item \textbf{\emph{$>, \geq, <, \leq$}} (\emph{mayor, menor}):
-				  		Poseen el significado habitual (mayor que, mayor o igual que, menor que, menor o igual que, 
-						respectivamente).
+				  		Poseen el significado habitual (mayor que, mayor o igual que, menor que, menor o igual que, respectivamente).
 						\begin{lstlisting}
 // A: 4'b1110   B: 4'b1101
 	if (B > A)
@@ -234,17 +198,14 @@ reg [7:0] mem [0:3];
 // Resultado = false
 						\end{lstlisting}
 				  	\item \textbf{\emph{$\&\&$}} (\emph{AND lógica}):
-				  		El resultado será la combinación de los dos operandos lógicos. Es decir, para que 
-				  		el valor sea verdadero, ambos operandos deben serlo, en caso contrario el resultado
-				  		será falso.
+				  		El resultado será la combinación de los dos operandos lógicos. Es decir, para que el valor sea verdadero, ambos operandos deben serlo, en caso contrario el resultado será falso.
 				  		\begin{lstlisting}
 // A = true ; B = false
 	if (A && B)
 // Resultado = false
 						\end{lstlisting}
 				  	\item \textbf{\emph{$\mid\mid$}} (\emph{OR logica}):
-				  		El resultado será la combinación de los dos operandos lógicos. Para que el resultado sea 
-				  		verdadero, bastará con que uno de los operandos lo sea.
+				  		El resultado será la combinación de los dos operandos lógicos. Para que el resultado sea verdadero, bastará con que uno de los operandos lo sea.
 				  		\begin{lstlisting}
 // A = true ; B = false
 	if (A || B)
@@ -400,8 +361,7 @@ reg [7:0] mem [0:3];
 	  			
 			\subsubsection{Asignaciones}
 				
-				Existen dos tipos de asignaciones, por un lado están las bloqueantes las cuales se asemejan 
-				a los cables simbolizadas con el $=$ como se muestra en la Figura \ref{fig:fpga11}.
+				Existen dos tipos de asignaciones, por un lado están las bloqueantes las cuales se asemejan a los cables simbolizadas con el $=$ como se muestra en la Figura \ref{fig:fpga11}.
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=.5\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga11}
@@ -409,9 +369,7 @@ reg [7:0] mem [0:3];
 						\label{fig:fpga11}
 					\end{figure}
 				
-				Por otro lado existen asignaciones anti bloqueantes o no bloqueantes. Éstas asignaciones, se 
-				sintetizan como \emph{latches} de manera tal que el ejemplo anterior se comporta como un 
-				\emph{shift-register} (\ref{fig:fpga12}).			
+				Por otro lado existen asignaciones anti bloqueantes o no bloqueantes. Éstas asignaciones, se sintetizan como \emph{latches} de manera tal que el ejemplo anterior se comporta como un \emph{shift-register} (\ref{fig:fpga12}).			
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=.5\linewidth]{./marco_teorico/FPGA_IP_HDL/img/fpga12}
@@ -422,15 +380,8 @@ reg [7:0] mem [0:3];
 				
 			\subsubsection{Procesos}
 			
-				\textbf{Uno de los aspectos más importantes en Verilog es la posibilidad de ejecutar en 
-				paralelo varios procesos.}Cada proceso se ejecuta de forma secuencial, es decir se ejecuta 
-				cada línea del proceso según su orden de precedencia. Toda la descripción secuencial que se 
-				quiera realizar en Verilog debe hacerse dentro de un proceso initial o always. La diferencia 
-				entre ambos es que el primero se ejecuta una única vez y no es sintetizable, a diferencia del 
-				always que se ejecuta cada vez que su lista de sensibilidad lo indique y si es sintetizable 
-				en hardware.\\
-				La lista de sensibilidad contiene todos los eventos por los que se debe ejecutar las 
-				sentencias que contiene el proceso. A continuación se muestra un ejemplo.
+				\textbf{Uno de los aspectos más importantes en Verilog es la posibilidad de ejecutar en paralelo varios procesos.}Cada proceso se ejecuta de forma secuencial, es decir se ejecuta cada línea del proceso según su orden de precedencia. Toda la descripción secuencial que se quiera realizar en Verilog debe hacerse dentro de un proceso initial o always. La diferencia entre ambos es que el primero se ejecuta una única vez y no es sintetizable, a diferencia del always que se ejecuta cada vez que su lista de sensibilidad lo indique y si es sintetizable en hardware.\\
+				La lista de sensibilidad contiene todos los eventos por los que se debe ejecutar las sentencias que contiene el proceso. A continuación se muestra un ejemplo.
 				\begin{lstlisting}
 always@(/*lista de sensibilidad*/)
 	begin
@@ -440,13 +391,10 @@ always@(/*lista de sensibilidad*/)
 							
 			\subsubsection{Estructuras de Control}
 				
-				Verilog dispone de estructuras de control, similares a las disponibles en otros lenguajes de 
-				programación. Dentro de ellas las que pueden ser sintetizadas son las siguientes.
+				Verilog dispone de estructuras de control, similares a las disponibles en otros lenguajes de programación. Dentro de ellas las que pueden ser sintetizadas son las siguientes.
 				\begin{itemize}
 				  	\item \textbf{\emph{if - else}}:
-				  		La sentencia condicional \emph{if-else} controla la ejecución de otras. En caso de haber 
-						múltiples sentencias es necesario hacer uso del bloque \emph{begin-end}. La sintaxis de 
-						esta estructura es la siguiente.
+				  		La sentencia condicional \emph{if-else} controla la ejecución de otras. En caso de haber múltiples sentencias es necesario hacer uso del bloque \emph{begin-end}. La sintaxis de esta estructura es la siguiente.
 				  		\begin{lstlisting}
 if(/*expresion*/)
 	begin
@@ -458,12 +406,7 @@ else
 	end
 						\end{lstlisting}
 					\item \textbf{\emph{Case}}:
-				  		La sentencia \emph{case} es una instrucción de decisión múltiple, evalúa una expresión 
-						y en función de su valor ejecutará las sentencias del caso correspondiente. Si existen 
-						varias sentencias se debe usarse \emph{begin y end} para contenerlas. Si no se cubren 
-						todos los posibles valores se debe hacer uso del caso por defecto, denominado 
-						\emph{default}, el cual se ejecutará cuando ninguno de los casos anteriores se cumpla. 
-						La sintaxis de esta estructura es la siguiente.
+				  		La sentencia \emph{case} es una instrucción de decisión múltiple, evalúa una expresión y en función de su valor ejecutará las sentencias del caso correspondiente. Si existen varias sentencias se debe usarse \emph{begin y end} para contenerlas. Si no se cubren todos los posibles valores se debe hacer uso del caso por defecto, denominado \emph{default}, el cual se ejecutará cuando ninguno de los casos anteriores se cumpla. La sintaxis de esta estructura es la siguiente.
 				  		\begin{lstlisting}
 case(/*expresion*/)
 	caso 1:
@@ -484,9 +427,7 @@ case(/*expresion*/)
 endcase
 						\end{lstlisting}
 					\item \textbf{\emph{for}}:
-				  		El bucle \emph{for} es idéntico a los utilizados en otros lenguajes de programación, 
-						como en las estructuras mencionadas anteriormente, si existen varias sentencias se deben 
-						incluir dentro del bloque \emph{begin-end}. Su sintaxis es la siguiente.
+				  		El bucle \emph{for} es idéntico a los utilizados en otros lenguajes de programación, como en las estructuras mencionadas anteriormente, si existen varias sentencias se deben incluir dentro del bloque \emph{begin-end}. Su sintaxis es la siguiente.
 				  		\begin{lstlisting}
 for(/*valor inicial*/ ; /*condicion de finalizacion*/ ; /*incremento*/)
 	begin
@@ -494,4 +435,3 @@ for(/*valor inicial*/ ; /*condicion de finalizacion*/ ; /*incremento*/)
 	end
 						\end{lstlisting}	
 				\end{itemize}
-				

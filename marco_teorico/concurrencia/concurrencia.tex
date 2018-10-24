@@ -1,57 +1,39 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Marco Teorico															%
-%	Capitulo: FPGA - IP cores - HDL													%
-%	Seccion: Concurrencia y Paralelismo												%	
-%	Archivo: concurrencia.tex														%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./marco_teorico/concurrencia/img
-% Nombre predeterminado imagenes: concurrenciaxx
+% Path imágenes: ./marco_teorico/concurrencia/img
+% Nombre predeterminado imágenes: concurrenciaxx
 %	xx es el numero de imagen
 
 \section{Concurrencia y Paralelismo}
 	\label{sec:concurrencia}
 
-	Dos procesos serán concurrentes cuando la primera instrucción de uno de ellos se 
-	ejecuta después de la primera instrucción de otro proceso y antes de la última. \cite{palma}
+	Dos procesos serán concurrentes cuando la primera instrucción de uno de ellos se ejecuta después de la primera instrucción de otro proceso y antes de la última. \cite{palma}
 	
-	No es necesario que se ejecuten al mismo tiempo, alcanza con el hecho de que se intercalen 
-	sus instrucciones. En caso de ejecutarse al mismo tiempo se dice que hay programación paralela.
+	No es necesario que se ejecuten al mismo tiempo, alcanza con el hecho de que se intercalen sus instrucciones. En caso de ejecutarse al mismo tiempo se dice que hay programación paralela.
 	
 	La programación concurrente es un paralelismo potencial dependiente del hardware que lo soporte.
 	
 	\subsection{Condiciones de Bernstein}
 		\label{subsec:condiciones_bernstein}
 		
-		No todas las partes de un programa pueden ejecutarse concurrentemente. Las condiciones de 
-		Bernstein permiten determinar formalmente que partes de un programa pueden ejecutarse 
-		concurrentemente y cuales no.
+		No todas las partes de un programa pueden ejecutarse concurrentemente. Las condiciones de Bernstein permiten determinar formalmente que partes de un programa pueden ejecutarse concurrentemente y cuales no.
 		\\ 
 		
 		Sean el conjunto de instrucciones $S_k$, pueden determinarse dos subconjuntos a partir de él.
 		\begin{itemize}
 		  	\item $L(S_k) = \{a_1, a_2, \cdots, a_n\}$
 		  		\\
-				Subconjunto de $S_k$ que agrupa aquellas instrucciones que realizan lecturas de variables 
-				durante la ejecución del programa.
+				Subconjunto de $S_k$ que agrupa aquellas instrucciones que realizan lecturas de variables durante la ejecución del programa.
 			\item $E(S_k) = \{b_1, b_2, \cdots , b_m\}$
 				\\
-				Subconjunto de $S_k$ que agrupa aquellas instrucciones que realizan escrituras de variables 
-				durante la ejecución del programa.
+				Subconjunto de $S_k$ que agrupa aquellas instrucciones que realizan escrituras de variables durante la ejecución del programa.
 		\end{itemize}
-		Luego, para que dos conjuntos de instrucciones $S_i$ y $S_j$ puedan ser ejecutadas de manera concurrente
-		se deben cumplir las siguientes condiciones.
+		Luego, para que dos conjuntos de instrucciones $S_i$ y $S_j$ puedan ser ejecutadas de manera concurrente se deben cumplir las siguientes condiciones.
 		\begin{equation*}
 			\begin{array}{c}
 				% Primera Fila
@@ -71,37 +53,22 @@
 
 	\subsection{Problemas inherentes a la programación concurrente}
 	
-		La intercalación de instrucciones de diferentes procesos, debe ser bien manejada y controlada 
-		dado que puede producir mal funcionamiento del sistema. Los problemas inherentes a la 
-		concurrencia son:
+		La intercalación de instrucciones de diferentes procesos, debe ser bien manejada y controlada dado que puede producir mal funcionamiento del sistema. Los problemas inherentes a la concurrencia son:
 		\begin{itemize}
-		  	\item \emph{Exclusión mutua}: Se debe garantizar que si un proceso adquiere el recurso los 
-		  		demás deberán esperar hasta que sea liberado.
-		  	\item \emph{Condición de sincronización}: hay situaciones en las que un proceso debe esperar 
-		  		que ocurra algún determinado evento para poder continuar. Por ello se debe garantizar que 
-		  		si el evento NO ocurrió, el proceso NO continúe.
-		  	\item \emph{Interbloqueo}: Esta situación se produce cuando todos los procesos están esperando 
-		  		un evento que nunca ocurrirá. Se debe garantizar que estas situaciones no ocurran.
-		  	\item \emph{Interbloqueo activo}: se produce cuando un sistema ejecuta una serie de instrucciones 
-		  		sin hacer ningún progreso.
-		  	\item \emph{Inanición}: en este caso, el sistema en su conjunto hace progresos, pero existe un 
-		  		grupo de procesos que nunca progresaran pues no se les otorga tiempo de procesador para hacerlo.
+		  	\item \emph{Exclusión mutua}: Se debe garantizar que si un proceso adquiere el recurso los demás deberán esperar hasta que sea liberado.
+		  	\item \emph{Condición de sincronización}: hay situaciones en las que un proceso debe esperar que ocurra algún determinado evento para poder continuar. Por ello se debe garantizar que si el evento NO ocurrió, el proceso NO continúe.
+		  	\item \emph{Interbloqueo}: Esta situación se produce cuando todos los procesos están esperando un evento que nunca ocurrirá. Se debe garantizar que estas situaciones no ocurran.
+		  	\item \emph{Interbloqueo activo}: se produce cuando un sistema ejecuta una serie de instrucciones sin hacer ningún progreso.
+		  	\item \emph{Inanición}: en este caso, el sistema en su conjunto hace progresos, pero existe un grupo de procesos que nunca progresaran pues no se les otorga tiempo de procesador para hacerlo.
 		\end{itemize}
 				
 	\subsection{Exclusión mutua}
 
-		La \emph{exclusión mutua} implica que dos o más procesos intentan acceder a un único recurso o variable 
-		compartida entre ellos pero solo uno puede acceder a cada instante.
+		La \emph{exclusión mutua} implica que dos o más procesos intentan acceder a un único recurso o variable compartida entre ellos pero solo uno puede acceder a cada instante.
 		
-		Cuando se da un caso de estas características, se desea que todo lo que necesite hacer uno de los procesos 
-		sobre el recurso se realice de manera indivisible y luego lo deje disponible para que otro proceso ejecute 
-		sus instrucciones sobre el recurso. La idea sería que instrucciones de diferentes procesos que actúen sobre 
-		un mismo recurso NO sean intercaladas en la ejecución.
+		Cuando se da un caso de estas características, se desea que todo lo que necesite hacer uno de los procesos sobre el recurso se realice de manera indivisible y luego lo deje disponible para que otro proceso ejecute sus instrucciones sobre el recurso. La idea sería que instrucciones de diferentes procesos que actúen sobre un mismo recurso NO sean intercaladas en la ejecución.
 
-		A la porción de código que se desea que se ejecute de manera indivisible o atómica se le llama \emph{sección 
-		crítica}. Se debe lograr que todas las instrucciones dentro de la sección critica se ejecuten en exclusión 
-		mutua lo que implica que el hecho de que cuando uno de los procesos este ejecutando esa porción de código 
-		el resto no podrá hacerlo.
+		A la porción de código que se desea que se ejecute de manera indivisible o atómica se le llama \emph{sección crítica}. Se debe lograr que todas las instrucciones dentro de la sección critica se ejecuten en exclusión mutua lo que implica que el hecho de que cuando uno de los procesos este ejecutando esa porción de código el resto no podrá hacerlo.
 		
 		\textbf{\emph{SOLO UNO de los procesos podrá estar en la sección crítica en un instante dado.}}
 		
@@ -112,10 +79,7 @@
 			\label{fig:concurrencia01}
 		\end{figure}
 		
-		En la Figura \ref{fig:concurrencia01} se observa como dos procesos \emph{P1} y \emph{P2} intentan ejecutar 
-		una porción de código de una sección crítica. La imagen de la izquierda (1) muestra que el proceso \emph{P1} 
-		consigue ingresar a ejecutar la sección critica. La imagen de la derecha (2) muestra que el proceso \emph{P2} 
-		puede ingresar solo cuando el proceso \emph{P1} ya no esta en la misma.
+		En la Figura \ref{fig:concurrencia01} se observa como dos procesos \emph{P1} y \emph{P2} intentan ejecutar una porción de código de una sección crítica. La imagen de la izquierda (1) muestra que el proceso \emph{P1} consigue ingresar a ejecutar la sección critica. La imagen de la derecha (2) muestra que el proceso \emph{P2} puede ingresar solo cuando el proceso \emph{P1} ya no esta en la misma.
 		\\
 		
 		La exclusión mutua puede representarse con una Red de Petri de la siguiente manera.
@@ -125,28 +89,20 @@
 			\caption{Exclusión mutua modelada con una Red de Petri}
 			\label{fig:concurrencia02}
 		\end{figure}
-		En la Red de Petri de la Figura \ref{fig:concurrencia02} se representa una situación de exclusión mutua. 
-		La plaza \emph{MUTEX} esta limitada a un único token y el análisis de invariantes de plazas demuestra 
-		formalmente la propiedad de exclusión mutua entre los procesos \emph{P1} y \emph{P2}.
+		En la Red de Petri de la Figura \ref{fig:concurrencia02} se representa una situación de exclusión mutua. La plaza \emph{MUTEX} esta limitada a un único token y el análisis de invariantes de plazas demuestra formalmente la propiedad de exclusión mutua entre los procesos \emph{P1} y \emph{P2}.
 		\begin{equation*}
 			m(EjecutandoSCP1) + m(MUTEX) + m(EjecutandoSCP2) = 1
 		\end{equation*}
 		
 	\subsection{Condición de sincronización}
 	
-		Existen situaciones en las que un recurso compartido por varios procesos se encuentra en un estado en el 
-		que un proceso no puede hacer una determinada acción con el hasta que no cambie el estado. A esto se llama 
-		\emph{condición de sincronización}.
+		Existen situaciones en las que un recurso compartido por varios procesos se encuentra en un estado en el que un proceso no puede hacer una determinada acción con el hasta que no cambie el estado. A esto se llama \emph{condición de sincronización}.
 		
-		Por ello se debe contar con mecanismos que permitan bloquear a un proceso que no pueda hacer algo en un 
-		momento determinado a la espera de algún evento. Pero también, mecanismos que permitan desbloquearlo 
-		cuando el evento haya ocurrido.
+		Por ello se debe contar con mecanismos que permitan bloquear a un proceso que no pueda hacer algo en un momento determinado a la espera de algún evento. Pero también, mecanismos que permitan desbloquearlo cuando el evento haya ocurrido.
 		
 	\subsection{Propiedades de los programas concurrentes}
 		
-		Para que un programa sea correcto debe cumplir las especificaciones funcionales. En el caso de los programas 
-		concurrentes deben, además, cumplir con una serie de propiedades inherentes a la concurrencia.
-		Estas propiedades se agrupan en:
+		Para que un programa sea correcto debe cumplir las especificaciones funcionales. En el caso de los programas concurrentes deben, además, cumplir con una serie de propiedades inherentes a la concurrencia. Estas propiedades se agrupan en:
 		\begin{itemize}
 		  	\item \emph{Propiedades de seguridad}: aseguran que nada malo va a pasar durante la ejecución del programa.
 		  	\item \emph{Propiedades de vivacidad}: aseguran que algo bueno pasara eventualmente durante la ejecución.
@@ -155,25 +111,16 @@
 		\subsubsection{Propiedades de seguridad}
 			
 			\begin{itemize}
-			  	\item \emph{Exclusión mutua}: dado que existen recursos en el sistema que deben ser accedidos en exclusión 
-			  		mutua, se debe garantizar que si un proceso adquiere el recurso los demás deberán esperar hasta que sea 
-			  		liberado.
-			  	\item \emph{Condición de sincronización}: en las situaciones en las que un proceso debe esperar que ocurra 
-			  		algún determinado evento para poder continuar, se debe garantizar que si el evento NO ocurrió, el proceso 
-			  		NO continúe.
-			  	\item \emph{Interbloqueo}: Esta situación se produce cuando todos los procesos están esperando un evento que 
-			  		nunca ocurrirá. Se debe garantizar que estas situaciones no ocurran. También se conoce con el nombre de 
-			  		\textbf{\emph{deadlock}}.
+			  	\item \emph{Exclusión mutua}: dado que existen recursos en el sistema que deben ser accedidos en exclusión mutua, se debe garantizar que si un proceso adquiere el recurso los demás deberán esperar hasta que sea liberado.
+			  	\item \emph{Condición de sincronización}: en las situaciones en las que un proceso debe esperar que ocurra algún determinado evento para poder continuar, se debe garantizar que si el evento NO ocurrió, el proceso NO continúe.
+			  	\item \emph{Interbloqueo}: Esta situación se produce cuando todos los procesos están esperando un evento que nunca ocurrirá. Se debe garantizar que estas situaciones no ocurran. También se conoce con el nombre de \textbf{\emph{deadlock}}.
 			\end{itemize}
 		
 		\subsubsection{Propiedades de vivacidad}
 			
 			\begin{itemize}
-			  	\item \emph{Interbloqueo activo}: se produce cuando un sistema ejecuta una serie de instrucciones sin hacer 
-			  		ningún progreso. Se conoce como \textbf{\emph{livelock}}.
-			  	\item \emph{Inanición}: en este caso, el sistema en su conjunto hace progresos, pero existe un grupo de 
-			  		procesos que nunca progresaran pues no se les otorga tiempo de procesador para hacerlo. También se 
-			  		conoce como \textbf{\emph{starvation}}. 
+			  	\item \emph{Interbloqueo activo}: se produce cuando un sistema ejecuta una serie de instrucciones sin hacer ningún progreso. Se conoce como \textbf{\emph{livelock}}.
+			  	\item \emph{Inanición}: en este caso, el sistema en su conjunto hace progresos, pero existe un grupo de procesos que nunca progresaran pues no se les otorga tiempo de procesador para hacerlo. También se conoce como \textbf{\emph{starvation}}. 
 			\end{itemize}
 	
 		\subsubsection{Ejemplo}
@@ -181,49 +128,36 @@
 			El siguiente ejemplo ha sido extraído de \cite{palma} e ilustra todos los problemas antes mencionados.
 			\\
 			
-			Sea un juego donde hay dos equipos, el \emph{A} y el \emph{B}, y un juez con un pañuelo.
-			Cada jugador de un equipo tiene un número del \emph{1} al \emph{3}. No puede haber jugadores del mismo 
-			equipo con el mismo número.
+			Sea un juego donde hay dos equipos, el \emph{A} y el \emph{B}, y un juez con un pañuelo. Cada jugador de un equipo tiene un número del \emph{1} al \emph{3}. No puede haber jugadores del mismo equipo con el mismo número.
 			
-			El juez dice un número y los dos rivales con el mismo número van corriendo a buscar el pañuelo. El que 
-			lo agarre debe volver a su lugar sin que su rival le toque la espalda.
+			El juez dice un número y los dos rivales con el mismo número van corriendo a buscar el pañuelo. El que lo agarre debe volver a su lugar sin que su rival le toque la espalda.
 
 			A continuación se describirán, para éste ejemplo, las propiedades mencionadas anteriormente.
 			\begin{itemize}
-			  	\item \emph{Exclusión mutua}: al pañuelo puede agarrarlo solo un jugador a la vez, si lo agarran dos 
-			  		puede romperse, lo que implicaría un mal funcionamiento del sistema.
+			  	\item \emph{Exclusión mutua}: al pañuelo puede agarrarlo solo un jugador a la vez, si lo agarran dos puede romperse, lo que implicaría un mal funcionamiento del sistema.
 				\item \emph{Condición de sincronización}: un jugador debe esperar a que digan su número para correr.
-				\item \emph{Interbloqueo}: si un jugador se guarda el pañuelo y se va. El juez esperaría que se lo 
-					devuelvan y los jugadores que el juez diga su nombre, pero ninguno de los eventos ocurrirá.
-				\item \emph{Interbloqueo activo}: se produciría si dos jugadores amenazan una y otra vez con agarrar 
-					el pañuelo pero ninguno lo hace.
+				\item \emph{Interbloqueo}: si un jugador se guarda el pañuelo y se va. El juez esperaría que se lo devuelvan y los jugadores que el juez diga su nombre, pero ninguno de los eventos ocurrirá.
+				\item \emph{Interbloqueo activo}: se produciría si dos jugadores amenazan una y otra vez con agarrar el pañuelo pero ninguno lo hace.
 				\item \emph{Inanición}: Podría pasar si el juez nunca dice el nombre de un jugador en particular.
 			\end{itemize}
 	
 	\subsection{Interbloqueo}
 		
-		En un sistema donde los procesos compiten por limitados recursos, pueden producirse demandas contradictorias 
-		de los mismos. Por ejemplo, si existen dos procesos, \emph{A} y \emph{B}, y dos recursos, \emph{R1} y \emph{R2}, 
-		y ambos procesos necesitan los dos recursos para proseguir, si el proceso \emph{A} toma el recurso \emph{R1} y 
-		el \emph{B} el recurso \emph{R2}, ambos procesos se bloquearan a la espera del otro recurso, pero ninguno liberara 
-		el recuro que posee hasta no conseguir los dos. A esta situación se la conoce como interbloqueo. \cite{stallings}
+		En un sistema donde los procesos compiten por limitados recursos, pueden producirse demandas contradictorias de los mismos. Por ejemplo, si existen dos procesos, \emph{A} y \emph{B}, y dos recursos, \emph{R1} y \emph{R2}, y ambos procesos necesitan los dos recursos para proseguir, si el proceso \emph{A} toma el recurso \emph{R1} y el \emph{B} el recurso \emph{R2}, ambos procesos se bloquearan a la espera del otro recurso, pero ninguno liberara el recuro que posee hasta no conseguir los dos. A esta situación se la conoce como interbloqueo. \cite{stallings}
 		
 		\subsubsection{Condiciones para producir interbloqueo}
 		
 			El interbloqueo podrá producirse si se cumplen tres condiciones:
 			\begin{enumerate}
 			  	\item \emph{Exclusión mutua}: sólo un proceso puede utilizar el recurso en un momento determinado.
-			  	\item \emph{Retención y espera}: un proceso puede mantener el recurso que se le asigno mientras espera 
-			  		conseguir otro.
+			  	\item \emph{Retención y espera}: un proceso puede mantener el recurso que se le asigno mientras espera conseguir otro.
 			  	\item \emph{No apropiación}: ningún proceso podrá ser forzado a abandonar un recurso que retiene.
-			  	\item \emph{Circulo viciosos de espera}: Existe una cadena cerrada de procesos donde cada proceso retiene 
-			  		un recurso que necesita un proceso que le sigue en la cadena.
+			  	\item \emph{Circulo viciosos de espera}: Existe una cadena cerrada de procesos donde cada proceso retiene un recurso que necesita un proceso que le sigue en la cadena.
 			\end{enumerate}
 
 			Las tres primeras condiciones son necesarias pero no suficientes para que se produzca interbloqueo.
 			
-			La cuarta es una consecuencia potencial de las tres primeras y, en caso de darse, generará un \textbf{\emph{círculo 
-			vicioso de espera irresoluble}}.
+			La cuarta es una consecuencia potencial de las tres primeras y, en caso de darse, generará un \textbf{\emph{círculo vicioso de espera irresoluble}}.
 			
 			Un círculo de espera irresoluble es la definición de interbloqueo.
 				
@@ -237,75 +171,43 @@
 			  	\item \emph{Directos}: intentan evitar la aparición de un círculo vicioso de espera irresoluble.
 			\end{itemize}
 		
-			Existen diversas técnicas de prevención de interbloqueo relacionadas a cada una de las condiciones que 
-			pueden producirlo.
+			Existen diversas técnicas de prevención de interbloqueo relacionadas a cada una de las condiciones que pueden producirlo.
 			\begin{itemize}
-			  	\item \emph{Exclusión mutua}: En general no puede anularse, si un recurso necesita ser accedido en 
-			  		exclusión mutua no podrá hacerse un acceso de sin esta condición.
-			  	\item \emph{Retención y espera}: esta condición puede prevenirse haciendo que todos los procesos 
-			  		soliciten todos los recursos que necesitan al mismo tiempo y bloqueando al proceso hasta que 
-			  		todos los recursos que necesite estén disponibles simultáneamente. Pero esta solución es 
-			  		ineficiente por dos factores:
+			  	\item \emph{Exclusión mutua}: En general no puede anularse, si un recurso necesita ser accedido en exclusión mutua no podrá hacerse un acceso de sin esta condición.
+			  	\item \emph{Retención y espera}: esta condición puede prevenirse haciendo que todos los procesos soliciten todos los recursos que necesitan al mismo tiempo y bloqueando al proceso hasta que todos los recursos que necesite estén disponibles simultáneamente. Pero esta solución es ineficiente por dos factores:
 			  		\begin{itemize}
-			  		  	\item Un proceso puede estar suspendido durante mucho tiempo esperando todos los recursos 
-			  		  		cuando podría haber avanzado con algunos de ellos.
-			  		  	\item Los recursos asignados a un proceso pueden permanecer mucho tiempo sin usarse. En ese 
-			  		  		tiempo otro proceso podría haberlos utilizado.
+			  		  	\item Un proceso puede estar suspendido durante mucho tiempo esperando todos los recursos cuando podría haber avanzado con algunos de ellos.
+			  		  	\item Los recursos asignados a un proceso pueden permanecer mucho tiempo sin usarse. En ese tiempo otro proceso podría haberlos utilizado.
 			  		\end{itemize}
 			  	\item \emph{No apropiación}: puede prevenirse de varias maneras:
 			  		\begin{itemize}
-			  		  	\item Si un proceso que retiene muchos recursos pide uno más y se le niega el pedido, se le 
-			  		  		obligara a liberar todos los recursos anteriores y volver a pedirlos cuando los necesite 
-			  		  		junto con el recurso adicional.
-			  		  	\item Si un proceso pide recursos retenidos por otro proceso, el sistema operativo puede 
-			  		  		expulsar al segundo proceso y exigirle que libere sus recursos. Este sistema evitara 
-			  		  		interbloqueo solo si existen dos procesos con la misma prioridad.
+			  		  	\item Si un proceso que retiene muchos recursos pide uno más y se le niega el pedido, se le obligara a liberar todos los recursos anteriores y volver a pedirlos cuando los necesite junto con el recurso adicional.
+			  		  	\item Si un proceso pide recursos retenidos por otro proceso, el sistema operativo puede expulsar al segundo proceso y exigirle que libere sus recursos. Este sistema evitara interbloqueo solo si existen dos procesos con la misma prioridad.
 			  		\end{itemize}
-			  	\item \emph{Círculo vicioso de espera}: esta condición puede prevenirse definiendo un ordenamiento lineal 
-			  		de los tipos de recursos. Por ejemplo si un proceso solicitó recursos del tipo \emph{R}, solo podrá 
-			  		realizar peticiones posteriores sobre recursos siguientes a \emph{R} en el ordenamiento. Esta técnica 
-			  		puede ser ineficiente porque se puede retardar procesos denegándoles recursos innecesariamente. 
+			  	\item \emph{Círculo vicioso de espera}: esta condición puede prevenirse definiendo un ordenamiento lineal de los tipos de recursos. Por ejemplo si un proceso solicitó recursos del tipo \emph{R}, solo podrá realizar peticiones posteriores sobre recursos siguientes a \emph{R} en el ordenamiento. Esta técnica puede ser ineficiente porque se puede retardar procesos denegándoles recursos innecesariamente. 
 			\end{itemize}
 			
 		\subsubsection{Predicción del interbloqueo}
 		
-			En la prevención del interbloqueo se obligaba a impedir que sucedieran algunas de las cuatro condiciones que 
-			pueden llevar al interbloqueo. Pero con esto, se llega a un uso ineficiente de los recursos y a una ejecución 
-			ineficiente de los procesos.
+			En la prevención del interbloqueo se obligaba a impedir que sucedieran algunas de las cuatro condiciones que pueden llevar al interbloqueo. Pero con esto, se llega a un uso ineficiente de los recursos y a una ejecución ineficiente de los procesos.
 			
-			En cambio, en la predicción, se permiten alcanzar las tres condiciones necesarias pero se realizan elecciones 
-			acertadas para evitar llegar al punto del interbloqueo. Por lo tanto, la predicción permite más concurrencia 
-			que la prevención.
+			En cambio, en la predicción, se permiten alcanzar las tres condiciones necesarias pero se realizan elecciones acertadas para evitar llegar al punto del interbloqueo. Por lo tanto, la predicción permite más concurrencia que la prevención.
 			
-			Con predicción de interbloqueo, antes de concederle un recurso a un proceso, se decidirá dinámicamente si esa 
-			petición puede llevar a interbloqueo en caso de concederse. Por lo tanto, la predicción exige saber las peticiones 
-			futuras de recursos.
+			Con predicción de interbloqueo, antes de concederle un recurso a un proceso, se decidirá dinámicamente si esa petición puede llevar a interbloqueo en caso de concederse. Por lo tanto, la predicción exige saber las peticiones futuras de recursos.
 
 			Elementos de la predicción del interbloqueo son:
 			\begin{itemize}
-			  	\item \emph{Negativa de iniciación de procesos}: no se iniciara un proceso si sus demandas pueden llevar a un 
-			  		interbloqueo. Un nuevo proceso comenzara solo si puede satisfacerse la demanda máxima de todos los procesos 
-			  		actuales más la del nuevo proceso. Esta estrategia no es óptima ya que asume el peor caso, que todos los 
-			  		procesos expresen su mayor demanda al mismo tiempo.
-			  	\item \emph{Negativa de asignación de recursos}: no se concederá una solicitud de incrementar los recursos de un 
-			  	proceso si esta petición puede llevar a interbloqueo. Esta estrategia fue enunciada por Dijkstra y se conoce como 
+			  	\item \emph{Negativa de iniciación de procesos}: no se iniciara un proceso si sus demandas pueden llevar a un interbloqueo. Un nuevo proceso comenzara solo si puede satisfacerse la demanda máxima de todos los procesos actuales más la del nuevo proceso. Esta estrategia no es óptima ya que asume el peor caso, que todos los procesos expresen su mayor demanda al mismo tiempo.
+			  	\item \emph{Negativa de asignación de recursos}: no se concederá una solicitud de incrementar los recursos de un proceso si esta petición puede llevar a interbloqueo. Esta estrategia fue enunciada por Dijkstra y se conoce como 
 			  	\textbf{\emph{algoritmo del banquero}}.
 			\end{itemize}
 			
 		\subsubsection{Algoritmo del banquero}
 
-			Este algoritmo comienza definiendo un estado seguro, donde existe al menos un orden en el cual todos los procesos 
-			pueden ejecutar hasta el final sin producir interbloqueo. Un estado inseguro es, naturalmente, un estado no seguro.
+			Este algoritmo comienza definiendo un estado seguro, donde existe al menos un orden en el cual todos los procesos pueden ejecutar hasta el final sin producir interbloqueo. Un estado inseguro es, naturalmente, un estado no seguro.
 			
-			Cuando un proceso realiza un petición de recursos, se supone que se concede, se actualiza el estado del sistema, 
-			si es seguro se concede la solicitud, en caso contrario se bloquea el proceso hasta que sea seguro conceder la 
-			solicitud.
+			Cuando un proceso realiza un petición de recursos, se supone que se concede, se actualiza el estado del sistema, si es seguro se concede la solicitud, en caso contrario se bloquea el proceso hasta que sea seguro conceder la solicitud.
 			
-			El algoritmo es conocido de esta manera por analogía con el problema de un banco cuando los clientes desean obtener 
-			dinero prestado. Los clientes serían los procesos y el dinero los recursos. De esta manera, el banco tiene una 
-			reserva limitada de dinero para prestar y un conjunto de clientes. Si un cliente pide un préstamo, el banquero 
-			puede optar por rechazarlo si existe riesgo de que el banco se quede sin fondos suficientes para préstamos futuros.
+			El algoritmo es conocido de esta manera por analogía con el problema de un banco cuando los clientes desean obtener dinero prestado. Los clientes serían los procesos y el dinero los recursos. De esta manera, el banco tiene una reserva limitada de dinero para prestar y un conjunto de clientes. Si un cliente pide un préstamo, el banquero puede optar por rechazarlo si existe riesgo de que el banco se quede sin fondos suficientes para préstamos futuros.
 
-			Como se observa, se debe conocer la máxima solicitud por anticipado, los procesos deben ser independientes y el 
-			número de recursos y procesos debe ser fijo.
-	
+			Como se observa, se debe conocer la máxima solicitud por anticipado, los procesos deben ser independientes y el número de recursos y procesos debe ser fijo.

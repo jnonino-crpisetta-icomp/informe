@@ -1,51 +1,31 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Marco Teorico															%
-%	Capitulo: FPGA - IP cores - HDL													%
-%	Seccion: Field Programmable Gate Array											%	
-%	Archivo: fpga.tex																%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./marco_teorico/FPGA_IP_HDL/img
-% Nombre predeterminado imagenes: fpgaxx
+% Path imágenes: ./marco_teorico/FPGA_IP_HDL/img
+% Nombre predeterminado imágenes: fpgaxx
 %	xx es el numero de imagen
 
 \section{Field Programmable Gate Array}
 	\label{sec:fpga}
 
-	Una FPGA (Field Programmable Gate Array) es un circuito integrado digital formado por bloques
-	lógicos los interconectados.
+	Una FPGA (Field Programmable Gate Array) es un circuito integrado digital formado por bloques lógicos los interconectados.
 
-	Las interconexiones de una FPGA pueden ser conFigurados mediante un Lenguaje de Descripción de 
-	Hardware (HDL). De esta manera una FPGA puede reproducir desde simples compuertas lógicas hasta 
-	complejos sistemas dentro de un solo chip.
+	Las interconexiones de una FPGA pueden ser conFigurados mediante un Lenguaje de Descripción de Hardware (HDL). De esta manera una FPGA puede reproducir desde simples compuertas lógicas hasta complejos sistemas dentro de un solo chip.
 
-	Existen FPGAs que pueden ser reprogramadas lo que les permite una gran flexibilidad a la hora de
-	diseñar circuitos digitales. Por otro lado, existen FPGAs que solo pueden programarse una única 
-	vez, su principal ventaja su menor consumo aunque al momento de diseñar circuitos son mas complejas.
+	Existen FPGAs que pueden ser reprogramadas lo que les permite una gran flexibilidad a la hora de diseñar circuitos digitales. Por otro lado, existen FPGAs que solo pueden programarse una única vez, su principal ventaja su menor consumo aunque al momento de diseñar circuitos son mas complejas.
 
-	En la \ref{fig:fpga01} se ve una FPGA dentro de una placa de desarrollo con diferentes periféricos ya 
-	conectados.
+	En la \ref{fig:fpga01} se ve una FPGA dentro de una placa de desarrollo con diferentes periféricos ya conectados.
 	
-	Las características físicas a tener en cuenta en la elección de una FPGA dependerán del proyecto que se
-	desea emprender, pero, principalmente se consideran los siguientes puntos:
+	Las características físicas a tener en cuenta en la elección de una FPGA dependerán del proyecto que se desea emprender, pero, principalmente se consideran los siguientes puntos:
 	\begin{itemize}
 	  \item \emph{Cantidad de bloques lógicos}: determina el espacio disponible para implementar la lógica.
-	  \item \emph{Tipo y tamaño de memoria}: pudiendo ser \emph{distribuida} o \emph{de bloques}, donde existe una 
-	  		memoria dedicada incluida en la FPGA o se utilizan los bloques lógicos de la misma respectivamente.
+	  \item \emph{Tipo y tamaño de memoria}: pudiendo ser \emph{distribuida} o \emph{de bloques}, donde existe una memoria dedicada incluida en la FPGA o se utilizan los bloques lógicos de la misma respectivamente.
 	  \item \emph{Cantidad de puertos I/O}: usados como interface entre la FPGA y dispositivos externos.
-	  \item \emph{Otros componentes internos}: Bloques de memoria, multiplicadores, PLL, CPU, conversores 
-	  		A/D, bloques DSP, etc.
+	  \item \emph{Otros componentes internos}: Bloques de memoria, multiplicadores, PLL, CPU, conversores A/D, bloques DSP, etc.
 	\end{itemize}
 	
 	\begin{raggedright}
@@ -55,7 +35,7 @@
 		\item Gran flexibilidad de producto.
 		\item Posibilidad de actualizar tanto el firmware como el hardware.
 		\item Reutilización del hardware.
-		\item Son dispositivos reconFigurables.
+		\item Son dispositivos reconfigurables.
 		\item Bajo costo respecto a los ASIC.
 		\item Ejecución de circuitos más rápida que en otros dispositivos reprogramables.
 		\item \textbf{La ejecución de cada bloque se realiza concurrentemente, a diferencia de un micro controlador.}

@@ -1,122 +1,46 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Introduccion																%
-%	Capitulo: Introduccion															%	
-%	Archivo: introduccion.tex														%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Introducción}
 	\label{chap:introduccion}
 	
-	Desde hace tiempo, los sistemas de computación son multiprogramados \cite{stallings},
-	esto significa que en un momento dado existen múltiples procesos cooperando por un fin
-	común y/o compitiendo por recursos limitados. En un sistema monoprocesador, se produce
-	una intercalación de instrucciones de diversos procesos concurrentes aparentando una 
-	ejecución paralela. Esto tiene el problema de la sincronización para el uso de recursos 
-	y en la mayoría de los casos un proceso no podrá compartir un recurso mientras lo usa, 
-	por lo tanto, los demás deben bloquearse y esperar hasta que el recurso sea liberado. 
-	Además, si los procesos comparten datos, se debe asegurar que solo uno de ellos lo 
-	modifique en un mismo instante. Por ello, para que el sistema funcione correctamente y 
-	se conserve la integridad de los datos, se deben utilizar diversos mecanismos de 
-	sincronización y de exclusión mutua.
+	Desde hace tiempo, los sistemas de computación son multiprogramados \cite{stallings}, esto significa que en un momento dado existen múltiples procesos cooperando por un fin común y/o compitiendo por recursos limitados. En un sistema monoprocesador, se produce una intercalación de instrucciones de diversos procesos concurrentes aparentando una ejecución paralela. Esto tiene el problema de la sincronización para el uso de recursos y en la mayoría de los casos un proceso no podrá compartir un recurso mientras lo usa, por lo tanto, los demás deben bloquearse y esperar hasta que el recurso sea liberado. Además, si los procesos comparten datos, se debe asegurar que solo uno de ellos lo modifique en un mismo instante. Por ello, para que el sistema funcione correctamente y se conserve la integridad de los datos, se deben utilizar diversos mecanismos de sincronización y de exclusión mutua.
 	
-	En la actualidad, la mayoría de los sistemas incluyen múltiples procesadores, por ende, 
-	los problemas anteriormente mencionados se multiplican ya que la ejecución paralela es 
-	real e intercalada.
-	Los problemas generados por la ejecución concurrente son: la necesidad de exclusión 
-	mutua, condiciones de sincronización, interbloqueos e inanición \cite{palma}. 
-	Para detectar estos problemas se debe modelar el sistema. Una de las herramientas para 
-	modelar procesos concurrentes son las máquinas de estado. El uso de esta herramienta 
-	hace dificultoso asegurar que la implementación cumpla con las propiedades validadas y 
-	verificadas en el modelo debido a la distancia que existe entre ellos.
+	En la actualidad, la mayoría de los sistemas incluyen múltiples procesadores, por ende, los problemas anteriormente mencionados se multiplican ya que la ejecución paralela es real e intercalada. Los problemas generados por la ejecución concurrente son: la necesidad de exclusión mutua, condiciones de sincronización, interbloqueos e inanición \cite{palma}. Para detectar estos problemas se debe modelar el sistema. Una de las herramientas para modelar procesos concurrentes son las máquinas de estado. El uso de esta herramienta hace dificultoso asegurar que la implementación cumpla con las propiedades validadas y verificadas en el modelo debido a la distancia que existe entre ellos.
 	
-	El capítulo \ref{chap:chap_concurrencia} de este trabajo presentará de manera resumida
-	conceptos tales como, qué significa que dos programas sean concurrentes, qué condiciones 
-	deben cumplirse para que dos programas puedan ser ejecutados concurrentemente, qué problemas 
-	introduce la programación concurrente y cuáles son sus posibles soluciones, etcétera.
+	El capítulo \ref{chap:chap_concurrencia} de este trabajo presentará de manera resumida conceptos tales como, qué significa que dos programas sean concurrentes, qué condiciones deben cumplirse para que dos programas puedan ser ejecutados concurrentemente, qué problemas introduce la programación concurrente y cuáles son sus posibles soluciones, etcétera.
 	\\
 	
-	En el Laboratorio de Arquitecturas de Computadoras desde hace tiempo se trabaja con 
-	otra herramienta para modelar sistemas concurrentes. Ésta, es una herramienta gráfica 
-	con una base matemática formal y se conoce como Redes de Petri.
-	Las Redes de Petri, logran modelar los diferentes estados de los sistemas reactivos y 
-	las posibles transiciones entre ellos. Este modelo gráfico puede ser traducido a una 
-	ecuación de estado que definirá el estado siguiente del sistema según el estado actual 
-	y de las transiciones que desean dispararse en forma algebraica. Pero el hecho más 
-	importante, es que estas redes no solo sirven para la simulación sino, que además, 
-	pueden ser ejecutadas \cite{paillertejeda} \cite{galliapereyra}, con lo cual, el modelo 
-	y la implementación son lo mismo. Modelando con Redes de Petri, el funcionamiento
-	y las propiedades del sistema pueden ser asegurados aún antes de la implementación.
-	El capítulo \ref{chap:chap_redes_de_petri} definirá formalmente qué es una Red de Petri,
-	cuáles son sus propiedades, se presentarán los conceptos básicos que hacen que estas redes
-	puedan ser ejecutadas y cómo es posible considerar el tiempo en la ejecución de una
-	Red de Petri.
+	En el Laboratorio de Arquitecturas de Computadoras desde hace tiempo se trabaja con otra herramienta para modelar sistemas concurrentes. Ésta, es una herramienta gráfica con una base matemática formal y se conoce como Redes de Petri. Las Redes de Petri, logran modelar los diferentes estados de los sistemas reactivos y las posibles transiciones entre ellos. Este modelo gráfico puede ser traducido a una ecuación de estado que definirá el estado siguiente del sistema según el estado actual y de las transiciones que desean dispararse en forma algebraica. Pero el hecho más importante, es que estas redes no solo sirven para la simulación sino, que además, pueden ser ejecutadas \cite{paillertejeda} \cite{galliapereyra}, con lo cual, el modelo y la implementación son lo mismo. Modelando con Redes de Petri, el funcionamiento y las propiedades del sistema pueden ser asegurados aún antes de la implementación. El capítulo \ref{chap:chap_redes_de_petri} definirá formalmente qué es una Red de Petri, cuáles son sus propiedades, se presentarán los conceptos básicos que hacen que estas redes puedan ser ejecutadas y cómo es posible considerar el tiempo en la ejecución de una Red de Petri.
 	\\
 	
-	Las arquitecturas de procesadores actuales, no incluyen mecanismos de hardware que den 
-	soporte a las soluciones de los problemas de sincronización de los sistemas multi core. 
-	Por esta razón, los tiempos de sincronización dependen de la arquitectura y del conjunto 
-	de instrucciones del sistema. 
-	Dado que es posible implementar sistemas directamente con Redes de Petri, crear un módulo 
-	en hardware que las ejecute podría reducir estos tiempos y mejorar la sincronización en el 
-	sistema. El capítulo \ref{chap:chap_fpga_ip_hdl} introducirá al lector de este trabajo en las
-	herramientas de desarrollo utilizada, placas de desarrollo con FPGA y el lenguaje de descripción
-	de hardware, Verilog. Además se describe el tipo de estructura de hardware que se utilizará para
-	el desarrollo, los IP core.
-	En éste marco teórico, se introducen todas las nociones básicas sobre concurrencia, sincronización, 
-	Redes de Petri que motivan el desarrollo de un nuevo método de modelización e implementación de 
-	sistemas concurrentes y reactivos mediante el uso de Redes de Petri y además, proveer una nueva 
-	arquitectura más apta para la implementación de éstos sistemas. 
+	Las arquitecturas de procesadores actuales, no incluyen mecanismos de hardware que den soporte a las soluciones de los problemas de sincronización de los sistemas multicore. Por esta razón, los tiempos de sincronización dependen de la arquitectura y del conjunto de instrucciones del sistema. Dado que es posible implementar sistemas directamente con Redes de Petri, crear un módulo en hardware que las ejecute podría reducir estos tiempos y mejorar la sincronización en el sistema. El capítulo \ref{chap:chap_fpga_ip_hdl} introducirá al lector de este trabajo en las herramientas de desarrollo utilizada, placas de desarrollo con FPGA y el lenguaje de descripción de hardware, Verilog. Además se describe el tipo de estructura de hardware que se utilizará para el desarrollo, los IP core. En éste marco teórico, se introducen todas las nociones básicas sobre concurrencia, sincronización, Redes de Petri que motivan el desarrollo de un nuevo método de modelización e implementación de sistemas concurrentes y reactivos mediante el uso de Redes de Petri y además, proveer una nueva arquitectura más apta para la implementación de éstos sistemas. 
 	\\
 	
-	En los capítulos \ref{chap:chap_diseno_implementacion} y \ref{chap:chap_implementacion_FPGA}
-	se mostrará paso a paso el diseño y la implementación en una FPGA de un IP core que, mediante el 
-	procesamiento de Redes de Petri Temporales posibilite mayor desempeño a la hora de implementar
-	sistemas concurrentes.
+	En los capítulos \ref{chap:chap_diseno_implementacion} y \ref{chap:chap_implementacion_FPGA} se mostrará paso a paso el diseño y la implementación en una FPGA de un IP core que, mediante el procesamiento de Redes de Petri Temporales posibilite mayor desempeño a la hora de implementar sistemas concurrentes.
 			
 	\section{Objetivos}
 	
-		En trabajos previos realizados en el Laboratorio de Arquitectura de Computadoras se ha demostrado
-		que es posible ejecutar las Redes de Petri y además, crear, en hardware, procesadores que las 
-		ejecuten \cite{paillertejeda} \cite{galliapereyra}. Siguiendo esta línea de trabajo, se plantean 
-		los siguientes objetivos para este Proyecto Integrador. 
+		En trabajos previos realizados en el Laboratorio de Arquitectura de Computadoras se ha demostrado que es posible ejecutar las Redes de Petri y además, crear, en hardware, procesadores que las ejecuten \cite{paillertejeda} \cite{galliapereyra}. Siguiendo esta línea de trabajo, se plantean los siguientes objetivos para este Proyecto Integrador. 
 		
 		\subsection{Objetivo principal}
 			
-			El objetivo principal de este trabajo es diseñar e implementar en hardware un procesador de 
-			Redes de Petri que sea capaz de procesar \textbf{\emph{Redes de Petri Temporales}} para las 
-			dos semánticas de tiempo posibles, \textbf{\emph{Redes de Petri con Tiempo}} y 
-			\textbf{\emph{Redes de Petri Temporizadas}}. Manteniendo la condición de programación directa
-			entre el modelo y la implementación.
+			El objetivo principal de este trabajo es diseñar e implementar en hardware un procesador de Redes de Petri que sea capaz de procesar \textbf{\emph{Redes de Petri Temporales}} para las dos semánticas de tiempo posibles, \textbf{\emph{Redes de Petri con Tiempo}} y \textbf{\emph{Redes de Petri Temporizadas}}. Manteniendo la condición de programación directa entre el modelo y la implementación.
 			
 		\subsection{Objetivos secundarios}
 		
 			\begin{itemize}
-			 	\item Analizar las Redes de Petri Temporales con el fin de evaluar su implementación por 
-			  		hardware.
-			  	\item Rediseñar el procesador de Redes de Petri con el objetivo de posibilitar la inserción
-			  		de parámetros temporales.
+			 	\item Analizar las Redes de Petri Temporales con el fin de evaluar su implementación por hardware.
+			  	\item Rediseñar el procesador de Redes de Petri con el objetivo de posibilitar la inserción de parámetros temporales.
 			  	\item Implementar el procesador de Redes de Petri como un IP core.
-			  	\item Insertar el IP core del procesador de Redes de Petri en una FPGA que implemente un 
-			  		sistema multiprocesador sin modificar el conjunto de instrucciones de los procesadores.
-			  	\item Proveer un mecanismo para que se carguen los parámetros que definen a la Red de Petri
-			  		del sistema.
-			  	\item Diseñar un método para que los procesos que corran en el sistema soliciten y reconozcan
-			  		disparos de las transiciones de la red y realicen acciones específicas según el estado de 
-			  		la misma.
-			  	\item Diseñar un mecanismo de comunicación entre el procesador de Redes de Petri y los procesos
-			  		del sistema a través de interrupciones.
+			  	\item Insertar el IP core del procesador de Redes de Petri en una FPGA que implemente un sistema multiprocesador sin modificar el conjunto de instrucciones de los procesadores.
+			  	\item Proveer un mecanismo para que se carguen los parámetros que definen a la Red de Petri del sistema.
+			  	\item Diseñar un método para que los procesos que corran en el sistema soliciten y reconozcan disparos de las transiciones de la red y realicen acciones específicas según el estado de la misma.
+			  	\item Diseñar un mecanismo de comunicación entre el procesador de Redes de Petri y los procesos del sistema a través de interrupciones.
 			  	\item Realizar un análisis del espacio que el IP core desarrollado ocupa dentro de una FPGA.
-			  	\item Comparar mecanismos de sincronización como por ejemplo el uso de semáforos, frente al 
-			  		uso del procesador de Redes de Petri.
+			  	\item Comparar mecanismos de sincronización como por ejemplo el uso de semáforos, frente al uso del procesador de Redes de Petri.
 			\end{itemize}

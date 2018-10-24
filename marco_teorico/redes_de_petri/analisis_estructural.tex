@@ -1,33 +1,20 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Marco Teorico															%
-%	Capitulo: Redes de Petri														%
-%	Seccion: Análisis estructural de Redes de Petri									%	
-%	Archivo: analisis_estructural.tex												%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./marco_teorico/redes_de_petri/img
-% Nombre predeterminado imagenes: petrixx
+% Path imágenes: ./marco_teorico/redes_de_petri/img
+% Nombre predeterminado imágenes: petrixx
 %	xx es el numero de imagen
 
 \section{Análisis estructural de Redes de Petri}
 	\label{sec:analisis_estructural}
 
-	Las propiedades de una Red de Petri pueden ser demostradas construyendo el grafo de alcanzabilidad de la 
-	misma. Sin embargo, el tamaño de este grafo crece exponencialmente con el número de plazas.
+	Las propiedades de una Red de Petri pueden ser demostradas construyendo el grafo de alcanzabilidad de la misma. Sin embargo, el tamaño de este grafo crece exponencialmente con el número de plazas.
 	
-	El análisis estructural de una Red de Petri, hace posible demostrar algunas de las propiedades de la red 
-	sin necesidad de realizar el grafo de alcanzabilidad.
+	El análisis estructural de una Red de Petri, hace posible demostrar algunas de las propiedades de la red sin necesidad de realizar el grafo de alcanzabilidad.
 	
 	Existen dos técnicas principales, los \textbf{invariantes} y las \textbf{trampas (traps)}.
 	
@@ -36,17 +23,11 @@
 	
 		\subsubsection{Definiciones}
 			
-			El efecto de una secuencia de disparos en la ecuación  de estado de una Red de Petri está 
-			determinado por la matriz de incidencia $I$ y el vector de ocurrencias de transiciones en 
-			la secuencia de disparo.
+			El efecto de una secuencia de disparos en la ecuación  de estado de una Red de Petri está determinado por la matriz de incidencia $I$ y el vector de ocurrencias de transiciones en la secuencia de disparo.
 			
-			Sea $\sigma\in T^*$ una secuencia de disparos que lleva a una Red de Petri desde el estado $m$
-			hasta el estado $m_{i+1}$ entonces se puede decir que:
+			Sea $\sigma\in T^*$ una secuencia de disparos que lleva a una Red de Petri desde el estado $m$ hasta el estado $m_{i+1}$ entonces se puede decir que:
 			\begin{itemize}
-  				\item La secuencia $\sigma$ tiene asociado un vector $\vec{\sigma}\in \mathbb{N}^T$ 
-	  					(siendo $T$ la cantidad de transiciones de la red) llamado vector de ocurrencia
-	  					tal que $\vec{\sigma}$ representa la cantidad de ocurrencias de $t$ en la 
-	  					secuencia $\sigma$.
+  				\item La secuencia $\sigma$ tiene asociado un vector $\vec{\sigma}\in \mathbb{N}^T$ (siendo $T$ la cantidad de transiciones de la red) llamado vector de ocurrencia tal que $\vec{\sigma}$ representa la cantidad de ocurrencias de $t$ en la secuencia $\sigma$.
 	  			\item La ecuación de estado resulta:
 	  					\begin{equation*}
 	  						m_(i+1) = m_i + I × \vec{\sigma}
@@ -55,12 +36,9 @@
 			
 		\subsubsection{Invariantes}		
 			
-			Con la ayuda de la ecuación anterior, se buscan cantidades invariantes que permitan analizar 
-			estructuralmente a la Red de Petri. En particular, se trabajará con los canceladores de la matriz 
-			de incidencia $I$.
+			Con la ayuda de la ecuación anterior, se buscan cantidades invariantes que permitan analizar estructuralmente a la Red de Petri. En particular, se trabajará con los canceladores de la matriz de incidencia $I$.
 			
-			Sea $P$ la cantidad de plazas de una Red de Petri y $T$ la cantidad de transiciones, las 
-			cancelaciones de la matriz $I$ generan cuatro vectores:
+			Sea $P$ la cantidad de plazas de una Red de Petri y $T$ la cantidad de transiciones, las cancelaciones de la matriz $I$ generan cuatro vectores:
 			\begin{itemize}
 				\item \underline{P-flow}
 			  		\\
@@ -93,20 +71,16 @@
 					\end{equation}
 			\end{itemize}
   
-			Un vector \textbf{P-flow} es una suma ponderada de las plazas con coeficientes enteros. Provee una 
-			transformación desde el marcado de un conjunto de plazas a un número entero.
+			Un vector \textbf{P-flow} es una suma ponderada de las plazas con coeficientes enteros. Provee una transformación desde el marcado de un conjunto de plazas a un número entero.
 						
 			Un \textbf{P-semiflow} es una suma ponderada de las plazas con coeficientes naturales.
 						
 			Los vectores P-flow y P-semiflow son llamados \textbf{invariantes de plazas} o \textbf{P-invariantes}.
 			\\
 			
-			Los \textbf{T-semiflows} pueden ser obtenidos como el vector de ocurrencia de una secuencia de 
-			disparos, mientras que los \textbf{T-flows} pueden ser obtenidos a partir de la diferencia entre 
-			dos vectores de ocurrencia.
+			Los \textbf{T-semiflows} pueden ser obtenidos como el vector de ocurrencia de una secuencia de disparos, mientras que los \textbf{T-flows} pueden ser obtenidos a partir de la diferencia entre dos vectores de ocurrencia.
 			
-			Los vectores T-flow y T-semiflow son llamados \textbf{invariantes de transiciones} 
-			o \textbf{T-invariantes}.
+			Los vectores T-flow y T-semiflow son llamados \textbf{invariantes de transiciones} o \textbf{T-invariantes}.
 			\\
 			
 			\begin{raggedright}
@@ -114,8 +88,7 @@
 			\end{raggedright}
 			
 			\begin{enumerate}
-  				\item Sea $x$ un vector \emph{P-flow} y $\sigma$ una secuencia de disparos que lleva desde 
-  					el estado $m_i$ hasta el estado $m_{i+1}$ entonces:
+  				\item Sea $x$ un vector \emph{P-flow} y $\sigma$ una secuencia de disparos que lleva desde el estado $m_i$ hasta el estado $m_{i+1}$ entonces:
   					\begin{equation}
 						x^t × m_i = x^t × m_{i+1} 
 						\label{eq:efectopflow}
@@ -146,8 +119,7 @@
 					
 					En otras palabras, $\sigma$ es una secuencia repetitiva y estacionaria.
 					
-					La afirmación anterior se demuestra con la ecuación de estado de la siguiente 
-					manera:
+					La afirmación anterior se demuestra con la ecuación de estado de la siguiente manera:
 	  					\begin{equation*}
 	  						m_{i+1} = m_i+I × \vec{\sigma}
 	  					\end{equation*}
@@ -162,8 +134,7 @@
   						m_{i+1} = m_i
   					\end{equation*}
   						
-  				\item Sea $u$ un vector \emph{T-flow} y $\sigma_1$ y $\sigma_2$ dos secuencias de disparos 
-  					tal que $\sigma_1 - \sigma_2 = u$, entonces:
+  				\item Sea $u$ un vector \emph{T-flow} y $\sigma_1$ y $\sigma_2$ dos secuencias de disparos tal que $\sigma_1 - \sigma_2 = u$, entonces:
   					\begin{equation}
 						m\xrightarrow{\;\;\sigma_1\;\;} m' 
 						\wedge 
@@ -202,11 +173,7 @@
 			
 		\subsubsection{Invariantes de Transiciones}
 			
-			Los vectores \emph{T-flow} y los \emph{T-semiflow} son \textbf{invariantes de transiciones} 
-			o \textbf{T-invariantes}. En particular, los vectores \emph{T-semiflow} indican posibles 
-			bucles (loops) en la red. Es decir, una	secuencia de disparos que tenga asociado un invariante 
-			de transición, vuelve al mismo marcado desde el que partió. Por ejemplo, sea la siguiente Red 
-			de Petri, el vector:
+			Los vectores \emph{T-flow} y los \emph{T-semiflow} son \textbf{invariantes de transiciones} o \textbf{T-invariantes}. En particular, los vectores \emph{T-semiflow} indican posibles bucles (loops) en la red. Es decir, una secuencia de disparos que tenga asociado un invariante de transición, vuelve al mismo marcado desde el que partió. Por ejemplo, sea la siguiente Red de Petri, el vector:
 			\begin{figure}[H]
 				\begin{minipage}{0.5\textwidth}
 					\centering 
@@ -256,25 +223,18 @@
 									
 		\subsubsection{Invariantes de plazas (p-invariantes)}
 			
-			Sea una Red de Petri $PN(I, m_0)$ definida por una estructura de red $I$ y un marcado 
-			inicial $m_0$, si $x$ es un vector \emph{P-flow} o un \emph{P-semiflow}, se cumple que:
+			Sea una Red de Petri $PN(I, m_0)$ definida por una estructura de red $I$ y un marcado inicial $m_0$, si $x$ es un vector \emph{P-flow} o un \emph{P-semiflow}, se cumple que:
 			\begin{equation}
 				\forall m \in marcados de PN: x^t × m = x^t × m_0
 			\end{equation}
 			
-			Para todo marcado $m$ perteneciente al conjunto de marcados de la red $PN$ se cumple que el 
-			producto de la transpuesta del vector $x$ por cualquier marcado, se mantiene igual al producto con 
-			el marcado inicial $m_0$. 
+			Para todo marcado $m$ perteneciente al conjunto de marcados de la red $PN$ se cumple que el producto de la transpuesta del vector $x$ por cualquier marcado, se mantiene igual al producto con el marcado inicial $m_0$. 
 			
 			Si el vector $x$ es \emph{P-semiflow}, se dice que $x$ es un \textbf{\emph{invariante positivo}}.
 			
-			Los invariantes positivos tienen muchas aplicaciones. Por ejemplo, todas las plazas que estén 
-			incluidas en un vector P-invariante se encuentran limitadas al valor de marcado que sumaban al 
-			inicio.
+			Los invariantes positivos tienen muchas aplicaciones. Por ejemplo, todas las plazas que estén incluidas en un vector P-invariante se encuentran limitadas al valor de marcado que sumaban al inicio.
 			
-			También, los invariantes de plazas pueden ser utilizados para identificar los estados de los procesos 
-			modelados con la Red de Petri y además, para verificar situaciones de exclusión mutua. En las Redes de 
-			Petri que se presentan a continuación, se ejemplificarán las aplicaciones antes mencionadas.
+			También, los invariantes de plazas pueden ser utilizados para identificar los estados de los procesos modelados con la Red de Petri y además, para verificar situaciones de exclusión mutua. En las Redes de Petri que se presentan a continuación, se ejemplificarán las aplicaciones antes mencionadas.
 			
 			Se plantea la Red de Petri de un sistema productor consumidor con un buffer de capacidad limitada.
 			\begin{figure}[H]
@@ -284,11 +244,9 @@
 				\label{fig:Petri05}
 			\end{figure}
 			
-			Los invariantes de plazas pueden ser escritos como ecuaciones que muestran propiedades de la 
-			Red de Petri. 
+			Los invariantes de plazas pueden ser escritos como ecuaciones que muestran propiedades de la Red de Petri. 
 			
-			En este ejemplo, los vectores \emph{P-invariantes} son\footnote{Los vectores han sido calculados 
-			utilizando la Ecuación \ref{eq:pflow} y la Ecuación \ref{eq:psemiflow}}:
+			En este ejemplo, los vectores \emph{P-invariantes} son\footnote{Los vectores han sido calculados utilizando la Ecuación \ref{eq:pflow} y la Ecuación \ref{eq:psemiflow}}:
 			
 			\begin{center}
 				\begin{tabular}{c c c c c c c c c}
@@ -310,25 +268,16 @@
 			\begin{enumerate}
   				\item $M(Capacidad Buffer) + M(Buffer) = 5$
   					\\
-					En esta ecuación que se deriva del primer vector \emph{P-invariante}, se puede ver como la 
-					cantidad de marcas que se encuentran ubicadas entre las plazas \emph{Capacidad Buffer} y 
-					\emph{Buffer}, se mantiene constante. Esto indica, que están limitadas.
+					En esta ecuación que se deriva del primer vector \emph{P-invariante}, se puede ver como la cantidad de marcas que se encuentran ubicadas entre las plazas \emph{Capacidad Buffer} y \emph{Buffer}, se mantiene constante. Esto indica, que están limitadas.
 				\item $M(P0) + M(P1) + M(P2) = 3$
 					\\
-					Desde el segundo vector \emph{P-invariante}, se obtiene la ecuación anterior. Por esta 
-					ecuación, deducimos que las plazas $P0$, $P1$ y $P2$ representan los estados de 
-					un proceso. Dado que la cantidad de tokens entre ellas se mantiene constante, esto 
-					permite deducir que los tokens van cambiando de estado. Este proceso, se corresponde 
-					con el proceso \emph{Productor}.
+					Desde el segundo vector \emph{P-invariante}, se obtiene la ecuación anterior. Por esta ecuación, deducimos que las plazas $P0$, $P1$ y $P2$ representan los estados de un proceso. Dado que la cantidad de tokens entre ellas se mantiene constante, esto permite deducir que los tokens van cambiando de estado. Este proceso, se corresponde con el proceso \emph{Productor}.
 				\item $M(P3) + M(P4) + M(P5) = 3 $
 					\\
-					Ídem al caso anterior, el hecho de que el numero de tokens se mantenga en las 
-					plazas $P3$, $P4$ y $P5$ permite identificar los estados del otro proceso 
-					modelado, el proceso \emph{Consumidor}.
+					Ídem al caso anterior, el hecho de que el numero de tokens se mantenga en las plazas $P3$, $P4$ y $P5$ permite identificar los estados del otro proceso modelado, el proceso \emph{Consumidor}.
 			\end{enumerate}
 				
-			Si el buffer del ejemplo anterior, tuviera que ser accedido con exclusión mutua, el modelado del 
-			sistema con una Red de Petri resultaría de la siguiente manera.
+			Si el buffer del ejemplo anterior, tuviera que ser accedido con exclusión mutua, el modelado del sistema con una Red de Petri resultaría de la siguiente manera.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.7\linewidth]{./marco_teorico/redes_de_petri/img/Petri06}
@@ -357,16 +306,12 @@
 				\end{tabular}
 			\end{center}	
 			
-			Como se puede notar, se obtuvo un cuarto invariante de plazas además de los que ya aparecían en 
-			el ejemplo anterior. La ecuación de este cuarto invariante es:
+			Como se puede notar, se obtuvo un cuarto invariante de plazas además de los que ya aparecían en el ejemplo anterior. La ecuación de este cuarto invariante es:
 			\begin{equation*}
 				M(P1) + M(P4) + M(MUTEX) = 1
 			\end{equation*}
  
- 			Las plazas $P1$ y $P4$ se corresponden con los estados de procesos \emph{Produciendo} y 
- 			\emph{Consumiendo} respectivamente. El hecho de que aparezcan en un invariante junto con la plaza 
- 			\emph{MUTEX} indica que la cantidad de tokens entre estas tres plazas no cambia. Dado que el valor 
- 			constante es \emph{1}, éste \emph{P-invariante} muestra la exclusión mutua entre ambos procesos.
+ 			Las plazas $P1$ y $P4$ se corresponden con los estados de procesos \emph{Produciendo} y \emph{Consumiendo} respectivamente. El hecho de que aparezcan en un invariante junto con la plaza \emph{MUTEX} indica que la cantidad de tokens entre estas tres plazas no cambia. Dado que el valor constante es \emph{1}, éste \emph{P-invariante} muestra la exclusión mutua entre ambos procesos.
 				
 	\subsection{Trampas (Traps)}
 		\label{subsec:traps}
@@ -379,9 +324,7 @@
 			\label{fig:Petri07}
 		\end{figure}		
 			
-		En la red de la Figura \ref{fig:Petri07}, la idea es conseguir exclusión mutua garantizando que 
-		un proceso ingrese a su sección crítica sólo si el otro proceso no ha ingresado a la suya. 
-		Entonces, lo que se desea probar es que para todo marcado $m$ se cumple que:
+		En la red de la Figura \ref{fig:Petri07}, la idea es conseguir exclusión mutua garantizando que un proceso ingrese a su sección crítica sólo si el otro proceso no ha ingresado a la suya. Entonces, lo que se desea probar es que para todo marcado $m$ se cumple que:
 		\begin{equation*}
 			m(RegionCritica1) + m(RegionCritica2) \leq 1
 		\end{equation*}
@@ -394,40 +337,25 @@
 	  		\item $ m(RegionCritica2) + m(nc2) = 1 $
 	  	\end{enumerate}
 	  		
-	  	La red de la Figura \ref{fig:Petri07} tiene arcos bidireccionales entre la plaza $nc1$ y la 
-	  	transición $t4$ y entre la plaza $nc2$ y la transición $t1$. Los arcos bidireccionales se 
-	  	anulan en la matriz de incidencia produciendo una perdida de información. Esta perdida de información 
-	  	hace que los el conjunto de ecuaciones de los p-invariantes no sea suficiente para probar la propiedad 
-	  	de exclusión mutua deseada.
+	  	La red de la Figura \ref{fig:Petri07} tiene arcos bidireccionales entre la plaza $nc1$ y la transición $t4$ y entre la plaza $nc2$ y la transición $t1$. Los arcos bidireccionales se anulan en la matriz de incidencia produciendo una perdida de información. Esta perdida de información hace que los el conjunto de ecuaciones de los p-invariantes no sea suficiente para probar la propiedad de exclusión mutua deseada.
 		
-		Los \textbf{\emph{traps}} en combinación con los \emph{p-invariantes} recuperan la información perdida 
-		debido a los arcos bidireccionales.
+		Los \textbf{\emph{traps}} en combinación con los \emph{p-invariantes} recuperan la información perdida debido a los arcos bidireccionales.
 		\\
 
-		Sea una Red de Petri $PN = \{P, T, I, m_0\}$ un \textbf{\emph{trap}} es un conjunto de plazas 
-		$ S \in P / S^\bullet \subseteq\;^\bullet S$\footnote{$S^\bullet$ representa el conjunto de tokens que 
-		se retiran del conjunto de plazas $S$. A su vez, $\;^\bullet S$ representa el conjunto de tokens que se 
-		colocan en el conjunto de plazas $S$.}. 
-		Esto significa que cada transición que remueve tokens de un \emph{trap} debe colocar al menos uno en el 
-		\emph{trap}.
+		Sea una Red de Petri $PN = \{P, T, I, m_0\}$ un \textbf{\emph{trap}} es un conjunto de plazas $ S \in P / S^\bullet \subseteq\;^\bullet S$\footnote{$S^\bullet$ representa el conjunto de tokens que se retiran del conjunto de plazas $S$. A su vez, $\;^\bullet S$ representa el conjunto de tokens que se colocan en el conjunto de plazas $S$.}. 
+		Esto significa que cada transición que remueve tokens de un \emph{trap} debe colocar al menos uno en el \emph{trap}.
 			
-		Se dice que un \emph{trap} $S$ es marcado en un determinado marcado $m$ si y solo si se cumple que 
-		en al menos una plaza $s\in S$ se cumple que $m(s)\geq 1$.
-		Se debe decir que si un \emph{trap} $S$ es marcado en $m_0$, lo será también en todos los marcados 
-		alcanzables.
+		Se dice que un \emph{trap} $S$ es marcado en un determinado marcado $m$ si y solo si se cumple que en al menos una plaza $s\in S$ se cumple que $m(s)\geq 1$. Se debe decir que si un \emph{trap} $S$ es marcado en $m_0$, lo será también en todos los marcados alcanzables.
 		\\
 		
 		En el ejemplo de Figura \ref{fig:Petri07}, el conjunto de plazas $S=\{nc1, nc2\}$ es un \emph{trap}.
 			
-		Las transiciones $t1$ y $t5$ son las que remueven tokens de esas plazas pero también colocan 
-		nuevos tokens en ellas. En el momento inicial, $S$ es un \emph{trap marcado}, entonces, así lo será en 
-		todos los marcados alcanzables. De esta manera, se tiene que:
+		Las transiciones $t1$ y $t5$ son las que remueven tokens de esas plazas pero también colocan nuevos tokens en ellas. En el momento inicial, $S$ es un \emph{trap marcado}, entonces, así lo será en todos los marcados alcanzables. De esta manera, se tiene que:
 		\begin{equation*}
 			m(nc1)+m(nc2)\geq1
 		\end{equation*}
 		
-		Esta nueva inecuación que se añade a la descripción de la Red de Petri de la Figura \ref{fig:Petri07}
-		permite demostrar la propiedad de exclusión mutua. Tomando las ecuaciones de los invariantes 3 y 4:
+		Esta nueva inecuación que se añade a la descripción de la Red de Petri de la Figura \ref{fig:Petri07} permite demostrar la propiedad de exclusión mutua. Tomando las ecuaciones de los invariantes 3 y 4:
 		\begin{equation*}
 			\begin{array}{c}
 				m(RegionCritica1) + m(nc1) = 1
@@ -455,13 +383,6 @@
 	\subsection{Sifones(Siphons)}
 		\label{subsec:sifon}
 		
-		Sea una Red de Petri $PN = \{P, T, I, m_0\}$ un \textbf{\emph{sifón (siphon)}} es un conjunto de plazas 
-		$S \in P$ tal que $ ^\bullet S \subseteq S^\bullet$. Esto significa que cada transición que coloca 
-		tokens en un \emph{siphon} debe remover al menos uno del \emph{siphon}.
+		Sea una Red de Petri $PN = \{P, T, I, m_0\}$ un \textbf{\emph{sifón (siphon)}} es un conjunto de plazas $S \in P$ tal que $ ^\bullet S \subseteq S^\bullet$. Esto significa que cada transición que coloca tokens en un \emph{siphon} debe remover al menos uno del \emph{siphon}.
 			
-		Se dice que un \emph{siphon} $S$ es vacío en un determinado marcado $m$ si y solo si se cumple que 
-		para toda plaza $s \in S$ se cumple que $m(s) = 0$.
-		Se debe decir que si un \emph{siphon} $S$ es vacío en $m_0$, lo será también en todos los marcados 
-		alcanzables.
-				
-			
+		Se dice que un \emph{siphon} $S$ es vacío en un determinado marcado $m$ si y solo si se cumple que para toda plaza $s \in S$ se cumple que $m(s) = 0$. Se debe decir que si un \emph{siphon} $S$ es vacío en $m_0$, lo será también en todos los marcados alcanzables.
