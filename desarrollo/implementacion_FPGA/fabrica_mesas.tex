@@ -1,32 +1,18 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Desarrollo																%
-%	Capitulo: Implementación en FPGA												%
-%	Seccion: Fábrica de mesas														%	
-%	Archivo: fabrica_mesas.tex														%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/implementacion_FPGA/img
-% Nombre predeterminado imagenes: implexx
+% Path imágenes: ./desarrollo/implementacion_FPGA/img
+% Nombre predeterminado imágenes: implexx
 %	xx es el numero de imagen
 
 \section{Fábrica de mesas}
 	\label{sec:fabrica_mesas}
 	
-	En este caso, se modelará de manera sencilla el proceso de fabricación de una mesa.
-	Modelando el problema con Redes de Petri, y contando con un procesador capaz de ejecutarlas, 
-	podemos validar y verificar las propiedades del modelo y luego, asegurar que la implementación 
-	del programa satisface las mismas propiedades del modelo.
+	En este caso, se modelará de manera sencilla el proceso de fabricación de una mesa. Modelando el problema con Redes de Petri, y contando con un procesador capaz de ejecutarlas, podemos validar y verificar las propiedades del modelo y luego, asegurar que la implementación del programa satisface las mismas propiedades del modelo.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.75\linewidth,keepaspectratio]{./desarrollo/implementacion_FPGA/img/imple04}
@@ -36,8 +22,7 @@
 	
 	\newpage
 	
-	Utilizando el software PIPE, se efectuaron ciertos análisis sobre la Red de Petri obteniendo 
-	los siguientes resultados.
+	Utilizando el software PIPE, se efectuaron ciertos análisis sobre la Red de Petri obteniendo los siguientes resultados.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\linewidth,keepaspectratio]{./desarrollo/implementacion_FPGA/img/imple05}
@@ -45,25 +30,13 @@
 		\label{fig:imple05}
 	\end{figure}
 	
-	De la Figura \ref{fig:imple05} se observa que la Red de Petri tiene restricciones en su sintaxis, lo cual, 
-	produce que sea clasificada como una grafo de marcado. Esto significa, que todas sus plazas tienen un único 
-	arco de entrada y/o un único arco de salida. 
-	El análisis del espacio de estados de la red que modela el problema planteado, muestra que es una red limitada 
-	pero, no es una red segura.
-	Además, con este análisis, se descubre que la red de Petri tiene un estado de deadlock, la plaza \emph{P9}. 
-	Es decir, la Red de Petri, en algún momento se detiene, deja de estar activa.
+	De la Figura \ref{fig:imple05} se observa que la Red de Petri tiene restricciones en su sintaxis, lo cual, produce que sea clasificada como una grafo de marcado. Esto significa, que todas sus plazas tienen un único arco de entrada y/o un único arco de salida. El análisis del espacio de estados de la red que modela el problema planteado, muestra que es una red limitada pero, no es una red segura. Además, con este análisis, se descubre que la red de Petri tiene un estado de deadlock, la plaza \emph{P9}. Es decir, la Red de Petri, en algún momento se detiene, deja de estar activa.
 	\\
 	
-	Para ejecutar la red se instanció en la FPGA el Procesador de Petri con el agregado de interrupciones para 
-	todas las transiciones, de manera que los hilos se duerman para esperar la ejecución de su disparo en vez de 
-	preguntar constantemente ya que éstas, no se ejecutarán hasta que transcurra el tiempo mínimo en que puede ser 
-	disparada la transición sensibilizada.
+	Para ejecutar la red se instanció en la FPGA el Procesador de Petri con el agregado de interrupciones para todas las transiciones, de manera que los hilos se duerman para esperar la ejecución de su disparo en vez de preguntar constantemente ya que éstas, no se ejecutarán hasta que transcurra el tiempo mínimo en que puede ser disparada la transición sensibilizada.
 	\\
 
-	Se desarrolló un programa en \emph{C} que carga los valores necesarios en el procesador para ejecutar la red. 
-	Luego $5$ hilos encargados cada uno de una actividad distinta piden y retiran el disparo de una transición 
-	determinada. Una vez terminan la tarea informan de esto mediante consola escribiendo el numero de mesa en el 
-	cual estaban trabajando. Este programa, puede encontrarse en la sección \ref{sec:programa_fabrica_mesas_petri}.
+	Se desarrolló un programa en \emph{C} que carga los valores necesarios en el procesador para ejecutar la red. Luego $5$ hilos encargados cada uno de una actividad distinta piden y retiran el disparo de una transición determinada. Una vez terminan la tarea informan de esto mediante consola escribiendo el numero de mesa en el cual estaban trabajando. Este programa, puede encontrarse en la sección \ref{sec:programa_fabrica_mesas_petri}.
 	
 	\newpage
 

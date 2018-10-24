@@ -1,46 +1,24 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Desarrollo																%
-%	Capitulo: Diseño e Implementación en FPGA										%
-%	Seccion: Programación del sistema												%	
-%	Archivo: programacion.tex														%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/implementacion_FPGA/img
-% Nombre predeterminado imagenes: implexx
+% Path imágenes: ./desarrollo/implementacion_FPGA/img
+% Nombre predeterminado imágenes: implexx
 %	xx es el numero de imagen
 
 \section{Programación del sistema}
 	\label{sec:programacion}
 	
-	En el capítulo anterior (capítulo \ref{chap:chap_diseno_implementacion}) se ha mostrado el
-	desarrollo y las características operativas de los IP cores para el procesamiento de Redes
-	de Petri. En ésta sección se brindarán las nociones básicas para el desarrollo de programas
-	que utilicen el IP core. Dado que se trabaja con el procesador MicroBlaze \cite{xilinx_microblaze}
-	y el sistema operativo Xilkernel \cite{xilinx_xilkernel}, los códigos fuentes que se muestran en éste
-	capítulo y en los siguientes serán para ésta plataforma y en el lenguaje de programación \emph{C}.
+	En el capítulo anterior (capítulo \ref{chap:chap_diseno_implementacion}) se ha mostrado el desarrollo y las características operativas de los IP cores para el procesamiento de Redes de Petri. En ésta sección se brindarán las nociones básicas para el desarrollo de programas que utilicen el IP core. Dado que se trabaja con el procesador MicroBlaze \cite{xilinx_microblaze} y el sistema operativo Xilkernel \cite{xilinx_xilkernel}, los códigos fuentes que se muestran en éste capítulo y en los siguientes serán para ésta plataforma y en el lenguaje de programación \emph{C}.
 	
 	\subsection{Manejo de direcciones}
 	
-		El acceso al IP core se realiza a traveés de direcciones provistas por el sistema, al momento de
-		crear el sistema con el software \emph{Xilinx XPS} \cite{xilinx_edk} es posible determinar manualmente
-		el espacio de direcciones para cada IP core o, hacer que la herramienta genere el mapa de direcciones
-		automáticamente.
+		El acceso al IP core se realiza a través de direcciones provistas por el sistema, al momento de crear el sistema con el software \emph{Xilinx XPS} \cite{xilinx_edk} es posible determinar manualmente el espacio de direcciones para cada IP core o, hacer que la herramienta genere el mapa de direcciones automáticamente.
 		
-		Luego, al exportar el proyecto a la herramienta \emph{Xilinx SDK} \footnote{\url{http://www.xilinx.com/tools/sdk.htm}}
-		se genera un archivo llamado \emph{xparameters.h}. En dicho archivo, se encuentran las \emph{direcciones base}
-		de todos los componentes que conforman el sistema. Después, con la dirección base mas un \emph{offset} es posible
-		acceder a cada uno de los registros de cada IP core.
+		Luego, al exportar el proyecto a la herramienta \emph{Xilinx SDK} \footnote{\url{http://www.xilinx.com/tools/sdk.htm}} se genera un archivo llamado \emph{xparameters.h}. En dicho archivo, se encuentran las \emph{direcciones base} de todos los componentes que conforman el sistema. Después, con la dirección base mas un \emph{offset} es posible acceder a cada uno de los registros de cada IP core.
 		
 		Para el IP core con procesamiento de \emph{Redes de Petri con Tiempo}, las direcciones a utilizar son:
 		\begin{lstlisting}
@@ -96,16 +74,11 @@ Xuint32 *red_activa					= (Xuint32 *)(XPAR_TIMED_PETRI_AXI_0_BASEADDR + 0x44);
 		
 	\subsection{Carga de datos}
 	
-	Para cargar los datos, se debe utilizar la palabra de $32$ bits definida en el capítulo \ref{chap:chap_diseno_implementacion}
-	en la Figura \ref{fig:diseno07}. Recordando, en dicha palabra, los ocho ($8$) bits más significativos representaban la 
-	plaza que se deseaba cargar, los siguientes ocho ($8$) bits la transición y los últimos dieciseis ($16$) bits representaban 
-	el dato a cargar. Por ejemplo, para cargar un elemento de la fila $4$, columna $5$ de la matriz de incidencia con el valor 
-	$-1$, se debe ingresar el siguiente código:
+	Para cargar los datos, se debe utilizar la palabra de $32$ bits definida en el capítulo \ref{chap:chap_diseno_implementacion} en la Figura \ref{fig:diseno07}. Recordando, en dicha palabra, los ocho ($8$) bits más significativos representaban la plaza que se deseaba cargar, los siguientes ocho ($8$) bits la transición y los últimos dieciseis ($16$) bits representaban el dato a cargar. Por ejemplo, para cargar un elemento de la fila $4$, columna $5$ de la matriz de incidencia con el valor $-1$, se debe ingresar el siguiente código:
 	\begin{lstlisting}
 *(m_incidencia_addr) = 0x0402FFFF;
 	\end{lstlisting}
-	recordando que \emph{$m_incidencia_addr$} es el parámetro que contiene el valor de la dirección para cargar la matriz
-	de incidencia como se mostró en la sección anterior.
+	recordando que \emph{$m_incidencia_addr$} es el parámetro que contiene el valor de la dirección para cargar la matriz de incidencia como se mostró en la sección anterior.
 		
 	\subsection{Creación de hilos}
 	
@@ -117,10 +90,10 @@ void* funcion_hilo();
 //Función main
 int main()
 {
-	//Creacion del hilo
+	//Creación del hilo
 		pthread_t hilo;
 	
-	//Creacion del parametro con atributos para los hilos
+	//Creación del parametro con atributos para los hilos
 		pthread_attr_t attr;
 	
 	//Inicializacion de atributo para los hilos
@@ -150,51 +123,37 @@ void* funcion_hilo()
 			
 	\subsection{Solicitud de disparo de una transición}
 		
-		Para la solicitud del disparo de una transición, se utilizan las direcciones que se han mostrado como
-		parámetros algunas secciones antes y la misma palabra de $32$ bits utilizada para cargar los datos.
+		Para la solicitud del disparo de una transición, se utilizan las direcciones que se han mostrado como parámetros algunas secciones antes y la misma palabra de $32$ bits utilizada para cargar los datos.
 		\begin{lstlisting}
 //Pedir el disparo de la transicion dos (2)
 	*(new_disparo_addr) = 0x00020000;
 		\end{lstlisting}
-		Se utilizas los bits $[23,16]$ para indicar la transición que se desea disparar. Luego, el hilo debe esperar
-		que el procesador de Redes de Petri resuelva el disparo. Ésto, lo puede hacer de tres maneras.
+		Se utilizas los bits $[23,16]$ para indicar la transición que se desea disparar. Luego, el hilo debe esperar que el procesador de Redes de Petri resuelva el disparo. Ésto, lo puede hacer de tres maneras.
 		\begin{itemize}
 		  	\item Esperar activamente.
 		  	\item Ceder el procesador si el disparo aún no esta listo.
-		  	\item Suspenderse y que cuando el procesador de Redes de Petri resuelva el disparo genere una interrupción
-		  		lo reactive.
+		  	\item Suspenderse y que cuando el procesador de Redes de Petri resuelva el disparo genere una interrupción lo reactive.
 		\end{itemize}
 		
 		A continuación, se mostrarán ejemplos de códigos para los tres casos.
 		
 		\subsubsection{Espera activa por el disparo}
 			
-			Cuando se decide que un hilo debe esperar activamente que su disparo este listo, se debe utilziar un código
-			similar al siguiente.
+			Cuando se decide que un hilo debe esperar activamente que su disparo este listo, se debe utilizar un código similar al siguiente.
 			\begin{lstlisting}
 //Esperar que T2 se ejecute
 	while ( !(*(leer_disparos_ejecutados) & 0x00000004) )
 	{	}
 			\end{lstlisting}
-			Lo que hace el código anterior es acceder al registro del IP core \emph{disparos ejecutados}.
-			Éste, es un registro de $32$ donde cada uno de ellos que este en alto indica que la transición
-			correspondiente a la transición con su mismo número ha sido ejecutada.
+			Lo que hace el código anterior es acceder al registro del IP core \emph{disparos ejecutados}. Éste, es un registro de $32$ donde cada uno de ellos que este en alto indica que la transición correspondiente a la transición con su mismo número ha sido ejecutada.
 			
-			Ésta modalidad, puede ser usada solo en los casos en los cuales se conoce que el hilo puede conseguir que
-			su disparo sea ejecutado, por ejemplo, en una situación de simple exclusión mutua. 
+			Ésta modalidad, puede ser usada solo en los casos en los cuales se conoce que el hilo puede conseguir que su disparo sea ejecutado, por ejemplo, en una situación de simple exclusión mutua. 
 			
-			El problema de la \emph{cena de los filósofos}, mostrado en la seccón \ref{sec:problema_cena_filosofos} es 
-			un ejemplo en el cual conviene utilizar éste método. Ésto se debe a que cada \emph{filósofo} puede comer 
-			todas las veces consecutivas que le sea posible en su franja de tiempo de uso del microprocesador.
+			El problema de la \emph{cena de los filósofos}, mostrado en la sección \ref{sec:problema_cena_filosofos} es un ejemplo en el cual conviene utilizar éste método. Ésto se debe a que cada \emph{filósofo} puede comer todas las veces consecutivas que le sea posible en su franja de tiempo de uso del microprocesador.
 			
 		\subsubsection{Ceder el paso cuando el disparo aún no esta ejecutado}
 		
-			En los casos en los cuales se sabe que el hilo no obtendrá su disparo porque depende de otros disparos
-			que deben ser solicitados por otros hilos, conviene que el hilo ceda el procesador cuando comprueba que
-			su disparo no está listo. Ejemplo de éste caso es el problema del \emph{Escritor/Escritor} mostrado en la
-			sección \ref{sec:problema_escritor} donde los hilos escriben las variables en turnos ordenados, por lo tanto,
-			una vez que uno de los hilos pudo escribir, se sabe que no podrá volver a hacerlo, entonces, debe ceder el
-			microprocesador para no ocuparlo innecesariamente.
+			En los casos en los cuales se sabe que el hilo no obtendrá su disparo porque depende de otros disparos que deben ser solicitados por otros hilos, conviene que el hilo ceda el procesador cuando comprueba que su disparo no está listo. Ejemplo de éste caso es el problema del \emph{Escritor/Escritor} mostrado en la sección \ref{sec:problema_escritor} donde los hilos escriben las variables en turnos ordenados, por lo tanto, una vez que uno de los hilos pudo escribir, se sabe que no podrá volver a hacerlo, entonces, debe ceder el microprocesador para no ocuparlo innecesariamente.
 			
 			El código para realizar ésto, es el siguiente:
 			\begin{lstlisting}
@@ -203,25 +162,17 @@ void* funcion_hilo()
 	{	yield();	}
 			\end{lstlisting}
 			
-			La sentencia \emph{yield()} fuerza un cambio de contexto liberando el procesador pero, el sistema
-			operativo conserva al hilo dentro de su política de planificación (scheduling).
+			La sentencia \emph{yield()} fuerza un cambio de contexto liberando el procesador pero, el sistema operativo conserva al hilo dentro de su política de planificación (scheduling).
 			
 		\subsubsection{Suspensión y espera pasiva con interrupciones}
 	
-			Cuando las transiciones dependen del tiempo, si el tiempo es muy largo, no resulta conveniente que
-			el hilo continúe esperando activamente o cediendo el procesador cada vez que le toca su turno de
-			utilzarlo. En dichos casos, conviene que el hilo se suspenda y espere hasta que el procesador de Petri
-			ejecute el disparo y genere una interrupción para reactivar al hilo.
+			Cuando las transiciones dependen del tiempo, si el tiempo es muy largo, no resulta conveniente que el hilo continúe esperando activamente o cediendo el procesador cada vez que le toca su turno de utilizarlo. En dichos casos, conviene que el hilo se suspenda y espere hasta que el procesador de Petri ejecute el disparo y genere una interrupción para reactivar al hilo.
 			
-			En éste caso, la el hilo, despues de solicitar su disparo, debe suspender en un \emph{semáforo} inicializado
-			en $0$ y la función de que atiende las interrupciones lo reactivará.
+			En éste caso, la el hilo, después de solicitar su disparo, debe suspender en un \emph{semáforo} inicializado en $0$ y la función de que atiende las interrupciones lo reactivará.
 	
 	\subsection{Extraer un disparo ejecutado}
 	
-		Luego de que el hilo comprobó que su disparo ha sido ejecutado, antes de proseguir con su ejecución normal,
-		debe quitar el disparo de la cola de disparos ya ejecutados. Esto se realiza de la misma manera que cuando
-		se solicita un nuevo disparo solo que la dirección utilizada para el acceso al IP core es otra. Por ejemplo,
-		para extraer el disparo de la transición $T2$ una vez que ya se ha ejecutado, el código necesario es el siguiente:
+		Luego de que el hilo comprobó que su disparo ha sido ejecutado, antes de proseguir con su ejecución normal, debe quitar el disparo de la cola de disparos ya ejecutados. Esto se realiza de la misma manera que cuando se solicita un nuevo disparo solo que la dirección utilizada para el acceso al IP core es otra. Por ejemplo, para extraer el disparo de la transición $T2$ una vez que ya se ha ejecutado, el código necesario es el siguiente:
 		\begin{lstlisting}
 //Pedir el disparo de la transicion dos (2)
 	*(sacar_disparo_addr) = 0x00020000;

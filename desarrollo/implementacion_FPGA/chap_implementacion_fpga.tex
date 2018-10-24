@@ -1,22 +1,12 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%																					%
-%	TRABAJO: Proyecto Integrador													%
-%																					%
-%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 		%
-%					Temporales para sistemas multicore en FPGA						%
-%																					%
-%		Autores:	Julián Nonino													%
-%					Carlos Renzo Pisetta											%
-%		Director:	Orlando Micolini												%
-%																					%
-%	Parte: Desarrollo																%
-%	Capitulo: Implementación en FPGA												%	
-%	Archivo: chap_implementacion_fpga.tex											%
-%																					%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TRABAJO: Proyecto Integrador
+%		Titulo: 	Desarrollo de IP cores con procesamiento de Redes de Petri 	
+%					Temporales para sistemas multicore en FPGA					
+%		Autores:	Julián Nonino												%					Carlos Renzo Pisetta										%		Director:	Orlando Micolini											
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Path Imagenes: ./desarrollo/implementacion_FPGA/img
-% Nombre predeterminado imagenes: implexx
+% Path imágenes: ./desarrollo/implementacion_FPGA/img
+% Nombre predeterminado imágenes: implexx
 %	xx es el numero de imagen
 
 \lstset
@@ -50,10 +40,7 @@
 \chapter{Implementación en FPGA}
 	\label{chap:chap_implementacion_FPGA}
 
-	Para la implementación en una FPGA, se utilizó el kit de desarrollo de \emph{Digilent Atlys}\footnote{\url{http://www.digilentinc.com/Products/Detail.cfm?NavPath=2,400,836&Prod=ATLYS}} 
-	y los programas de la suite \emph{Xilinx ISE Desing Suite}\footnote{\url{http://www.xilinx.com/products/design-tools/ise-design-suite/system-edition.htm}}, 
-	\emph{Xilinx Platform Studio} para realizar el diseño y la implementación del hardware del sistema y 
-	\emph{Software Development Kit} para la creación del software que utilizará el hardware antes mencionado.
+	Para la implementación en una FPGA, se utilizó el kit de desarrollo de \emph{Digilent Atlys}\footnote{\url{http://www.digilentinc.com/Products/Detail.cfm?NavPath=2,400,836&Prod=ATLYS}} y los programas de la suite \emph{Xilinx ISE Desing Suite}\footnote{\url{http://www.xilinx.com/products/design-tools/ise-design-suite/system-edition.htm}}, \emph{Xilinx Platform Studio} para realizar el diseño y la implementación del hardware del sistema y \emph{Software Development Kit} para la creación del software que utilizará el hardware antes mencionado.
 	
 	En el Apéndice \ref{ap:nuevos_proyectos_XPS} se muestra como generar nuevo proyectos en esta herramienta.
 
@@ -61,18 +48,11 @@
 	
 	Y el Apéndice \ref{ap:interrupciones} muestra como agregarles la capacidad de interrumpir.
 
-	En la Figura \ref{fig:diseno01}, donde fue diagramada la arquitectura del sistema, se muestra que el 
-	Procesador de Redes de Petri, del cual se ha presentado su diseño, implementación y prueba en capítulos 
-	anteriores. 
-	Para generar un sistema como el detallado en la Figura \ref{fig:diseno01} se creo un nuevo proyecto en 
-	la herramienta \emph{Xilinx Platform Studio}. Luego, se creo un IP core que contenga la lógica del procesador 
-	de Redes de Petri desarrollado y se lo conectó al sistema a través del bus \emph{AXI} \cite{xilinx_axi}.
+	En la Figura \ref{fig:diseno01}, donde fue diagramada la arquitectura del sistema, se muestra que el Procesador de Redes de Petri, del cual se ha presentado su diseño, implementación y prueba en capítulos anteriores. Para generar un sistema como el detallado en la Figura \ref{fig:diseno01} se creo un nuevo proyecto en la herramienta \emph{Xilinx Platform Studio}. Luego, se creo un IP core que contenga la lógica del procesador de Redes de Petri desarrollado y se lo conectó al sistema a través del bus \emph{AXI} \cite{xilinx_axi}.
 	
 	Luego, se crearon los test necesarios para probar el IP core desarrollado.
 	
-	En éste capítulo, se mostrarán los conceptos básicos para desarrolar un programa que corra sobre los IP cores
-	que ejecutan Redes de Petri y luego, en secciones siguientes, las ejecuciones de dos programas creados para 
-	probar el procesador.
+	En éste capítulo, se mostrarán los conceptos básicos para desarrolar un programa que corra sobre los IP cores que ejecutan Redes de Petri y luego, en secciones siguientes, las ejecuciones de dos programas creados para probar el procesador.
 
 	% Programación del sistema
 		\input{./desarrollo/implementacion_FPGA/programacion}
