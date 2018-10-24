@@ -2,7 +2,7 @@
 
 Informe de Tesis para la carrera Ingeniería en Computación.
 
-## Autor ##
+## Autores ##
 
 * Julián Nonino
 * Carlos Renzo Pisetta
